@@ -1,0 +1,78 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="stylesheet" href="{{normalize}}">
+        <link rel="stylesheet" href="{{css}}">
+        <link rel="stylesheet" href="{{scanlines}}">
+        <link rel="icon" href="../../favicon.ico">
+        <style>
+         .box
+         {
+             background: transparent;
+             max-width: 958px;
+             /* color: #D56F00; */
+             /* color: #AD845A; */
+             color: #FFF;
+             overflow: hidden;
+             position: relative;
+             margin: 0 auto;
+             padding-top: 0px;
+             /* margin-top: 100px; */
+             /* border: 3px solid #130D8C; */
+         }
+         .box-content
+         {
+             margin: auto;
+         }
+
+
+         .error {
+             margin: 20px auto;
+             width: 300px;
+             padding: 30px 25px;
+             color: #000;
+             background-color: #C72D36;
+         }
+
+         .error-title {
+             text-align: center;
+             font-size: 28px;
+             border-bottom: #000 4px solid;
+         }
+
+
+        </style>
+        <title>{{title}}</title>
+
+    </head>
+
+    <body>
+
+        <a name="top"></a>
+        <!-- Back to top reference -->
+        <main>
+            <div class="box">
+                <div class="box-contents">
+                    <div class="error">
+                        <div class="error-title">
+                            <img src="{{warning_logo}}" class="img-align" style="width: 50%;" alt="" />
+                            <br>
+                            ERROR
+                        </div>
+                        <br><br>
+                        {{error}}
+                        <br><br>
+                        {{css}}
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </body>
+</html>

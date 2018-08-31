@@ -1,0 +1,95 @@
+#+Title: POCKET_PHP: MVC implementation for PHP7+
+#+Author: AlexHG
+#+Email: alexhg.eng@protonmail.com
+
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:t
+#+OPTIONS: reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
+#+OPTIONS: reveal_width:1200 reveal_height:800
+#+OPTIONS: toc:1
+#+REVEAL_MARGIN: 0.1
+#+REVEAL_MIN_SCALE: 0.5
+#+REVEAL_MAX_SCALE: 2.5
+#+REVEAL_TRANS: cube
+#+REVEAL_THEME: moon
+#+REVEAL_HLEVEL: 2
+#+REVEAL_HEAD_PREAMBLE: <meta name="description" content="SkeletonGL 2D Rendering Engine.">
+#+REVEAL_POSTAMBLE: <p> Created by AlexHG. </p>
+#+REVEAL_PLUGINS: (markdown notes)
+#+REVEAL_EXTRA_CSS: ./local.css
+#+STARTUP: showall
+
+[[http://www.gnu.org/licenses/gpl-3.0.html][http://img.shields.io/:license-mit-blue.svg]]
+
+
+POCKET_PHP is a MVC implementation for PHP web projects that emphasizes simplicity and speed.
+PHP inherently lacks a proper MVC arquitecture implementation which has become standard for
+web development, this has slowly steered developers towards alternatives that lack
+PHP's speed and extremely simple configuration.
+
+POCKET_PHP serves as a starting template, it validates the client's
+request, encapsulates all the relevant data and sends it to the respective controller file. It also
+provides a working example of a login system that can be easily enhanced to serve whatever
+your project may need. A simple yet fast template engine helps controllers build an HTML
+repsonse by tag replacement that allows a complete separation between logic and presentation.
+The code base is short and readable, it provides the full cookie cutter MVC design in an efficient
+and adaptable way through PHP.
+
+Some of POCKET_PHP's features are:
+
+- Full MVC implentation
+- HTML template engine
+- Login system
+- HTTP request manager
+- Request tracking and IP banning
+- Example website project included
+- Scalable and easily modifiable
+- Self documented, its that simple
+- MIT Licensed
+    
+* Installation
+
+1. Install PHP7 and NGINX
+
+I recommend installing both through your package manager, if your using a debian based distro simply:
+
+#+BEGIN_SRC 
+sudo apt-get update
+sudo apt-get install php7.2 php7.2-fpm php7.2-sqlite php7.2-curl nginx
+#+END_SRC
+
+2. Clone the POCKET_PHP reporistory and set the server permissions
+
+#+BEGIN_SRC 
+git clone https://gitlab.com/Alex-HG/pocket_php
+mv -r pocket_php /var/www/html/
+sudo chown -R username:www-data /var/www/html/pocket_php
+sudo chmod -R 755 /var/www/html/pocket_php
+#+END_SRC
+
+3. Configure NGINX
+
+Remember to modify the provided nginx virtual server configuration file to match your desired settings!
+
+#+BEGIN_SRC 
+sudo mv /var/www/html/pocket_php/static/text_files/nginx_config /etc/nginx/sites-available/default
+
+sudo systemctl restart php7.x-fpm.service
+sudo systemctl restart nginx.service
+#+END_SRC
+
+4. Configure POCKET_PHP
+
+All the relevant configuration lies in app/configure.php, note that the core directory holds the sqlite database file and thus both the file and folder must be writeable by the web server.
+
+#+BEGIN_SRC 
+sudo chown -R username:www-data /var/www/html/pocket_php/core/
+sudo chmod -R 755 /var/www/html/pocket_php/app/core/pocket_php.db
+#+END_SRC
+
+* Included Example website and documentation
+
+By default, POCKET_PHP comes with an example site that, thanks to its tiny code base, serves as its main documentation.
+
+#+html: <p align="center"><img src="app/static/images/exampleSite.png" /></p>
+
+Seeing the "user guide" section for a more thorough explanation.
