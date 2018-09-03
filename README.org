@@ -93,3 +93,7 @@ By default, POCKET_PHP comes with an example site that, thanks to its tiny code 
 #+html: <p align="center"><img src="app/static/images/exampleSite.png" /></p>
 
 Seeing the "user guide" section for a more thorough explanation.
+
+* Planned Features 
+The current plan is to add support for REST APIs and a proper account creation. Even though such additions will inevitably require
+changes by the developer, most of the code is ultimately the same.
