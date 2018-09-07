@@ -42,6 +42,12 @@ class HTTPRequest
         // If the request is empty (servername.com/)
         if ($url == "/")
             $this->route = HOMEPAGE; // defined in configure.php
+        else if (strpos($url, "robots.txt")) // Request is for robots.txt (probably a webbot)
+        {
+            // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
+            header("Location: ". PROJECT_URL.ROBOTS_TXT);
+            exit();
+        }
         else // Not empty
         {
             $url = ltrim($url, "/");

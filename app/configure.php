@@ -52,6 +52,9 @@ function configure()
     // The default controller to be called when the request is empty ("projectURL.com/")
     define("HOMEPAGE",  "home");
 
+    // HTTPRequest.php will reroute all URL.com/robots.txt to URL.com/static/robots.txt
+    define("ROBOTS_TXT", "static/text_files/robots.txt");
+
     // ------- SESSION SETTINGS  -------
 
     // This is the requested file that valid login attempts must call to be processed
@@ -108,6 +111,8 @@ function configureHeaderStaticContent()
     $data["css"]       = PROJECT_URL."static/css/style.css";
     $data["scanlines"] = PROJECT_URL."static/css/scanlines.css";
     $data["normalize"] = PROJECT_URL."static/css/normalize.css";
+    $data["author"] = "AlexHG";
+    $data["description"] = "welcome to my hub";
     return ($data);
 }
 
@@ -116,8 +121,6 @@ function configureFooterStaticContent()
     $data = array();
     //JS files
     $data["gitlab"]  = "https://gitlab.com/Alex-HG/pocket_php";
-    $data["license"] = PROJECT_URL."project?nav=license";
-
     return $data;
 }
 
@@ -127,9 +130,10 @@ function configureNavbarStaticContent()
     // Navigation links (for absolute paths)
     $data["home"]       = PROJECT_URL."home";
     $data["about"]      = PROJECT_URL."home?nav=about";
-    $data["login"]      = PROJECT_URL."login";
-    $data["logout"]     = PROJECT_URL."logout";
-    $data["user_guide"] = PROJECT_URL."project?nav=user_guide";
+    $data["projects"] = PROJECT_URL."projects";
+    $data["gallery"] = PROJECT_URL."gallery";
+    $data["blog"] = PROJECT_URL."blog";
+    $data["links"] = PROJECT_URL."links";
     return $data;
 }
 
