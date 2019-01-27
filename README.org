@@ -77,6 +77,17 @@ sudo systemctl restart php7.x-fpm.service
 sudo systemctl restart nginx.service
 #+END_SRC
 
+3b. Configure HTTPS
+
+Uncomment the SSL Settings block and modify the following lines in the included nginx.conf
+
+#+BEGIN_SRC 
+    ssl_certificate     {path to certificate}
+    ssl_certificate_key {path to key}
+#+END_SRC
+
+Then, uncomment the HTTPS ENABLED (and comment out the HTTPS DISABLED) block in sites-available/default
+
 4. Configure POCKET_PHP
 
 All the relevant configuration lies in app/configure.php, note that the core directory holds the sqlite database file and thus both the file and folder must be writeable by the web server.

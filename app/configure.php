@@ -32,7 +32,8 @@ function configure()
     // ------- INTERNAL FOLDER STRUCTURE -------
 
     // The server's URL / IP, note that this address will be used to build all
-    // absolute paths used by the template engine module
+    // absolute paths used by the template engine module and that HTTPS must be
+    // configured accordingly if you choose to enable it (add the "https://" prefix)
     // Example: yourURL.com, testURL.xyz, localhost (for a local server)
     define("PROJECT_URL", "http://localhost/");
 
