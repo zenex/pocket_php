@@ -1,0 +1,54 @@
+
+
+server {
+
+    # HTTPS ENABLED
+   	# listen 80;
+	# listen [::]:80;
+    # listen 443 ssl http2 default_server;   
+    # listen [::]:443 ssl http2 default_server;
+
+    # HTTPS DISABLED
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+    # Change to your desired location for pocket_php
+	root /var/www/html/pocket_php/app/;
+
+	# Add index.php to the list if you are using PHP
+	index index.php index.html index.htm index.nginx-debian.html;
+
+    # SERVER NAME (yoururl.com)
+	server_name _;
+
+    # REDIRECT ALL NON-STATIC REQUESTS TO INDEX.PHP
+    location / {
+    try_files $uri $uri/ /index.php?$args;
+    }
+
+    location ~ \.php$ {
+    include snippets/fastcgi-php.conf;
+    fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+    }
+
+    # SERVE STATIC FILES DIRECTLY
+    # serve static files directly
+    location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico)$ {
+    access_log off;
+    expires    30d;
+    }   
+
+    location ~ /\. {
+    deny all;
+    }
+
+    # REMOVE .PHP EXTENSION
+    location @extensionless-php {
+    rewrite ^(.*)$ $1.php last;
+    }
+
+    # REDIRECT ERRORS TO INDEX.PHP
+    fastcgi_intercept_errors on;
+    error_page 403 404 /index.php;
+
+}
