@@ -121,7 +121,9 @@ function configureFooterStaticContent()
 {
     $data = array();
     //JS files
-    $data["gitlab"]  = "https://gitlab.com/Alex-HG/pocket_php";
+    $data["gitlab"]  = "https://gitlab.com/AlexHG/pocket_php";
+    $data["license"]  = PROJECT_URL."project/?nav=license";
+    $data["author"]  = PROJECT_URL."home?nav=about";
     return $data;
 }
 
@@ -131,9 +133,9 @@ function configureNavbarStaticContent()
     // Navigation links (for absolute paths)
     $data["home"]       = PROJECT_URL."home";
     $data["about"]      = PROJECT_URL."home?nav=about";
-    $data["projects"] = PROJECT_URL."projects";
-    $data["gallery"] = PROJECT_URL."gallery";
-    $data["blog"] = PROJECT_URL."blog";
+    $data["user_guide"] = PROJECT_URL."project/?nav=user_guide";
+    $data["login"] = PROJECT_URL."login";
+    $data["logout"] = PROJECT_URL."logout";
     $data["links"] = PROJECT_URL."links";
     return $data;
 }
