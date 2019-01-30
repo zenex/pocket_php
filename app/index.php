@@ -42,6 +42,11 @@ function processRequest()
 {
     $request = new HTTPRequest($_SERVER["REQUEST_URI"]);
 
+    if (FORCE_HTTPS && !$request->https)
+    {
+        $HTTPS_URL = str_replace('http://', 'https://', PROJECT_URL);
+        header("Location: ".$HTTPS_URL);
+    }
     if (TRACK_REQUESTS)
         saveRequest($request);
     if (ENFORCE_BANS && checkForBan($request->ip))
@@ -84,8 +89,8 @@ function processRequest()
     if ( $request->requestedFile == (LOGOUT_CONTROLLER))
     {
         session_destroy();
-        header("Location: ".PROJECT_URL);
         exit();
+        header("Location: ".PROJECT_URL);
     }
     // The request isn't a login or logout attempt, its not a static file and references
     // an existing controller in the controllers folder, call the controller's entry function
@@ -160,7 +165,7 @@ function validateLoginAttempt($requestData)
 }
 
 // VALIDATES THE LOGIN DATA WITH THE SAVED DATA IN THE INTERNAL DATABASE, "accounts" TABLE
-// RETURNS: HTTPRequest with added data or NULL on error
+// R: HTTPRequest with added data or NULL on error
 function validateLoginData($requestData)
 {
     $sqlite = new SQLiteConnection();

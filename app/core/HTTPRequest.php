@@ -23,6 +23,7 @@ class HTTPRequest
     public $requestedFile = NULL;
     public $sessionStatus = NULL;
     public $errorMsg = NULL; // To be filled by index and subsequently processed by the controller
+    public $https = false;
 
     // These variabled are populated by the validateLoginAttempt function
     public $accountLastLogin = NULL;
@@ -44,7 +45,7 @@ class HTTPRequest
             $this->route = HOMEPAGE; // defined in configure.php
         else if (strpos($url, "robots.txt")) // Request is for robots.txt (probably a webbot)
         {
-            // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
+            // Redirect to the actual location of the robots.txt file so the webserver can serve it directl
             header("Location: ". PROJECT_URL.ROBOTS_TXT);
             exit();
         }
@@ -115,6 +116,11 @@ class HTTPRequest
             $this->arguments = $_POST;
         }
 
+        // Check the requests protocol
+        if ((!empty($_SERVER['HTTPS'])) && $_SERVER["HTTPS"] != 'off')
+        {
+            $this->https = true;
+        }
         // Check the session status
         if (isset($_SESSION["ID"]))
         {

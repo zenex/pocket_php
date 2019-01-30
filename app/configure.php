@@ -33,9 +33,17 @@ function configure()
 
     // The server's URL / IP, note that this address will be used to build all
     // absolute paths used by the template engine module and that HTTPS must be
-    // configured accordingly if you choose to enable it (add the "https://" prefix)
-    // Example: yourURL.com, testURL.xyz, localhost (for a local server)
-    define("PROJECT_URL", "http://localhost/");
+    // configured accordingly (it is strongly adviced to turn HTTPS on).
+    // Example: http://localhost.com and https://localhost (for a local server)
+    if ((!empty($_SERVER['HTTPS'])) && $_SERVER["HTTPS"] != 'off')
+        define("PROJECT_URL", "https://localhost/");
+    else
+        define("PROJECT_URL", "http://localhost/");
+
+    // Forces all non HTTPS requests to the HTTPS version of the site
+    // HTTPS must be configured a priori and PROJECT_URL must be set
+    // to the desired HTTPS enabled URL
+    define("FORCE_HTTPS", true);
 
     define("ROOT"        , __DIR__);
     define("CONFIG"      , ROOT . "/configure.php"); // Main configuration file (BEWARE OF COMMITING USERNAMES AND PASSWORDS)
@@ -108,7 +116,7 @@ function configureHeaderStaticContent()
 {
     $data = array();
     // CSS files
-    $data["favicon"]   = PROJECT_URL."static/images/favicon.png";
+    $data["favicon"]   = PROJECT_URL."static/images/internal/favicon.png";
     $data["css"]       = PROJECT_URL."static/css/style.css";
     $data["scanlines"] = PROJECT_URL."static/css/scanlines.css";
     $data["normalize"] = PROJECT_URL."static/css/normalize.css";
@@ -122,8 +130,6 @@ function configureFooterStaticContent()
     $data = array();
     //JS files
     $data["gitlab"]  = "https://gitlab.com/AlexHG/pocket_php";
-    $data["license"]  = PROJECT_URL."project/?nav=license";
-    $data["author"]  = PROJECT_URL."home?nav=about";
     return $data;
 }
 
@@ -133,10 +139,11 @@ function configureNavbarStaticContent()
     // Navigation links (for absolute paths)
     $data["home"]       = PROJECT_URL."home";
     $data["about"]      = PROJECT_URL."home?nav=about";
-    $data["user_guide"] = PROJECT_URL."project/?nav=user_guide";
-    $data["login"] = PROJECT_URL."login";
-    $data["logout"] = PROJECT_URL."logout";
+    $data["projects"] = PROJECT_URL."projects";
+    $data["gallery"] = PROJECT_URL."gallery";
+    $data["blog"] = PROJECT_URL."blog";
     $data["links"] = PROJECT_URL."links";
+    $data["submenu"] = "";
     return $data;
 }
 
@@ -161,10 +168,13 @@ function handleException ($e) // Throwable $e (PHP 7+)
     $engine = new TemplateEngine();
     $headerTitle = array ('title' => "POCKET_PHP - ERROR");
     $engine->renderHeader($headerTitle);
-    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
+    $navbarData = configureNavbarStaticContent();
+    $navbarData["submenu"] = "404 - NOT FOUND";
+    $navbarData["submenu_color"] = "neon-orange";
+    $engine->renderPage("templates/navbar.html", $navbarData);
 
     // Load data
-    $page_contents["warning_logo"] = PROJECT_URL."static/images/error_icon.png";
+    $page_contents["warning_logo"] = PROJECT_URL."static/images/internal/error_icon.png";
 
     // var_dump(debug_backtrace());
     switch ($e->getCode())
