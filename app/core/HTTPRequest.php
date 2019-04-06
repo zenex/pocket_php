@@ -179,8 +179,8 @@ class HTTPRequest
         if ($this->ip == "127.0.0.1")
             return;
         // Geoplugin Returns NULL if its requested to process localhost (127.0.0.1)
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://www.geoplugin.net/json.gp?ip=".$this->ip);
+        $url = "http://www.geoplugin.net/json.gp?ip=".$this->ip;
+        $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
@@ -188,10 +188,10 @@ class HTTPRequest
         $data = curl_exec($ch);
         curl_close($ch);
 
-        $locationData = json_decode($data);
+        // Decode the returned JSON data
+        $locationData = json_decode($data, true);
         if ($locationData && $locationData['geoplugin_countryName'] != null)
             $this->ipCountry = $locationData['geoplugin_countryName'];
-
     }
 
     // CHECKS FOR INVALID IP RANGES

@@ -89,7 +89,7 @@ function processRequest()
     if ( $request->requestedFile == (LOGOUT_CONTROLLER))
     {
         session_destroy();
-        exit();
+        //exit();
         header("Location: ".PROJECT_URL);
     }
     // The request isn't a login or logout attempt, its not a static file and references

@@ -116,11 +116,11 @@ function configureHeaderStaticContent()
 {
     $data = array();
     // CSS files
-    $data["favicon"]   = PROJECT_URL."static/images/internal/favicon.png";
-    $data["css"]       = PROJECT_URL."static/css/style.css";
-    $data["scanlines"] = PROJECT_URL."static/css/scanlines.css";
-    $data["normalize"] = PROJECT_URL."static/css/normalize.css";
-    $data["author"] = "AlexHG";
+    $data["favicon"]     = PROJECT_URL."static/images/favicon.png";
+    $data["css"]         = PROJECT_URL."static/css/style.css";
+    $data["scanlines"]   = PROJECT_URL."static/css/scanlines.css";
+    $data["normalize"]   = PROJECT_URL."static/css/normalize.css";
+    $data["author"]      = "AlexHG";
     $data["description"] = "welcome to my hub";
     return ($data);
 }
@@ -129,21 +129,21 @@ function configureFooterStaticContent()
 {
     $data = array();
     //JS files
-    $data["gitlab"]  = "https://gitlab.com/AlexHG/pocket_php";
+    $data["gitlab_link"]  = "https://gitlab.com/AlexHG/pocket_php";
+    $data["about_link"]   = PROJECT_URL."about";
+    $data["license_link"] = PROJECT_URL."project/?nav=license";
     return $data;
 }
 
 function configureNavbarStaticContent()
 {
-    $data = array();
+    $data                    = array();
     // Navigation links (for absolute paths)
-    $data["home"]       = PROJECT_URL."home";
-    $data["about"]      = PROJECT_URL."home?nav=about";
-    $data["projects"] = PROJECT_URL."projects";
-    $data["gallery"] = PROJECT_URL."gallery";
-    $data["blog"] = PROJECT_URL."blog";
-    $data["links"] = PROJECT_URL."links";
-    $data["submenu"] = "";
+    $data["home_link"]       = PROJECT_URL."home";
+    $data["user_guide_link"] = PROJECT_URL."project?nav=user_guide";
+    $data["about_link"]      = PROJECT_URL."about";
+    $data["login_link"]      = PROJECT_URL."login";
+    $data["logout_link"]     = PROJECT_URL."logout";
     return $data;
 }
 
@@ -174,7 +174,7 @@ function handleException ($e) // Throwable $e (PHP 7+)
     $engine->renderPage("templates/navbar.html", $navbarData);
 
     // Load data
-    $page_contents["warning_logo"] = PROJECT_URL."static/images/internal/error_icon.png";
+    $page_contents["warning_logo"] = PROJECT_URL."static/images/error_icon.png";
 
     // var_dump(debug_backtrace());
     switch ($e->getCode())

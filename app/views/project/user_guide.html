@@ -36,7 +36,7 @@
 
                     <div class="greentext">2. Clone the POCKET_PHP reporistory and set the server permissions</div><br>
                     <p class="black-block">
-                        git clone https://gitlab.com/Alex-HG/pocket_php<br>
+                        git clone {{gitlab_link}}<br>
                         mv -r pocket_php /var/www/html/<br>
                         sudo chown -R username:www-data /var/www/html/pocket_php<br>
                         sudo chmod -R 755 /var/www/html/pocket_php<br>
@@ -84,9 +84,6 @@
                     If the file isn't found the exception handler (in configuration.php) will be called and an error
                     will be returned. If the file requested is found in the static folder the web server will serve it directly.
                     <br><br>
-                </p>
-                <p>
-                    <img src="../../static/images/php_schematic.png" alt="" class="img-responsive" /><br>
                 </p>
                 <p>
                     The session manager automatically fills the HTTPRequest->sessionStatus public variable, its up to the programmer

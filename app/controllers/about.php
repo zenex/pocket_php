@@ -10,33 +10,32 @@ function entry ($requestData)
     {
         switch ($requestData->arguments["nav"])
         {
-        case "home":
+        case "about":
         {
-            homepage($requestData);
+            about($requestData);
             break;
         }
         default:
         {
-            homepage($requestData);
+            about($requestData);
             break;
         }
         }
     }
     else
-        homepage($requestData);
+        about($requestData);
 
     exit();
 }
 
-function homepage($requestData = NULL)
+function about($requestData = NULL)
 {
-    $headerTitle = array ('title' => "POCKET_PHP WELCOME");
+    $headerTitle = array ('title' => "POCKET_PHP ABOUT");
     $engine = new TemplateEngine();
     $engine->renderHeader($headerTitle);
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-    $page_contents = array("about_link" => "about/",
-                           "license_link" => "project/?nav=license",
-                           "user_guide_link" => "project/?nav=user_guide");
-    $engine->renderPage("home/home.html", $page_contents);
+    $page_contents = array("user_guide_link" => "project/?nav=user_guide",
+                           "home_link" => "home");
+    $engine->renderPage("about/about.html", $page_contents);
     $engine->renderFooter(configureFooterStaticContent());
 }

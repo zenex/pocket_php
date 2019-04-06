@@ -50,7 +50,8 @@ function user_guide($requestData = NULL)
     $engine = new TemplateEngine();
     $engine->renderHeader($headerTitle);
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-    $page_contents = array("nginx_conf" => "/static/text_files/nginx_config");
+    $page_contents = array("nginx_conf" => "/static/text_files/nginx_config",
+                           "gitlab_link" => "https://gitlab.com/Alex-HG/pocket_php");
 
     $engine->renderPage("project/user_guide.html", $page_contents);
     $engine->renderFooter(configureFooterStaticContent());
