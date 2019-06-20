@@ -176,7 +176,7 @@ class HTTPRequest
     private function traceIP()
     {
         // localhost request
-        if ($this->ip == "127.0.0.1")
+        if ($this->ip == "127.0.0.1" || $this->ip == "::1")
             return;
         // Geoplugin Returns NULL if its requested to process localhost (127.0.0.1)
         $url = "http://www.geoplugin.net/json.gp?ip=".$this->ip;

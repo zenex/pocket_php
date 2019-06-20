@@ -36,9 +36,9 @@ function configure()
     // configured accordingly (it is strongly adviced to turn HTTPS on).
     // Example: http://localhost.com and https://localhost (for a local server)
     if ((!empty($_SERVER['HTTPS'])) && $_SERVER["HTTPS"] != 'off')
-        define("PROJECT_URL", "https://localhost/");
+        define("PROJECT_URL", "https://pocketphp.localhost/");
     else
-        define("PROJECT_URL", "http://localhost/");
+        define("PROJECT_URL", "http://pocketphp.localhost/");
 
     // Forces all non HTTPS requests to the HTTPS version of the site
     // HTTPS must be configured a priori and PROJECT_URL must be set
