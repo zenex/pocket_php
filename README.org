@@ -28,7 +28,7 @@ sudo apt-get update
 sudo apt-get install php7.2 php7.2-fpm php7.2-sqlite php7.2-curl nginx
 #+END_SRC
 
-2. Clone the POCKET_PHP reporistory and set the server permissions
+2. Clone the pcoket_php repository and set the server permissions
 
 #+BEGIN_SRC 
 git clone https://gitlab.com/Alex-HG/pocket_php
@@ -61,7 +61,7 @@ Uncomment the SSL Settings block and modify the following lines in the included 
 
 Then, uncomment the HTTPS ENABLED (and comment out the HTTPS DISABLED) block in sites-available/default
 
-4. Configure POCKET_PHP
+4. Configure pocket_php 
 
 All the relevant configuration lies in app/configure.php, note that the core directory holds the sqlite database file and thus both the file and folder must be writeable by the web server.
 
@@ -72,7 +72,7 @@ sudo chmod -R 755 /var/www/html/pocket_php/app/core/pocket_php.db
 
 * Included Example website and documentation
 
-POCKET_PHP comes with an example site that, thanks to its tiny code base, serves as its main documentation.
+pocket_php comes with an example site and user guide that, serves as its main documentation.
 
 #+html: <p align="center"><img src="app/static/images/exampleSite.png" /></p>
 
