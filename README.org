@@ -1,6 +1,6 @@
 #+Title: POCKET_PHP: MVC implementation for PHP7+
-#+Author: AlexHG
-#+Email: alexhg.eng@protonmail.com
+#+Author: xenid
+#+Email: xenid@protonmail.com
 
 #+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:t
 #+OPTIONS: reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
@@ -19,33 +19,20 @@
 #+STARTUP: showall
 
 [[http://www.gnu.org/licenses/gpl-3.0.html][http://img.shields.io/:license-mit-blue.svg]]
+* pocket_php - Blazing fast MVC implementation for PHP7+
+
+  - Features: xenid.net/projects?nav=pocket_php
+  - Devlog: xenid.net/journal
 
 
-POCKET_PHP is a MVC implementation for PHP web projects that emphasizes simplicity and speed.
-PHP inherently lacks a proper MVC arquitecture implementation which has become standard for
-web development, this has slowly steered developers towards alternatives that lack
-PHP's speed and extremely simple configuration.
+* Dependencies
+  - [[https://php.net/][PHP7+]]
+  - [[https://www.sqlite.org/index.html][SQLite]]
+  - [[https://www.nginx.com/][NGINX]] (recommended)
 
-POCKET_PHP serves as a starting template, it validates the client's
-request, encapsulates all the relevant data and sends it to the respective controller file. It also
-provides a working example of a login system that can be easily enhanced to serve whatever
-your project may need. A simple yet fast template engine helps controllers build an HTML
-repsonse by tag replacement that allows a complete separation between logic and presentation.
-The code base is short and readable, it provides the full cookie cutter MVC design in an efficient
-and adaptable way through PHP.
+  Although pocket_php can run on any web server that imitates the provided NGINX configuration, pocket_php
+  is developed primarily for NGINX.
 
-Some of POCKET_PHP's features are:
-
-- Full MVC implentation
-- HTML template engine
-- Login system
-- HTTP request manager
-- Request tracking and IP banning
-- Example website project included
-- Scalable and easily modifiable
-- Self documented, its that simple
-- MIT Licensed
-    
 * Installation
 
 1. Install PHP7 and NGINX
@@ -68,7 +55,7 @@ sudo chmod -R 755 /var/www/html/pocket_php
 
 3. Configure NGINX
 
-Remember to modify the provided nginx virtual server configuration file to match your desired settings!
+Remember to modify the provided nginx virtual server configuration file to match your desired settings.
 
 #+BEGIN_SRC 
 sudo mv /var/www/html/pocket_php/static/text_files/nginx_config /etc/nginx/sites-available/default
@@ -76,6 +63,8 @@ sudo mv /var/www/html/pocket_php/static/text_files/nginx_config /etc/nginx/sites
 sudo systemctl restart php7.x-fpm.service
 sudo systemctl restart nginx.service
 #+END_SRC
+
+You might have to configure the php7 socket permissions as well.
 
 3b. Configure HTTPS
 
@@ -99,7 +88,7 @@ sudo chmod -R 755 /var/www/html/pocket_php/app/core/pocket_php.db
 
 * Included Example website and documentation
 
-By default, POCKET_PHP comes with an example site that, thanks to its tiny code base, serves as its main documentation.
+POCKET_PHP comes with an example site that, thanks to its tiny code base, serves as its main documentation.
 
 #+html: <p align="center"><img src="app/static/images/exampleSite.png" /></p>
 
@@ -108,3 +97,4 @@ Seeing the "user guide" section for a more thorough explanation.
 * Planned Features 
 The current plan is to add support for REST APIs and a proper account creation. Even though such additions will inevitably require
 changes by the developer, most of the code is ultimately the same.
+ 
