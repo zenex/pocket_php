@@ -5,7 +5,7 @@
 
 [[http://www.gnu.org/licenses/gpl-3.0.html][http://img.shields.io/:license-mit-blue.svg]]
 
-  - Features: [[xenid.net/projects?nav=pocket_php][xenid.net/projects?nav=pocket_php]]
+  - Features: [[https://xenid.net/projects?nav=pocket_php][https://xenid.net/projects?nav=pocket_php]]
   - Devlog: [[https://xenid.net.localhost/journal?category=pocketphp_devlog][https://xenid.net.localhost/journal?category=pocketphp_devlog]]
 
 
@@ -78,7 +78,5 @@ POCKET_PHP comes with an example site that, thanks to its tiny code base, serves
 
 See the "user guide" section for a more thorough explanation.
 
-* Planned Features 
-The current plan is to add support for REST APIs and a proper account creation. Even though such additions will inevitably require
-changes by the developer, most of the code is ultimately the same.
  
+For a more thorough installation and configuration guide, visit [[https://xenid.net/projects?nav=pocket_php][https://xenid.net/projects?nav=pocket_php]]
