@@ -6,7 +6,7 @@
 [[http://www.gnu.org/licenses/gpl-3.0.html][http://img.shields.io/:license-mit-blue.svg]]
 
   - Features: [[https://xenid.net/projects?nav=pocket_php][https://xenid.net/projects?nav=pocket_php]]
-  - Devlog: [[https://xenid.net.localhost/journal?category=pocketphp_devlog][https://xenid.net.localhost/journal?category=pocketphp_devlog]]
+  - Devlog: [[https://xenid.net.localhost/journal?category=pocketphp_devlog][https://xenid.net/journal?category=pocketphp_devlog]]
 
 
 * Dependencies
