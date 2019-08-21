@@ -30,7 +30,7 @@ sudo apt-get install php7.2 php7.2-fpm php7.2-sqlite php7.2-curl nginx
 2. Clone the pcoket_php repository and set the server permissions
 
 #+BEGIN_SRC 
-git clone https://gitlab.com/Alex-HG/pocket_php
+git clone https://gitlab.com/AlexHG/pocket_php
 mv -r pocket_php /var/www/html/
 sudo chown -R username:www-data /var/www/html/pocket_php
 sudo chmod -R 755 /var/www/html/pocket_php
@@ -71,11 +71,11 @@ sudo chmod -R 755 /var/www/html/pocket_php/app/core/pocket_php.db
 
 * Included Example website and documentation
 
-pocket_php comes with an example site and user guide that, serves as its main documentation.
+pocket_php comes with an example site and user guide that serves as its main documentation.
 
 #+html: <p align="center"><img src="app/static/images/exampleSite.png" /></p>
 
 See the "user guide" section for a more thorough explanation.
 
  
-For a more thorough installation and configuration guide, visit [[https://xenid.net/projects?nav=pocket_php][https://xenid.net/projects?nav=pocket_php]]
+For a more information visit [[https://xenid.net/projects?nav=pocket_php][https://xenspace.net/projects?nav=pocket_php]]
