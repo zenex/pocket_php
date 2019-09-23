@@ -4,8 +4,8 @@
 
 [[http://www.gnu.org/licenses/gpl-3.0.html][http://img.shields.io/:license-mit-blue.svg]]
 
-  - Features: [[https://xenid.net/projects?nav=pocket_php][https://xenspace.net/projects?nav=pocket_php]]
-  - Devlog: [[https://xenid.net.localhost/journal?category=pocketphp_devlog][https://xenspace.net/journal?category=pocketphp_devlog]]
+  - Features: [[https://xenspace.net/projects?nav=pocket_php][https://xenspace.net/projects?nav=pocket_php]]
+  - Devlog: [[https://xenspace.net.localhost/journal?category=pocketphp_devlog][https://xenspace.net/journal?category=pocketphp_devlog]]
 
 
 * Dependencies
@@ -78,4 +78,4 @@ pocket_php comes with an example site and user guide that serves as its main doc
 See the "user guide" section for a more thorough explanation.
 
  
-For a more information visit [[https://xenid.net/projects?nav=pocket_php][https://xenspace.net/projects?nav=pocket_php]]
+For more information visit [[https://xenspace.net/projects?nav=pocket_php][https://xenspace.net/projects?nav=pocket_php]]
