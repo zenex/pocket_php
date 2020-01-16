@@ -1,4 +1,4 @@
-
+# PCOKET_PHP NGINX CONFIG
 
 server {
 
@@ -27,9 +27,14 @@ server {
     }
 
     location ~ \.php$ {
-    include snippets/fastcgi-php.conf;
-    fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+    include fastcgi.conf;
+    fastcgi_pass unix:/run/php-fpm/php-fpm.sock;
     }
+
+    # location ~ \.php$ {
+    # include snippets/fastcgi-php.conf;
+    # fastcgi_pass unix:/run/php/php7.2-fpm.sock;
+    # }
 
     # SERVE STATIC FILES DIRECTLY
     # serve static files directly
@@ -49,6 +54,6 @@ server {
 
     # REDIRECT ERRORS TO INDEX.PHP
     fastcgi_intercept_errors on;
-    error_page 403 404 /index.php;
+    error_page 400 403 404 /index.php;
 
 }
