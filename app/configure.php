@@ -91,6 +91,13 @@ function configure()
     // HTTPRequest.php will reroute all URL.com/robots.txt to URL.com/static/robots.txt
     define("ROBOTS_TXT", "static/text_files/robots.txt");
 
+    // SSL verification strings
+    // These are used to validate SSL certificates, however, more configuration may be required for this to work.
+    // Check out /core/HTTPRequests.php_check_syntax($filename) for more info
+    // define("SSL_VER_1_TXT", "cR-7K-MrtkMjYJoknircDb-jugs8FfAxmRUXm5YsJWw.LfHgiDq45HRfQQDyruI6ucCKRG2Iqef1jBPgniAZ7As");
+    // define("SSL_VER_2_TXT", "lvN5xeu63t-CxVEtDbUCuXNOT9kQIHud7ZPoFGFvImo.LfHgiDq45HRfQQDyruI6ucCKRG2Iqef1jBPgniAZ7As");
+
+
     // ------- SESSION SETTINGS  -------
 
     // This is the requested file that valid login attempts must call to be processed

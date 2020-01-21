@@ -74,6 +74,28 @@ class HTTPRequest
             header("Location: ". PROJECT_URL.ROBOTS_TXT);
             exit();
         }
+
+        // NOTE ABOUT MANUAL SSL CERTIFICATE AUTHENTICATION
+        // Manually authenticating SSL certificates usually means returning a (provided) string from a very specific
+        // server URL. Some sites (like ZeroSSL) will attempt to verify these strings through http://www.yourserver.com plus the ".well-known/acme-chellenge/"
+        // specifier. THIS CAN FAIL IF YOUR SERVER ONLY HAS A VER 6 IP OR HAVEN'T CONFIGURED YOUR DNS REDIRECTS. /etc/nginx/sites-available/ must also be configured!
+        // If you only have an IPv6 make sure to delete the AAAA records to allow for IPv4 HTTP + www extension to work.
+        else if (strpos($url, ".well-known/acme-challenge/cR-7K-MrtkMjYJoknircDb-jugs8FfAxmRUXm5YsJWw")) // Request is for SSL certificate validation
+        {
+            // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
+            //header("Location: ". PROJECT_URL.SSL_VER_1_TXT);
+            echo (SSL_VER_1_TXT);
+            exit();
+        }
+        else if (strpos($url, ".well-known/acme-challenge/lvN5xeu63t-CxVEtDbUCuXNOT9kQIHud7ZPoFGFvImo")) // Request is for SSL certificate validation
+        {
+            // Redirect to the actual location of the robots.txt file so the webserver can serve it directl
+            // header("Location: ". PROJECT_URL.SSL_VER_2_TXT);
+            echo (SSL_VER_2_TXT);
+            exit();
+        }
+
+
         else // Not empty
         {
             $url = ltrim($url, "/");

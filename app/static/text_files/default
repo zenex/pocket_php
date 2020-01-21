@@ -43,6 +43,11 @@ server {
     expires    30d;
     }   
 
+    # This disables access to files and folders starting with a "."
+    # NOTE that this must be enabled to allow HTTP SSL certificate
+    # validations that rely on the ".well-known/acme-chellenge/"
+    # See xenspace.net/app/core/HTTPRequest.php for more on enabling
+    # this feature, for security purposes it defaults to deny
     location ~ /\. {
     deny all;
     }
