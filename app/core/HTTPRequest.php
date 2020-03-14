@@ -1,28 +1,3 @@
-//           _______  _        _______  _______  _______  _______  _______     _        _______ _________
-// |\     /|(  ____ \( (    /|(  ____ \(  ____ )(  ___  )(  ____ \(  ____ \   ( (    /|(  ____ \\__   __/
-// ( \   / )| (    \/|  \  ( || (    \/| (    )|| (   ) || (    \/| (    \/   |  \  ( || (    \/   ) (
-//  \ (_) / | (__    |   \ | || (_____ | (____)|| (___) || |      | (__       |   \ | || (__       | |
-//   ) _ (  |  __)   | (\ \) |(_____  )|  _____)|  ___  || |      |  __)      | (\ \) ||  __)      | |
-//  / ( ) \ | (      | | \   |      ) || (      | (   ) || |      | (         | | \   || (         | |
-// ( /   \ )| (____/\| )  \  |/\____) || )      | )   ( || (____/\| (____/\ _ | )  \  || (____/\   | |
-// |/     \|(_______/|/    )_)\_______)|/       |/     \|(_______/(_______/(_)|/    )_)(_______/   )_(
-// Author: AlexHG @ xenspace.net
-// License: MIT. Use at your own risk.
-//      ___         ___           ___           ___           ___                       ___         ___           ___
-//     /  /\       /  /\         /  /\         /__/|         /  /\          ___        /  /\       /__/\         /  /\
-//    /  /::\     /  /::\       /  /:/        |  |:|        /  /:/_        /  /\      /  /::\      \  \:\       /  /::\
-//   /  /:/\:\   /  /:/\:\     /  /:/         |  |:|       /  /:/ /\      /  /:/     /  /:/\:\      \__\:\     /  /:/\:\
-//  /  /:/~/:/  /  /:/  \:\   /  /:/  ___   __|  |:|      /  /:/ /:/_    /  /:/     /  /:/~/:/  ___ /  /::\   /  /:/~/:/
-// /__/:/ /:/  /__/:/ \__\:\ /__/:/  /  /\ /__/\_|:|____ /__/:/ /:/ /\  /  /::\    /__/:/ /:/  /__/\  /:/\:\ /__/:/ /:/
-// \  \:\/:/   \  \:\ /  /:/ \  \:\ /  /:/ \  \:\/:::::/ \  \:\/:/ /:/ /__/:/\:\   \  \:\/:/   \  \:\/:/__\/ \  \:\/:/
-//  \  \::/     \  \:\  /:/   \  \:\  /:/   \  \::/~~~~   \  \::/ /:/  \__\/  \:\   \  \::/     \  \::/       \  \::/
-//   \  \:\      \  \:\/:/     \  \:\/:/     \  \:\        \  \:\/:/        \  \:\   \  \:\      \  \:\        \  \:\
-//    \  \:\      \  \::/       \  \::/       \  \:\        \  \::/          \__\/    \  \:\      \  \:\        \  \:\
-//     \__\/       \__\/         \__\/         \__\/         \__\/                     \__\/       \__\/         \__\/
-//
-// Blazing fast MVC implementation for PHP7+
-// Homepage: https://xenspace.net/projects/?nav=pocket_php
-
 
 <?php
 
@@ -41,6 +16,7 @@ abstract class SESSION_STATUS
 class HTTPRequest
 {
     public $ip = NULL;
+    public $userAgent = NULL;
     public $ipCountry = NULL;
     public $route = NULL;
     public $arguments = NULL;
@@ -56,7 +32,7 @@ class HTTPRequest
     public $accountID = NULL;
     public $accountEmail = NULL;
 
-    // EXTRACT AND PROCESS THE REQUESTS CONTENTS, VALIDATE THE CONTROLLER FILE EXISTS
+    // EXTRACT AND PROCESS THE REQUESTS CONTENTS, ENSURE THE CONTROLLER FILE EXISTS
     // AND THE REQUEST'S VALIDITY
     function __construct($url)
     {
@@ -70,7 +46,7 @@ class HTTPRequest
             $this->route = HOMEPAGE; // defined in configure.php
         else if (strpos($url, "robots.txt")) // Request is for robots.txt (probably a webbot)
         {
-            // Redirect to the actual location of the robots.txt file so the webserver can serve it directl
+            // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
             header("Location: ". PROJECT_URL.ROBOTS_TXT);
             exit();
         }
@@ -94,7 +70,6 @@ class HTTPRequest
             echo (SSL_VER_2_TXT);
             exit();
         }
-
 
         else // Not empty
         {
@@ -151,7 +126,10 @@ class HTTPRequest
             throw new Exception("URL route invalid.", 0);
         }
 
-        // Get the equest type and arguments
+        // Extra client data
+        $this->userAgent = $_SERVER['HTTP_USER_AGENT']??NULL;
+        var_dump($this->userAgent);
+        // Get the request type and arguments
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
             $this->requestType = 'GET';
@@ -234,8 +212,8 @@ class HTTPRequest
         curl_setopt($ch, CURLOPT_TIMEOUT, 2); //timeout in seconds
         $data = curl_exec($ch);
         curl_close($ch);
+        // var_dump($data);
 
-        // Decode the returned JSON data
         $locationData = json_decode($data, true);
         if ($locationData && $locationData['geoplugin_countryName'] != null)
             $this->ipCountry = $locationData['geoplugin_countryName'];
