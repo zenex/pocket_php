@@ -128,7 +128,7 @@ class HTTPRequest
 
         // Extra client data
         $this->userAgent = $_SERVER['HTTP_USER_AGENT']??NULL;
-        var_dump($this->userAgent);
+
         // Get the request type and arguments
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
