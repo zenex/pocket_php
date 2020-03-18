@@ -1,30 +1,3 @@
-//           _______  _        _______  _______  _______  _______  _______     _        _______ _________
-// |\     /|(  ____ \( (    /|(  ____ \(  ____ )(  ___  )(  ____ \(  ____ \   ( (    /|(  ____ \\__   __/
-// ( \   / )| (    \/|  \  ( || (    \/| (    )|| (   ) || (    \/| (    \/   |  \  ( || (    \/   ) (
-//  \ (_) / | (__    |   \ | || (_____ | (____)|| (___) || |      | (__       |   \ | || (__       | |
-//   ) _ (  |  __)   | (\ \) |(_____  )|  _____)|  ___  || |      |  __)      | (\ \) ||  __)      | |
-//  / ( ) \ | (      | | \   |      ) || (      | (   ) || |      | (         | | \   || (         | |
-// ( /   \ )| (____/\| )  \  |/\____) || )      | )   ( || (____/\| (____/\ _ | )  \  || (____/\   | |
-// |/     \|(_______/|/    )_)\_______)|/       |/     \|(_______/(_______/(_)|/    )_)(_______/   )_(
-// Author: AlexHG @ xenspace.net
-// License: MIT. Use at your own risk.
-//      ___         ___           ___           ___           ___                       ___         ___           ___
-//     /  /\       /  /\         /  /\         /__/|         /  /\          ___        /  /\       /__/\         /  /\
-//    /  /::\     /  /::\       /  /:/        |  |:|        /  /:/_        /  /\      /  /::\      \  \:\       /  /::\
-//   /  /:/\:\   /  /:/\:\     /  /:/         |  |:|       /  /:/ /\      /  /:/     /  /:/\:\      \__\:\     /  /:/\:\
-//  /  /:/~/:/  /  /:/  \:\   /  /:/  ___   __|  |:|      /  /:/ /:/_    /  /:/     /  /:/~/:/  ___ /  /::\   /  /:/~/:/
-// /__/:/ /:/  /__/:/ \__\:\ /__/:/  /  /\ /__/\_|:|____ /__/:/ /:/ /\  /  /::\    /__/:/ /:/  /__/\  /:/\:\ /__/:/ /:/
-// \  \:\/:/   \  \:\ /  /:/ \  \:\ /  /:/ \  \:\/:::::/ \  \:\/:/ /:/ /__/:/\:\   \  \:\/:/   \  \:\/:/__\/ \  \:\/:/
-//  \  \::/     \  \:\  /:/   \  \:\  /:/   \  \::/~~~~   \  \::/ /:/  \__\/  \:\   \  \::/     \  \::/       \  \::/
-//   \  \:\      \  \:\/:/     \  \:\/:/     \  \:\        \  \:\/:/        \  \:\   \  \:\      \  \:\        \  \:\
-//    \  \:\      \  \::/       \  \::/       \  \:\        \  \::/          \__\/    \  \:\      \  \:\        \  \:\
-//     \__\/       \__\/         \__\/         \__\/         \__\/                     \__\/       \__\/         \__\/
-//
-// Blazing fast MVC implementation for PHP7+
-// Homepage: https://xenspace.net/projects/?nav=pocket_php
-
-
-
 <?php
 
 // LOAD ALL RELEVANT CONFIGURATION TO THE CURRENT PHP CONTEXT
@@ -63,9 +36,9 @@ function configure()
     // configured accordingly (it is strongly adviced to turn HTTPS on).
     // Example: http://localhost.com and https://localhost (for a local server)
     if ((!empty($_SERVER['HTTPS'])) && $_SERVER["HTTPS"] != 'off')
-        define("PROJECT_URL", "https://pocketphp.localhost/");
+        define("PROJECT_URL", "https://pocket_php.localhost/");
     else
-        define("PROJECT_URL", "http://pocketphp.localhost/");
+        define("PROJECT_URL", "http://pocket_php.localhost/");
 
     // Forces all non HTTPS requests to the HTTPS version of the site
     // HTTPS must be configured a priori and PROJECT_URL must be set

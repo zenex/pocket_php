@@ -97,6 +97,12 @@ class HTTPRequest
         // Match the requested file within the file system, if the request wasn't nested test it as a string
         if (!is_array($this->route))
         {
+            // NOTE: Despite being an outdated practice, a lot of clients still request the favicon.ico directly from
+            // the site's root (website.com_favicon.ico), simple map the request to the appropriate location for
+            // static content
+            // if ($this->route == "favicon.ico")
+
+
             if (file_exists(CONTROLLERS.$this->route.".php"))
                 $this->requestedFile = $this->route.".php";
             else

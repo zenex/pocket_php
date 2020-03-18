@@ -1,14 +1,4 @@
 <?php
-//           _______  _        _______  _______  _______  _______  _______     _        _______ _________
-// |\     /|(  ____ \( (    /|(  ____ \(  ____ )(  ___  )(  ____ \(  ____ \   ( (    /|(  ____ \\__   __/
-// ( \   / )| (    \/|  \  ( || (    \/| (    )|| (   ) || (    \/| (    \/   |  \  ( || (    \/   ) (
-//  \ (_) / | (__    |   \ | || (_____ | (____)|| (___) || |      | (__       |   \ | || (__       | |
-//   ) _ (  |  __)   | (\ \) |(_____  )|  _____)|  ___  || |      |  __)      | (\ \) ||  __)      | |
-//  / ( ) \ | (      | | \   |      ) || (      | (   ) || |      | (         | | \   || (         | |
-// ( /   \ )| (____/\| )  \  |/\____) || )      | )   ( || (____/\| (____/\ _ | )  \  || (____/\   | |
-// |/     \|(_______/|/    )_)\_______)|/       |/     \|(_______/(_______/(_)|/    )_)(_______/   )_(
-// Author: AlexHG @ xenspace.net
-// License: MIT. Use at your own risk.
 //      ___         ___           ___           ___           ___                       ___         ___           ___
 //     /  /\       /  /\         /  /\         /__/|         /  /\          ___        /  /\       /__/\         /  /\
 //    /  /::\     /  /::\       /  /:/        |  |:|        /  /:/_        /  /\      /  /::\      \  \:\       /  /::\
@@ -23,8 +13,6 @@
 //
 // Blazing fast MVC implementation for PHP7+
 // Homepage: https://xenspace.net/projects/?nav=pocket_php
-
-
 // -------------------------------------------------------------- //
 // PHP7 requires the strict type declaration to be the very first //
 // thing to be included in a script                               //
@@ -50,6 +38,7 @@ function processRequest()
 {
     $request = new HTTPRequest($_SERVER["REQUEST_URI"]);
 
+    // If FORCE_HTTPS is enabled redirect the client to the HTTPS port
     if (FORCE_HTTPS && !$request->https)
     {
         $HTTPS_URL = str_replace('http://', 'https://', PROJECT_URL);
@@ -97,8 +86,8 @@ function processRequest()
     if ( $request->requestedFile == (LOGOUT_CONTROLLER))
     {
         session_destroy();
-        //exit();
         header("Location: ".PROJECT_URL);
+        exit();
     }
     // The request isn't a login or logout attempt, its not a static file and references
     // an existing controller in the controllers folder, call the controller's entry function
