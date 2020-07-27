@@ -1,5 +1,13 @@
-
 <?php
+// ███╗   ██╗███████╗ ██████╗ ██╗  ██╗███████╗██╗  ██╗   ██╗  ██╗██╗   ██╗███████╗
+// ████╗  ██║██╔════╝██╔═══██╗██║  ██║██╔════╝╚██╗██╔╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
+// ██╔██╗ ██║█████╗  ██║   ██║███████║█████╗   ╚███╔╝     ╚███╔╝  ╚████╔╝   ███╔╝
+// ██║╚██╗██║██╔══╝  ██║   ██║██╔══██║██╔══╝   ██╔██╗     ██╔██╗   ╚██╔╝   ███╔╝
+// ██║ ╚████║███████╗╚██████╔╝██║  ██║███████╗██╔╝ ██╗██╗██╔╝ ██╗   ██║   ███████╗
+// ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
+// Author:  AlexHG @ NEOHEX.XYZ
+// License: MIT License
+// Website: https://neohex.xyz
 
 require_once(__DIR__."/../configure.php");
 
@@ -20,17 +28,21 @@ class HTTPRequest
     public $ipCountry = NULL;
     public $route = NULL;
     public $arguments = NULL;
+    public $cookies = NULL;
     public $requestType = NULL;
     public $requestedFile = NULL;
     public $sessionStatus = NULL;
     public $errorMsg = NULL; // To be filled by index and subsequently processed by the controller
     public $https = false;
 
-    // These variabled are populated by the validateLoginAttempt function
+    // These variables are populated by the validateLoginAttempt function
     public $accountLastLogin = NULL;
     public $accountType = NULL;
     public $accountID = NULL;
     public $accountEmail = NULL;
+    public $accountSessionTime = NULL; // Session starting time, used by SESSION_DURATION to limit client session time
+    public $accountInactivityTime = NULL; // Updated with every client activity, will close the session if more than SESSION_INACTIVITY_TOLERANCE has passed
+    public $accountLoginIP = NULL;
 
     // EXTRACT AND PROCESS THE REQUESTS CONTENTS, ENSURE THE CONTROLLER FILE EXISTS
     // AND THE REQUEST'S VALIDITY
@@ -44,32 +56,42 @@ class HTTPRequest
         // If the request is empty (servername.com/)
         if ($url == "/")
             $this->route = HOMEPAGE; // defined in configure.php
-        else if (strpos($url, "robots.txt")) // Request is for robots.txt (probably a webbot)
-        {
-            // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
-            header("Location: ". PROJECT_URL.ROBOTS_TXT);
-            exit();
-        }
+
+        // Both robots.txt and favicon.ico should just be placed in the app/ directory to be served as a
+        // static request by the webserver directly
+        // if (strpos($url, "robots.txt")) // Request is for robots.txt (probably a webbot)
+        // {
+        //     // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
+        //     header("Location: ". PROJECT_URL.ROBOTS_TXT);
+        //     exit();
+        // }
+        // if (strpos($url, "favicon.ico")) // Request is for favicon.ico (not a standard but w/e)
+        // {
+        //     // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
+        //     header("Location: ". PROJECT_URL.FAVICON_ICO);
+        //     exit();
+        // }
+
 
         // NOTE ABOUT MANUAL SSL CERTIFICATE AUTHENTICATION
         // Manually authenticating SSL certificates usually means returning a (provided) string from a very specific
         // server URL. Some sites (like ZeroSSL) will attempt to verify these strings through http://www.yourserver.com plus the ".well-known/acme-chellenge/"
         // specifier. THIS CAN FAIL IF YOUR SERVER ONLY HAS A VER 6 IP OR HAVEN'T CONFIGURED YOUR DNS REDIRECTS. /etc/nginx/sites-available/ must also be configured!
         // If you only have an IPv6 make sure to delete the AAAA records to allow for IPv4 HTTP + www extension to work.
-        else if (strpos($url, ".well-known/acme-challenge/cR-7K-MrtkMjYJoknircDb-jugs8FfAxmRUXm5YsJWw")) // Request is for SSL certificate validation
-        {
-            // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
-            //header("Location: ". PROJECT_URL.SSL_VER_1_TXT);
-            echo (SSL_VER_1_TXT);
-            exit();
-        }
-        else if (strpos($url, ".well-known/acme-challenge/lvN5xeu63t-CxVEtDbUCuXNOT9kQIHud7ZPoFGFvImo")) // Request is for SSL certificate validation
-        {
-            // Redirect to the actual location of the robots.txt file so the webserver can serve it directl
-            // header("Location: ". PROJECT_URL.SSL_VER_2_TXT);
-            echo (SSL_VER_2_TXT);
-            exit();
-        }
+        // else if (strpos($url, ".well-known/acme-challenge/cR-7K-MrtkMjYJoknircDb-jugs8FfAxmRUXm5YsJWw")) // Request is for SSL certificate validation
+        // {
+        //     // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
+        //     //header("Location: ". PROJECT_URL.SSL_VER_1_TXT);
+        //     echo (SSL_VER_1_TXT);
+        //     exit();
+        // }
+        // else if (strpos($url, ".well-known/acme-challenge/lvN5xeu63t-CxVEtDbUCuXNOT9kQIHud7ZPoFGFvImo")) // Request is for SSL certificate validation
+        // {
+        //     // Redirect to the actual location of the robots.txt file so the webserver can serve it directl
+        //     // header("Location: ". PROJECT_URL.SSL_VER_2_TXT);
+        //     echo (SSL_VER_2_TXT);
+        //     exit();
+        // }
 
         else // Not empty
         {
@@ -101,8 +123,6 @@ class HTTPRequest
             // the site's root (website.com_favicon.ico), simple map the request to the appropriate location for
             // static content
             // if ($this->route == "favicon.ico")
-
-
             if (file_exists(CONTROLLERS.$this->route.".php"))
                 $this->requestedFile = $this->route.".php";
             else
@@ -155,20 +175,51 @@ class HTTPRequest
         // Check the session status
         if (isset($_SESSION["ID"]))
         {
-            $this->sessionStatus= SESSION_STATUS::VALID_SESSION;
+            $this->sessionStatus = SESSION_STATUS::VALID_SESSION;
             $this->accountID = $_SESSION["ID"];
             $this->accountEmail = $_SESSION["email"];
             $this->accountLastLogin = $_SESSION["last_login"];
             $this->accountType = $_SESSION["account_type"];
+            $this->accountSessionTime = $_SESSION["session_start_time"];
+            $this->accountLoginIP = $_SESSION["login_ip"];
+            // Check if the session is still valid
+            if (isset($_SESSION["session_start_time"]) && null != SESSION_MAX_DURATION)
+            {
+                // Check if the last saved session activity time is bigger than the duration
+                if ( (SESSION_MAX_DURATION > 0) && ((time() - (int)$_SESSION['session_inactivity_time']) > SESSION_MAX_DURATION) )
+                {
+                    // The client's session has expired, redirect to the login page
+                    session_destroy();
+                    header("Location: ".PROJECT_URL."login");
+                    exit();
+                }
 
+            }
+            // Check for inactivity timeouts
+            if (isset($_SESSION['session_inactivity_time']) && null != SESSION_INACTIVITY_TOLERANCE)
+            {
+                // Check if the last saved session activity time is bigger than the duration
+                if ( (SESSION_INACTIVITY_TOLERANCE > 0) && (time() - (int)$_SESSION['session_inactivity_time']) > SESSION_INACTIVITY_TOLERANCE)
+                {
+                    // The client's session has expired, redirect to the login page
+                    session_destroy();
+                    header("Location: ".PROJECT_URL."login");
+                    exit();
+                }
+            }
+            // Update the inactivity timer
+            $_SESSION["session_inacitivty_time"] = time();
         }
         else
             $this->sessionStatus= SESSION_STATUS::NO_SESSION;
+
+        // Encapsulate all retrieved cookies
+        $this->cookies = $_COOKIE;
     }
 
     // TRACK THE REQUESTS IP
     // R: string with IP
-    private function getRequestIP()
+    private function getRequestIP() : ?string
     {
         // check for shared internet/ISP IP
         if (!empty($_SERVER['HTTP_CLIENT_IP']) && $this->validateIP($_SERVER['HTTP_CLIENT_IP'])) {
@@ -204,7 +255,7 @@ class HTTPRequest
 
     // GET THE REQUEST'S LOCATION, REQUIRES CURL AND USES THE GEOPLUGIN WEB API
     // R: void
-    private function traceIP()
+    private function traceIP() : void
     {
         // localhost request
         if ($this->ip == "127.0.0.1" || $this->ip == "::1")
@@ -227,7 +278,7 @@ class HTTPRequest
 
     // CHECKS FOR INVALID IP RANGES
     // R: bool
-    private function validateIP($ip)
+    private function validateIP($ip) : bool
     {
         if (strtolower($ip) === 'unknown')
             return false;

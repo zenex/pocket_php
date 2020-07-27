@@ -11,8 +11,16 @@
 //    \  \:\      \  \::/       \  \::/       \  \:\        \  \::/          \__\/    \  \:\      \  \:\        \  \:\
 //     \__\/       \__\/         \__\/         \__\/         \__\/                     \__\/       \__\/         \__\/
 //
-// Blazing fast MVC implementation for PHP7+
-// Homepage: https://xenspace.net/projects/?nav=pocket_php
+// ███╗   ██╗███████╗ ██████╗ ██╗  ██╗███████╗██╗  ██╗   ██╗  ██╗██╗   ██╗███████╗
+// ████╗  ██║██╔════╝██╔═══██╗██║  ██║██╔════╝╚██╗██╔╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
+// ██╔██╗ ██║█████╗  ██║   ██║███████║█████╗   ╚███╔╝     ╚███╔╝  ╚████╔╝   ███╔╝
+// ██║╚██╗██║██╔══╝  ██║   ██║██╔══██║██╔══╝   ██╔██╗     ██╔██╗   ╚██╔╝   ███╔╝
+// ██║ ╚████║███████╗╚██████╔╝██║  ██║███████╗██╔╝ ██╗██╗██╔╝ ██╗   ██║   ███████╗
+// ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
+// Author:  AlexHG @ NEOHEX.XYZ
+// License: MIT License
+// Website: https://neohex.xyz
+
 // -------------------------------------------------------------- //
 // PHP7 requires the strict type declaration to be the very first //
 // thing to be included in a script                               //
@@ -34,7 +42,7 @@ include(CORE."database.php");
 // STATIC CONTENT DIRECTLY (SEE INCLUDED NGINX CONFIGURATION)
 // R: void
 processRequest();
-function processRequest()
+function processRequest() : void
 {
     $request = new HTTPRequest($_SERVER["REQUEST_URI"]);
 
@@ -86,7 +94,7 @@ function processRequest()
     if ( $request->requestedFile == (LOGOUT_CONTROLLER))
     {
         session_destroy();
-        header("Location: ".PROJECT_URL);
+        header("Location: ".PROJECT_URL."login");
         exit();
     }
     // The request isn't a login or logout attempt, its not a static file and references
@@ -102,7 +110,7 @@ function processRequest()
 // THIS IS THE FINAL STEP IN THE RESPONSE PROCESS AND WILL
 // END THE SCRIPT IF THE CONTROLLER DOESN'T
 // R: void
-function dispatchRequest($file, $function, $parameters)
+function dispatchRequest($file, $function, $parameters) : void
 {
     include(CONTROLLERS.$file);
     if (empty($function))
@@ -115,7 +123,7 @@ function dispatchRequest($file, $function, $parameters)
 
 // VALIDATES A LOGIN ATTEMPT, APPROPRIATELY REDIRECTS THE CLIENT AND KILLS THE SCRIPT
 // R: void
-function validateLoginAttempt($requestData)
+function validateLoginAttempt($requestData) : ?HTTPRequest
 {
     $email = $requestData->arguments["email"];
     $password = $requestData->arguments["password"];
@@ -131,9 +139,12 @@ function validateLoginAttempt($requestData)
                 // These variables are to be included in the HTTPRequest instance
                 // You can add or remove them here
                 $_SESSION["ID"] = $verification->accountID;
-                $_SESSION["email"] = $verification->email;
+                $_SESSION["email"] = $verification->accountEmail;
                 $_SESSION["last_login"] = $verification->accountLastLogin;
                 $_SESSION["account_type"] = $verification->accountType;
+                $_SESSION["login_ip"] = $verification->accountLoginIP;
+                $_SESSION["session_start_time"] = $verification->accountSessionTime;
+                $_SESSION["session_inactivity_time"] = $verification->accountInactivityTime;
                 $verification->sessionStatus = SESSION_STATUS::VALID_SESSION;
 
                 return $verification;
@@ -163,7 +174,7 @@ function validateLoginAttempt($requestData)
 
 // VALIDATES THE LOGIN DATA WITH THE SAVED DATA IN THE INTERNAL DATABASE, "accounts" TABLE
 // R: HTTPRequest with added data or NULL on error
-function validateLoginData($requestData)
+function validateLoginData($requestData) : ?HTTPRequest
 {
     $sqlite = new SQLiteConnection();
     $sqlite = $sqlite->db;
@@ -179,12 +190,20 @@ function validateLoginData($requestData)
             $requestData->accountLastLogin = $resultData[0]["last_login"];
             $requestData->accountType = $resultData[0]["account_type"];
             $requestData->accountID = $resultData[0]["id"];
-            $requestData->email = $resultData[0]["email"];
+            $requestData->accountEmail = $resultData[0]["email"];
+            $requestData->accountLoginIP = $requestData->ip;
+            $requestData->accountSessionTime = time();
+            $requestData->accountInactivityTime = time();
 
+            // Update the account with the latest login time
+            updateAccountLogin($requestData);
             return $requestData;
         }
         else
+        {
+            print("ERROR");
             return NULL;
+        }
     }
     else
         return NULL;
@@ -193,7 +212,7 @@ function validateLoginData($requestData)
 
 // SAVE THE CLIENT'S REQUEST TO THE DATABASE (TRACK_REQUESTS MUST BE SET TO TRUE)
 // R: void
-function saveRequest($requestData)
+function saveRequest($requestData) : void
 {
     $sqlite = new SQLiteConnection();
     $sqlite = $sqlite->db;
@@ -217,10 +236,26 @@ function saveRequest($requestData)
     }
 }
 
+// UPDATE THE CLIENT'S LOGIN DATA TO THE DATABASE
+// R: void
+function updateAccountLogin($requestData) : void
+{
+    $sqlite = new SQLiteConnection();
+    $sqlite = $sqlite->db;
+    if ($sqlite != NULL)
+    {
+        $result = $sqlite->prepare("UPDATE accounts SET last_login=:last_login, last_login_ip=:last_login_ip WHERE email=:email");
+        $now = date('H:i:s m/d/y');
+        $result->bindparam(":email", $requestData->accountEmail);
+        $result->bindparam(":last_login", $now);
+        $result->bindparam(":last_login_ip", $requestData->accountLoginIP);
+        $result->execute();
+    }
+}
 
 // CHECK IF THE REQUEST'S IP IS IN THE BAN LIST
 // R: bool
-function checkForBan($ip)
+function checkForBan($ip) : bool
 {
     $sqlite = new SQLiteConnection();
     $sqlite = $sqlite->db;

@@ -1,166 +1,124 @@
-<a name="top"></a>
-<!-- Back to top reference -->
-<main>
-    <div class="box">
-        <div class="box-header">
-
-        </div>
-        <div class="box-contents">
-
-            <div class="resume">
-                <div class="resume-title">
-                    POCKET_PHP
-                    <br>
-                    USER GUIDE
-                </div>
-                <p>
-                    <ul style="list-style:square; text-align: center;">
-                        <li><a href="#installation">--- INSTALLATION ---</a></li><br>
-                        <li><a href="#how_it_works">--- HOW IT WORKS ---</a></li><br>
-                        <li><a href="#how_to_use"> --- HOW TO USE ---</a></li><br>
-                    </ul>
-
-                </p>
-
-                <div id="installation"></div>
-                <div class="resume-title">
-                    INSTALLATION
-                </div>
-                <p>
-                    <div class="greentext">1. Install PHP7 and NGINX</div><br>
-                    I recommend installing both through your package manager, if your using a debian based distro simply:<br><br>
-                    <p class="black-block">
-                        sudo apt-get update<br>
-                        sudo apt-get install php7.2 php7.2-fpm php7.2-sqlite php7.2-curl nginx
-                    </p><br><br>
-
-                    <div class="greentext">2. Clone the POCKET_PHP reporistory and set the server permissions</div><br>
-                    <p class="black-block">
-                        git clone {{gitlab_link}}<br>
-                        mv -r pocket_php /var/www/html/<br>
-                        sudo chown -R username:www-data /var/www/html/pocket_php<br>
-                        sudo chmod -R 755 /var/www/html/pocket_php<br>
-                    </p><br><br>
-
-                    <div class="greentext">3. Configure NGINX</div><br>
-                    Remember to modify the provided nginx virtual server <a href="{{nginx_conf}}">configuration file</a> to match your desired settings!<br><br>
-                    <p class="black-block">
-                        sudo mv /var/www/html/pocket_php/static/text_files/nginx_config /etc/nginx/sites-available/default<br><br>
-                        sudo systemctl restart php7.x-fpm.service<br>
-                        sudo systemctl restart nginx.service
-                    </p><br><br>
 
 
-                    <div class="greentext">3b. Configure HTTPS</div><br>
-                    Uncomment the SSL Settings block and modify the following lines in the included nginx.conf
-                    <br>
-                    <p class="black-block">
-                        ssl_certificate     {path to certificate} <br>
-                        ssl_certificate_key {path to key}
-                    </p>
-                    <br>
-                    Then, uncomment the HTTPS ENABLED (and comment out the HTTPS DISABLED) block in sites-available/default.
-                    <br><br>
 
-                    <div class="greentext">4. Configure POCKET_PHP</div><br>
-                    All the relevant configuration lies in app/configure.php, note that the core directory holds the sqlite
-                    database file and thus both the file and folder must be writeable by the web server.<br><br>
-                    <p class="black-block">
-                        sudo chown -R username:www-data /var/www/html/pocket_php/core/<br>
-                        sudo chmod -R 755 /var/www/html/pocket_php/app/core/pocket_php.db<br>
-                    </p><br><br>
-                </p>
-
-                <div id="how_it_works"></div>
-                <div class="resume-title">
-                    HOW POCKET_PHP WORKS
-                </div>
-                <p>
-                    <div class="greentext">The codebase is very small and well documented. It is strongly adviced to get familiar with it! </div><br>
-                    When the web server receives a new request, this is is encapsulated in an HTTPRequest object which abstracts
-                    away many of the inconveniences of dealing with PHP's way of processing incoming packets. The object contains all the
-                    relevant data for the developer and if the controller file requested exists, it will be delivered to said
-                    controller through an entry function (defined in configure.php, defaults to 'entry').<br>
-                    If the file isn't found the exception handler (in configuration.php) will be called and an error
-                    will be returned. If the file requested is found in the static folder the web server will serve it directly.
-                    <br><br>
-                </p>
-                <p>
-                    The session manager automatically fills the HTTPRequest->sessionStatus public variable, its up to the programmer
-                    to decide what to do with it. To change the login criteria see the 'validateLoginRequest' function in index.php.<br><br>
-                    Remember that POCKET_PHP was written to be readable and easily modifiable, it is encouraged to learn the framework
-                    by setting up this included example website and reading the code. The folder structure is as follows:<br><br>
-
-                    <p class="black-block">
-                        pocket_php/app/configure.php - Project configuration<br>
-                        pocket_php/app/index.php     - All requests start here<br>
-                        pocket_php/app/views/        - HTML files<br>
-                        pocket_php/app/core/         - Internal framework files;<br>
-                        pocket_php/app/static/       - Files directly served by NGINX<br>
-                        pocket_php/app/controllers/  - Application logic
-                    </p><br><br>
-                    <p>
-                        Is is recommended to create an additional directory to hold any models the project may require to conform with
-                        MVC arquitecture standard.
-                    </p>
-                    <br>
-                    <p>
-                        POCKET_PHP processes the URL requested by the client by subjecting it to a set of standards that simplify and limit
-                        the extent of what and how the client can make requests. Valid requests must:
-                    </p><br>
-                    <p class="black-block">
-                        &#9632; Ask for an existing controller, no .php or any other extension is required. To request this very page
-                        the request must specify an argument which calls a function of that very name that the controller file must provide.
-                        <br>
-                        To request this guide the URL must be:<br> server_url.com/project/?nav=user_guide <br>
-                        Where 'project' is the project.php controller file and user_guide is the name of a function it must define. The URL
-                        variable "nav" must match the variable used to route the function inside the controller!
-                        <br><br>
-                        &#9632; All URL and POST data will be contained inside an associative array in the HTTPRequest object 'arguments'
-                        variable.
-                    </p><br><br>
-                </p>
-
-                <div id="how_to_use"></div>
-                <div class="resume-title">
-                    HOW TO USE
-                </div>
-                <p>
-                    <div class="greentext">Simply create the desired controller file and check for a routing variable.</div><br>
-                    <div class="greentext">See controllers/home.php for a more thorough example, including how to use the template engine!</div><br>
-
-                    For a controller that maps to "server_url.com/home" and "server_url.com/home/?nav=homepage":
-                    <br><br>
-                    <p class="black-block">
-                    function entry ($requestData)<br>
-                    {<br>
-                    &emsp; if (isset($requestData->arguments["nav"]))<br>
-                    &emsp; {<br>
-                    &emsp;&emsp; switch ($requestData->arguments["nav"])<br>
-                    &emsp;&emsp; {<br>
-                    &emsp;&emsp; case "homepage":<br>
-                    &emsp;&emsp; {<br>
-                    &emsp;&emsp;&emsp; homepage($requestData);<br>
-                    &emsp;&emsp;&emsp; break;<br>
-                    &emsp;&emsp; }<br>
-                    &emsp;&emsp; default:<br>
-                    &emsp;&emsp; {<br>
-                    &emsp;&emsp;&emsp; homepage($requestData);<br>
-                    &emsp;&emsp;&emsp; break;<br>
-                    &emsp;&emsp; }<br>
-                    &emsp; }<br>
-                    else<br>
-                    &emsp; homepage($requestData);<br>
-                    &emsp; exit();<br>
-                    }<br>
-
-
-                    </p><br><br>
-
-                </p>
-
-
-            </div>
-        </div>
+<div class="title"> INSTALLATION </div>
+<div class="content-text">
+    <span class="green">1. Install PHP7 and NGINX, I recommend installing both through your package manager.</span> <br>
+    For Debian / Ubuntu :
+    <br>
+    <div class="mainframe_output">
+        sudo apt-get update<br>
+        sudo apt-get install php7.2 php7.2-fpm php7.2-sqlite php7.2-curl nginx sqlitebrowser sqlite
+    </div>
+    <br>
+    For Arch / Manjaro :
+    <br>
+    <div class="mainframe_output">
+        sudo pacman -S nginx php php-fpm php-fpm php-sqlite sqlitebrowser sqlite <br>
+    </div>
+    <br>
+    <span class="green">2. Clone the POCKET_PHP repository and set the server permissions.</span>
+    <br>
+    <div class="mainframe_output">
+        git clone <a href="{{git_link}}">{{git_link}}</a> <br>
+        mv -r pocket_php /var/www/html/ <br>
+        sudo chown -R username:www-data /var/www/html/pocket_php <br>
+        sudo chmod -R 755 /var/www/html/pocket_php <br>
+    </div>
+    <br>
+    <span class="green">3. Configure NGINX.</span>
+    <br>
+    Remember to modify the provided nginx virtual server <a href="{{nginx_conf}}">configuration file</a> to match your desired settings!<br>
+    <div class="mainframe_output">
+        sudo mv /var/www/html/pocket_php/static/text_files/nginx_config /etc/nginx/sites-available/default<br>
+        sudo systemctl restart php7.x-fpm.service<br>
+        sudo systemctl restart nginx.service
+    </div>
+    <br>
+    <span class="green">4. Configure PHP.</span>
+    <br>
+    The only relevant changes are to the www.conf and php.ini files.
+    <br>
+    /etc/php/php.ini
+    <div class="mainframe_output">
+        1. Uncomment the extension=pdo_sqlite <br>
+        2. Change the default session.name (for security reasons) <br>
+        3. Modify the upload.limit to fit your needs <br>
+        4. Set the desired time zone in "date.timezone" (NOTE: this setting can and usually is overwritten)
+    </div>
+    <br>
+    /etc/php/php-fpm.d/www.conf
+    <div class="mainframe_output">
+        1. Change user and group to ones NGINX can access
     </div>
 
+    <br>
+    <span class="green">5. Configure POCKET_PHP.</span>
+    <br>
+    All the relevant configuration lies in app/configure.php, note that the pocket_php/tools/ directory holds the sqlite
+    database file and both the file and folder must be writeable by the web server.
+    <div class="mainframe_output">
+        sudo chown -R username:www-data /var/www/html/pocket_php/core/<br>
+        sudo chmod -R 755 /var/www/html/pocket_php/app/core/pocket_php.db<br>
+    </div>
+    <br>
+    It's also worth mentioning that locale settings used by PHP are the same enabled in the host system and that the
+    default timezone can be set in the php.ini file and overwritten in the configure.php source. Just an FYI.
+</div>
+<br>
+
+<div class="title"> WEBSERVER CONFIGURATION </div>
+<div class="content-text">
+    As long as your webserver of choice respects the simple rules below, pocket_php will work with it.
+    <div class="mainframe_output">
+        1. Serve static files directly <br>
+        2. Redirect everything else to /app/index.php <br>
+    </div>
+    <br>
+    The provided <a href="{{nginx_vbs_file}}">virtual server file</a> for NGINX also adds a few security filters to keep some static files (such as the internal DB) private.
+    As a side note, there have been some issues with the way php-fpm handles sqlite databases that share the same name but are from independent projects, a very common case when
+    running multiple websites from a single server, simply rename the database file and update the location constant in configure.php.
+</div>
+<br>
+
+<div class="title"> F.A.Q. / TROUBLESHOOTING </div>
+<div class="content-text">
+    <p>
+    <div class="green">POCKET_PHP isn't honoring the changes made to the php-fpm.ini file</div>
+        One of PHP's more annoying limitations is how the php.ini configuration file is global to its
+        respective php-fpm process. To work around this issue and support multiple different php configurations
+        on the same server please refer to the configure.php file which overrides all internal pocket_php settings
+        in the php.ini file.
+    </p>
+
+    <p>
+    <div class="green">The sqlite database can't be opened.</div>
+        NGINX requries read and write permissions for both the database and the folder it resides in.
+    </p>
+
+    <p>
+    <div class="green">Can I change the database?</div>
+        Simply add the connection parameters to configuration.php and the desired interface to /core/database.php.
+    </p>
+
+    <p>
+    <div class="green">What was the motivation behind pocket_php?</div>
+        Current trends in web frameworks are to take the idea of having an initial basis for a project to the extreme
+        by trying to provide far more than it is required of them. Some of the more criminal examples out there (they know who they are)
+        even outright ignore the ever increasing size of their already unnecessarily massive code base. Probably because the vast majority
+        of the userbase don't even read the code they run.
+        <br>
+        At NEOHEX we believe that PHP would greatly benefit from a proper MVC implementation, so here it is.
+    </p>
+
+    <p>
+    <div class="green">What is the project's license? Do I have to pay or credit you in any way?</div>
+        The project is <a href="https://opensource.org/licenses/MIT">MIT</a> licensed and free. You don't have to credit it me at all.
+    </p>
+</div>
+<br>
+
+<div class="title"> DEVLOG </div>
+<div class="content-text">
+    {{devlog_entries}}
+</div>

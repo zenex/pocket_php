@@ -1,27 +1,17 @@
-<a name="top"></a>
-<!-- Back to top reference -->
-<main>
-    <div class="box">
-        <div class="box-header">
+<div class="title"> Login Successful </div>
 
-        </div>
-        <div class="box-contents">
-
-            <div class="resume">
-                <p>
-                    Login Successful!
-                    <br><br>
-                    <div class="red">
-                        To access this page you must successfully login first. Locking content behind an active account
-                        requires the controller to simply check for the "sessionStatus" variable.
-                    </div><br>
-
-                    <div class="black-block">
-                        Check index.php to learn more about the login process.
-                    </div><br><br>
-                </p>
-
-            </div>
-        </div>
-    </div>
-
+<div class="content-text">
+    <div class="">ID: {{ID}}</div>
+    <div class="">Email: {{email}}</div>
+    <div class="">Account type: {{accountType}}</div>
+    <div class="">Last login: {{last_login}}</div>
+    <div class="">Session time: {{login_time}}</div>
+    <div class="">IP: {{ip}}</div>
+</div>
+<br>
+<div class="content-text">Pocket_php manages sessions independently from the settings in the host's php.ini file.
+    Like all other relevant request data, the HTTPRequest class encapuslates the client's profile into a sanitized, organized interface that abstracts away the need
+    for PHP's "super global" variables.
+    <br> <br>
+    Session settings can be modified in configure.php.
+ </div>

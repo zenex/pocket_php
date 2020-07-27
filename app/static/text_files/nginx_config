@@ -1,5 +1,6 @@
 # POCKET_PHP NGINX.CONF
 # Pretty straightforward.
+# Last modified: 22/07/2020
 
 # The user and group should match the ones assigned to php-fpm
 user <user> <group>;
@@ -34,10 +35,11 @@ http {
 	include /etc/nginx/conf.d/*.conf;
 	include /etc/nginx/sites-enabled/*;
 
-    add_header          Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    #add_header          Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
     add_header          X-Content-Type-Options nosniff;
     add_header          X-Frame-Options SAMEORIGIN;
     add_header          X-XSS-Protection "1; mode=block";
 
-    proxy_cache_path /var/www/html/cache/ keys_zone=one:10m inactive=60m use_temp_path=off;
+    proxy_cache_path /var/www/cache/ keys_zone=one:10m inactive=60m use_temp_path=off;
 }
+

@@ -1,0 +1,22 @@
+#+Title: [[https://neohex.xyz/projects/?nav=pocket_php][pocket_php]]: CHANGELOG
+#+Author: AlexHG @ [[https://neohex.xyz/projects/?nav=pocket_php][NEOHEX.XYZ]]
+
+* ver 1.3 <2020-07-27>
+  - Added timeout and max session duration features to the session manager
+  - Redesigned the demo site
+  - Added return type specifiers and increased interpreter verbosity for increased safety
+
+* ver 1.2 [ 04/04/2020 ]
+  - Removed the SSL challenge redirects
+  - Added a redirect for URL/favicon.ico since its still so requested this way
+  - Defined FAVICON_ICO in configure.php
+
+
+* ver 1.1 [ 17/03/2020 ]
+  - Updated the included nginx.conf and virtual server configuration file
+  - Removed wrongly formatted comments
+
+* ver 1.0 [ 20/02/2020 ] 
+  - Moved the project to a new git
+  - Removed a few useless files
+  - Since pocket_php already has a stable release, the git has been reset 

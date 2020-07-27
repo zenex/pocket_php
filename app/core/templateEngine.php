@@ -1,4 +1,14 @@
 <?php
+// ███╗   ██╗███████╗ ██████╗ ██╗  ██╗███████╗██╗  ██╗   ██╗  ██╗██╗   ██╗███████╗
+// ████╗  ██║██╔════╝██╔═══██╗██║  ██║██╔════╝╚██╗██╔╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
+// ██╔██╗ ██║█████╗  ██║   ██║███████║█████╗   ╚███╔╝     ╚███╔╝  ╚████╔╝   ███╔╝
+// ██║╚██╗██║██╔══╝  ██║   ██║██╔══██║██╔══╝   ██╔██╗     ██╔██╗   ╚██╔╝   ███╔╝
+// ██║ ╚████║███████╗╚██████╔╝██║  ██║███████╗██╔╝ ██╗██╗██╔╝ ██╗   ██║   ███████╗
+// ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
+// Author:  AlexHG @ NEOHEX.XYZ
+// License: MIT License
+// Website: https://neohex.xyz
+
 require_once(__DIR__."/../configure.php");
 require_once("utility.php");
 
@@ -24,7 +34,7 @@ class TemplateEngine
 
     // RENDER THE TOPMOST SECTION OF THE HTML DOCUMENT, WILL APPEND
     // THE HEADER DATA SPECIFIED IN CONFIGURE.PHP -> configureHeaderStaticContent()
-    public function renderHeader($headerData = NULL)
+    public function renderHeader($headerData = NULL) : void
     {
         if (!ob_get_status()) // IF ob hasn't been started
             ob_start();
@@ -41,7 +51,7 @@ class TemplateEngine
     }
 
     // RENDER THE CLOSING HTML TAG
-    public function renderFooter($footerData = NULL)
+    public function renderFooter($footerData = NULL) : void
     {
         $data = configureFooterStaticContent();
         if (isset($footerData) && is_array($footerData) && !empty($footerData))
@@ -52,7 +62,7 @@ class TemplateEngine
     }
 
     // RENDER A CUSTOM PAGE
-    public function renderPage($file, $pageData = NULL)
+    public function renderPage($file, $pageData = NULL) : void
     {
         $file = VIEWS . $file;
         echo(replaceVariables($file, $pageData));

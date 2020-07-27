@@ -1,4 +1,14 @@
 <?php
+// ███╗   ██╗███████╗ ██████╗ ██╗  ██╗███████╗██╗  ██╗   ██╗  ██╗██╗   ██╗███████╗
+// ████╗  ██║██╔════╝██╔═══██╗██║  ██║██╔════╝╚██╗██╔╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
+// ██╔██╗ ██║█████╗  ██║   ██║███████║█████╗   ╚███╔╝     ╚███╔╝  ╚████╔╝   ███╔╝
+// ██║╚██╗██║██╔══╝  ██║   ██║██╔══██║██╔══╝   ██╔██╗     ██╔██╗   ╚██╔╝   ███╔╝
+// ██║ ╚████║███████╗╚██████╔╝██║  ██║███████╗██╔╝ ██╗██╗██╔╝ ██╗   ██║   ███████╗
+// ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
+// Author:  AlexHG @ NEOHEX.XYZ
+// License: MIT License
+// Website: https://neohex.xyz
+
 require_once(CONFIG);
 require_once(CORE."HTTPRequest.php");
 
@@ -12,6 +22,7 @@ function entry ($requestData)
     if ($requestData->sessionStatus == SESSION_STATUS::VALID_SESSION)
     {
         loginHomepage($requestData);
+        // header("Location: ".PROJECT_URL);
         exit();
     }
     // Do we have an internal error to report?
@@ -33,33 +44,63 @@ function entry ($requestData)
 
 function loginHomepage($requestData= NULL)
 {
-    $headerTitle = array ('title' => "POCKET_PHP members area");
+    $header["title"] = "POCKET_PHP -- Login homepage";
+    $header["description"] = "Login succesful";
     $engine = new TemplateEngine();
-    $engine->renderHeader($headerTitle);
+    $engine->renderHeader($header);
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-    $engine->renderPage("login/login_homepage.html");
+
+    $pageContents = array();
+    // Login data
+    $pageContents["ID"] = $requestData->accountID;
+    $pageContents["accountType"] = $requestData->accountType;
+    $pageContents["last_login"] = $requestData->accountLastLogin;
+    $pageContents["email"] = $requestData->accountEmail;
+    $pageContents["login_time"] = $requestData->accountSessionTime;
+    $pageContents["ip"] = $requestData->accountLoginIP;
+
+    $engine->renderPage("login/login_homepage.html", $pageContents);
     $engine->renderFooter();
 }
 
 function loginRequest($requestData)
 {
-    $headerTitle = array ('title' => "POCKET_PHP - Login");
+    $header["title"] = "POCKET_PHP -- Login";
+    $header["description"] = "Login to proceed";
     $engine = new TemplateEngine();
-    $engine->renderHeader($headerTitle);
+    $engine->renderHeader($header);
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-    $page_contents = array("data" => $requestData->getHTMLString());
-    $engine->renderPage("login/login.html", $page_contents);
+
+    $pageContents["proto_ver"] = "ver. ".PROJECT_VERSION;
+    $pageContents["login_css"] = PROJECT_URL."static/css/login.css";
+    $pageContents["login_img"] = PROJECT_URL."static/images/warning.png";
+    $engine = new TemplateEngine();
+    // $engine->renderHeader($header);
+    // $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
+    // Load data
+    $pageContents["error"] = $requestData->errorMsg;
+    $pageContents["login_css"] = PROJECT_URL."static/css/login.css";
+    $engine->renderPage("login/login.html", $pageContents);
     $engine->renderFooter();
 }
 
 function processError($requestData)
 {
-    $headerTitle = array ('title' => "POCKET_PHP - Login error");
+    $header["title"] = "POCKET_PHP -- Login error";
+    $header["description"] = "Login error";
     $engine = new TemplateEngine();
-    $engine->renderHeader($headerTitle);
+    $engine->renderHeader($header);
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
+
+    $pageContents["proto_ver"] = "ver. ".PROJECT_VERSION;
+    $pageContents["login_css"] = PROJECT_URL."static/css/login.css";
+    $pageContents["login_img"] = PROJECT_URL."static/images/warning.png";
+    $engine = new TemplateEngine();
+    // $engine->renderHeader($header);
+    // $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     // Load data
-    $page_contents = array("error" => $requestData->errorMsg);
-    $engine->renderPage("login/login.html", $page_contents);
+    $pageContents["error"] = $requestData->errorMsg;
+    $pageContents["login_css"] = PROJECT_URL."static/css/login.css";
+    $engine->renderPage("login/login.html", $pageContents);
     $engine->renderFooter();
 }

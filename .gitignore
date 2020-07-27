@@ -46,6 +46,11 @@ nbproject
 .settings
 composer.lock
 
+# TAGS #
+########
+GPATH
+GRTAGS
+GTAGS
 
 # EMACS files #
 #############

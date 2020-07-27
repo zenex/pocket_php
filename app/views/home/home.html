@@ -1,61 +1,38 @@
-<div class="box">
-    <div class="box-header">
 
-    </div>
-    <div class="box-contents">
 
-        <div class="resume">
-            <div class="resume-title">
-                WHAT IS POCKET_PHP
-            </div>
-            <p>
-                POCKET_PHP is a MVC implementation for PHP web projects that emphasizes simplicity and speed.
-                PHP inherently lacks a proper MVC arquitecture implementation which has become standard for
-                web development, this has slowly steered developers towards alternatives that lack
-                PHP's speed and extremely simple configuration.
-                <br><br>
-                POCKET_PHP serves as a starting template, it validates the client's
-                request, encapsulates all the relevant data and sends it to the respective controller file. It also
-                provides a working example of a login system that can be easily enhanced to serve whatever
-                your project may need. A simple yet fast template engine helps controllers build an HTML
-                repsonse by tag replacement that allows a complete separation between logic and presentation.
-                The code base is short and readable, it provides the full cookie cutter MVC design in an efficient
-                and adaptable way through PHP.
-                <br><br>
-                <div class="greentext"> This is as simple as it gets, folks.</div>
-            </p>
-            <br><br>
-            <div class="resume-title">
-                POCKET_PHP FEATURES
-            </div>
-            <br>
-            <ul style="list-style:square">
-                <li>&#9632; Full MVC implentation</li>
-                <li>&#9632; HTML template engine</li>
-                <li>&#9632; Login system</li>
-                <li>&#9632; HTTP request manager</li>
-                <li>&#9632; Request tracking and IP banning</li>
-                <li>&#9632; Example website project included</li>
-                <li>&#9632; Scalable and easily modifiable</li>
-                <li>&#9632; Self documented, its that simple</li>
-                <li><a href="{{license_link}}">&#9632; MIT Licensed</a></li>
-            </ul>
-            <br><br>
-            <div class="resume-title">
-                DOCUMENTATION
-            </div>
-            <br>
-            <p>
-                The project is self documented through the example website, though the <a href="{{user_guide_link}}">user guide</a> has a thorough
-                introduction.
-            </p>
-            <br><br>
-            <div class="resume-title">
-                CREDITS
-            </div>
-            <p class="black-block">
-                Developed by <a href="{{about_link}}" style="color: #FFF;">AlexHG</a>.
-            </p>
-        </div>
-    </div>
 
+<div class="title"> POCKET_PHP: Blazing fast MVC implementation for PHP7+ </div>
+<div class="content-text">
+    <a href="{{git_link}}">Pocket_php</a> is an MVC framework for PHP7+ that emphasizes performance and
+    simplicity.
+    By abstracting away many of PHP7's shortcomings and implementing an MVC design pattern, the framework provides a safer development and production environment with virtually no performance costs, the entire source code can be read in twenty minutes and was designed with extensibility and mutability in mind to fit any given project that would otherwise require deep modifications of unnecessarily large "solutions" or for the programmer to write generic code that could be prone to security flaws.
+    <Br><br>
+    It is primarily built for the <a class="greentext" href="https://www.nginx.com">NGINX</a> server to take full
+    advantage of its scalabilty and performance allowing fully featured web projects to be run on budget hardware. A largely unexploited benefit of modern VPS providers that goes ignored due to the bloated minimal requirements of the modern backend libraries we've (erroneously) learned to depend on.
+    <br> <br>
+    Included in the source code is an example project with a documentation section.
+</div>
+<br>
+
+<div class="title"> POCKET_PHP FEATURES </div>
+<ul class="content-text" style="list-style:none">
+    <li>&#9632; MVC implentation automatically limits client access to controller files</li>
+    <li>&#9632; HTML template engine for full frantend & backend separation</li>
+    <li>&#9632; Fully featured session manager with php.ini independent timeout and expiration controls</li>
+    <li>&#9632; User input sensitization</li>
+    <li>&#9632; Internal IP tracking & banning</li>
+    <li>&#9632; Cross-platform, runs on anything that can host a web server</li>
+                        <li>&#9632; Included <a class="greentext" href="https://www.nginx.com">NGINX</a> configuration </li>
+    <li>&#9632; Scalable and easily modified</li>
+    <li>&#9632; Tiny code base providing the very essentials</li>
+    <li>&#9632; Lowest performance hit you've seen or your money back</li>
+    <li>&#9632; It's fucking free</li>
+    <li><a href="{{license_link}}">&#9632; MIT Licensed</a></li>
+</ul>
+<br>
+
+<div class="title"> INSTALLATION & DOCUMENTATION </div>
+<div class="content-text">
+    The project is self documented through the example website, though the <a href="{{user_guide_link}}">user guide</a> has a thorough
+    introduction including an installation guide. For more resources visit the official project page at <a href="{{neohex_link}}">NEOHEX.XYZ</a>.
+</div>

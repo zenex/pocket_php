@@ -1,8 +1,18 @@
 <?php
+// ███╗   ██╗███████╗ ██████╗ ██╗  ██╗███████╗██╗  ██╗   ██╗  ██╗██╗   ██╗███████╗
+// ████╗  ██║██╔════╝██╔═══██╗██║  ██║██╔════╝╚██╗██╔╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
+// ██╔██╗ ██║█████╗  ██║   ██║███████║█████╗   ╚███╔╝     ╚███╔╝  ╚████╔╝   ███╔╝
+// ██║╚██╗██║██╔══╝  ██║   ██║██╔══██║██╔══╝   ██╔██╗     ██╔██╗   ╚██╔╝   ███╔╝
+// ██║ ╚████║███████╗╚██████╔╝██║  ██║███████╗██╔╝ ██╗██╗██╔╝ ██╗   ██║   ███████╗
+// ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
+// Author:  AlexHG @ NEOHEX.XYZ
+// License: MIT License
+// Website: https://neohex.xyz
 
 require_once(__DIR__."/../configure.php");
 require_once(CORE."HTTPRequest.php");
 require_once(CORE."database.php");
+require_once(__DIR__."/../models/devlog_model.php");
 
 function entry ($requestData)
 {
@@ -46,24 +56,29 @@ function entry ($requestData)
 
 function user_guide($requestData = NULL)
 {
-    $headerTitle = array ('title' => "POCKET_PHP USER GUIDE");
+    $header["title"] = "POCKET_PHP -- User Guide";
+    $header["description"] = "Pocket_PHP documentation, installation and development log";
     $engine = new TemplateEngine();
-    $engine->renderHeader($headerTitle);
+    $engine->renderHeader($header);
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $page_contents = array("nginx_conf" => "/static/text_files/nginx_config",
-                           "gitlab_link" => "https://gitlab.com/Alex-HG/pocket_php");
+                           "nginx_vbs_file" => PROJECT_URL."static/text_files/pocket_php_nginx_vbs",
+                           "git_link" => "https://gitlab.com/AlexHG/pocket_php",
+                           "neohex_link" => "https://neohex.xyz/projects/?nav=pocket_php",
+                           "devlog_entries" => getDevlogEntries());
 
     $engine->renderPage("project/user_guide.html", $page_contents);
-    $engine->renderFooter(configureFooterStaticContent());
+    $engine->renderFooter();
 }
 
 function license($requestData = NULL)
 {
-    $headerTitle = array ('title' => "POCKET_PHP USER GUIDE");
+    $header["title"] = "POCKET_PHP -- License";
+    $header["description"] = "tldr: It's MIT Licensed";
     $engine = new TemplateEngine();
-    $engine->renderHeader($headerTitle);
+    $engine->renderHeader($header);
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $engine->renderPage("project/license.html");
     $footer_contents = array("name" => "name");
-    $engine->renderFooter(configureFooterStaticContent());
+    $engine->renderFooter();
 }

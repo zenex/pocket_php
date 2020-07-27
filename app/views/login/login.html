@@ -1,25 +1,16 @@
-<div class="box">
-    <div class="box-header">
-
-    </div>
-    <div class="box-contents">
-
-        <div class="post-container">
-
-            <div class="content">
-                <p>
-                    <form class="login" method="post">
-                        <h1 class="login-title">Member Login</h1>
-                        <h3 class="login-title">{{error}}</h3>
-                        <input type="text" class="login-input" name="email" placeholder="Email Adress" autofocus>
-                        <input type="password" class="login-input" name="password" placeholder="Password">
-                        <input type="submit" value="Lets Go" class="login-button">
-                    </form>
-
-                </p>
-            </div>
-
+<div class="login">
+    <form class="" method="post">
+        <div class="login-warning">! AUTHORIZED ACCESS ONLY !</div>
+        <div class="login-img"><img style="max-width:30%;" src="{{login_img}}"></div>
+        <div class="login-disclaimer">
+            Test account: test@test.com <br>
+            Password: 1234 <br>
         </div>
-    </div>
-
-
+        <div class="login-error">{{error}}</div>
+        <div class="login-form">
+            <input type="text" class="login-input" name="email" placeholder="Email" autofocus>
+            <input type="password" class="login-input" name="password" placeholder="Password">
+            <input type="submit" value="Enter" class="login-button">
+        </div>
+    </form>
+</div><br>

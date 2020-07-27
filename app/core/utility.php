@@ -1,9 +1,19 @@
 <?php
+// ███╗   ██╗███████╗ ██████╗ ██╗  ██╗███████╗██╗  ██╗   ██╗  ██╗██╗   ██╗███████╗
+// ████╗  ██║██╔════╝██╔═══██╗██║  ██║██╔════╝╚██╗██╔╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
+// ██╔██╗ ██║█████╗  ██║   ██║███████║█████╗   ╚███╔╝     ╚███╔╝  ╚████╔╝   ███╔╝
+// ██║╚██╗██║██╔══╝  ██║   ██║██╔══██║██╔══╝   ██╔██╗     ██╔██╗   ╚██╔╝   ███╔╝
+// ██║ ╚████║███████╗╚██████╔╝██║  ██║███████╗██╔╝ ██╗██╗██╔╝ ██╗   ██║   ███████╗
+// ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
+// Author:  AlexHG @ NEOHEX.XYZ
+// License: MIT License
+// Website: https://neohex.xyz
+
 require_once(__DIR__."/../configure.php");
 
 
 // REQUEST A QR CODE FROM GOOGLE.COM
-function generate_googleQR($content, $size, $error = NULL)
+function generate_googleQR($content, $size, $error = NULL) : void
 {
     $width = $height = $size;
     // handle up to 30% data loss, or "L" (7%), "M" (15%), "Q" (25%)
@@ -17,7 +27,7 @@ function generate_googleQR($content, $size, $error = NULL)
 
 // REPLACE ALL ITERATIONS OF A STRING IN A FILE
 // R: string
-function replaceVariables($file, $data)
+function replaceVariables($file, $data) : ?string
 {
     $template = file_get_contents($file);
     if (empty($data))
@@ -26,3 +36,4 @@ function replaceVariables($file, $data)
         $template = str_replace('{{'.$key.'}}', $value, $template);
     return $template;
 }
+
