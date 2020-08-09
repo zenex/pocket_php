@@ -12,7 +12,7 @@
 # correct permissions. Hidden files are also denied.
 #
 # Make sure to add the server_name redirect to /etc/hosts !
-# Last modified: 22/07/2020
+# Last modified: 08/08/2020
 
 
 # POCKET_PHP REDIRECT
@@ -35,6 +35,9 @@ server {
 
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
+
+access_log /var/log/nginx/pocket_php_access.log;
+error_log /var/log/nginx/pocket_php_error.log;
 
 
     ssl_certificate     /etc/nginx/ssl/pocket_php.crt;
