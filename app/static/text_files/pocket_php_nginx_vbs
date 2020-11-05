@@ -1,4 +1,8 @@
 # POCKET_PHP CONFIGURATION FOR NGINX
+# Author:  AlexHG @ ZEN3X.COM
+# License: MIT License
+# Website: https://ZEN3X.COM
+
 # Pocket_PHP requires a straightforward setup to work:
 # 1. Serve static files directly
 # 2. Redirect everything else to /app/index.php
@@ -12,7 +16,7 @@
 # correct permissions. Hidden files are also denied.
 #
 # Make sure to add the server_name redirect to /etc/hosts !
-# Last modified: 08/08/2020
+# Last modified: 05/11/2020
 
 
 # POCKET_PHP REDIRECT
@@ -36,8 +40,8 @@ server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
-access_log /var/log/nginx/pocket_php_access.log;
-error_log /var/log/nginx/pocket_php_error.log;
+    access_log /var/log/nginx/pocket_php_access.log;
+    error_log /var/log/nginx/pocket_php_error.log;
 
 
     ssl_certificate     /etc/nginx/ssl/pocket_php.crt;

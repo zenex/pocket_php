@@ -1,13 +1,7 @@
 <?php
-// ███╗   ██╗███████╗ ██████╗ ██╗  ██╗███████╗██╗  ██╗   ██╗  ██╗██╗   ██╗███████╗
-// ████╗  ██║██╔════╝██╔═══██╗██║  ██║██╔════╝╚██╗██╔╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
-// ██╔██╗ ██║█████╗  ██║   ██║███████║█████╗   ╚███╔╝     ╚███╔╝  ╚████╔╝   ███╔╝
-// ██║╚██╗██║██╔══╝  ██║   ██║██╔══██║██╔══╝   ██╔██╗     ██╔██╗   ╚██╔╝   ███╔╝
-// ██║ ╚████║███████╗╚██████╔╝██║  ██║███████╗██╔╝ ██╗██╗██╔╝ ██╗   ██║   ███████╗
-// ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
-// Author:  AlexHG @ NEOHEX.XYZ
+// Author:  AlexHG @ ZEN3X.COM
 // License: MIT License
-// Website: https://neohex.xyz
+// Website: https://ZEN3X.COM
 
 // LOAD ALL RELEVANT CONFIGURATION TO THE CURRENT PHP CONTEXT
 // R: void
@@ -171,7 +165,7 @@ function configureHeaderStaticContent() : ?array
     $data["style_css"]                  = PROJECT_URL."static/css/style.css";
     $data["scanlines_css"]              = PROJECT_URL."static/css/scanlines.css";
     $data["normalize"]                  = PROJECT_URL."static/css/normalize.css";
-    $data["author"]                     = "NEOHEX.XYZ";
+    $data["author"]                     = "ZEN3X.COM";
     $data["apple_mobile_web_app_title"] = "pocket_php";
     $data["application_name"]           = "pocket_php";
     $data["robots_inline"]              = "all";

@@ -1,13 +1,7 @@
 <?php
-// ███╗   ██╗███████╗ ██████╗ ██╗  ██╗███████╗██╗  ██╗   ██╗  ██╗██╗   ██╗███████╗
-// ████╗  ██║██╔════╝██╔═══██╗██║  ██║██╔════╝╚██╗██╔╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
-// ██╔██╗ ██║█████╗  ██║   ██║███████║█████╗   ╚███╔╝     ╚███╔╝  ╚████╔╝   ███╔╝
-// ██║╚██╗██║██╔══╝  ██║   ██║██╔══██║██╔══╝   ██╔██╗     ██╔██╗   ╚██╔╝   ███╔╝
-// ██║ ╚████║███████╗╚██████╔╝██║  ██║███████╗██╔╝ ██╗██╗██╔╝ ██╗   ██║   ███████╗
-// ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
-// Author:  AlexHG @ NEOHEX.XYZ
+// Author:  AlexHG @ ZEN3X.COM
 // License: MIT License
-// Website: https://neohex.xyz
+// Website: https://ZEN3X.COM
 
 require_once(__DIR__."/../configure.php");
 require_once(CORE."HTTPRequest.php");
@@ -63,8 +57,8 @@ function user_guide($requestData = NULL)
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $page_contents = array("nginx_conf" => "/static/text_files/nginx_config",
                            "nginx_vbs_file" => PROJECT_URL."static/text_files/pocket_php_nginx_vbs",
-                           "git_link" => "https://gitlab.com/AlexHG/pocket_php",
-                           "neohex_link" => "https://neohex.xyz/projects/?nav=pocket_php",
+                           "git_link" => "https://github.com/zenex/pocket_php",
+                           "neohex_link" => "https://zen3x.com/projects/?nav=pocket_php",
                            "devlog_entries" => getDevlogEntries());
 
     $engine->renderPage("project/user_guide.html", $page_contents);

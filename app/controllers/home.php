@@ -1,13 +1,7 @@
 <?php
-// ███╗   ██╗███████╗ ██████╗ ██╗  ██╗███████╗██╗  ██╗   ██╗  ██╗██╗   ██╗███████╗
-// ████╗  ██║██╔════╝██╔═══██╗██║  ██║██╔════╝╚██╗██╔╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
-// ██╔██╗ ██║█████╗  ██║   ██║███████║█████╗   ╚███╔╝     ╚███╔╝  ╚████╔╝   ███╔╝
-// ██║╚██╗██║██╔══╝  ██║   ██║██╔══██║██╔══╝   ██╔██╗     ██╔██╗   ╚██╔╝   ███╔╝
-// ██║ ╚████║███████╗╚██████╔╝██║  ██║███████╗██╔╝ ██╗██╗██╔╝ ██╗   ██║   ███████╗
-// ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
-// Author:  AlexHG @ NEOHEX.XYZ
+// Author:  AlexHG @ ZEN3X.COM
 // License: MIT License
-// Website: https://neohex.xyz
+// Website: https://ZEN3X.COM
 
 require_once(__DIR__."/../configure.php");
 require_once(CORE."HTTPRequest.php");
@@ -48,8 +42,8 @@ function homepage($requestData = NULL)
                            "license_link" => "project/?nav=license",
                            "user_guide_link" => "project/?nav=user_guide",
                            "git_link" => "https://github.com/NE0HEX/pocket_php",
-                           "neohex_link" => "https://neohex.xyz/projects/?nav=pocket_php",
-                           "author_link" => "https://neohex.xyz/about");
+                           "zen3x_link" => "https://zen3x.com/projects/?nav=pocket_php",
+                           "author_link" => "https://zen3x.com/about");
     $engine->renderPage("home/home.html", $page_contents);
     $engine->renderFooter(configureFooterStaticContent());
 }

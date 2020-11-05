@@ -1,5 +1,5 @@
-#+Title: [[https://neohex.xyz/projects/?nav=pocket_php][pocket_php]]: Blazing fast MVC implementation for PHP7+
-#+Author: AlexHG @ [[https://neohex.xyz/projects/?nav=pocket_php][NEOHEX.XYZ]]
+#+Title: [[https://zen3x.com/projects/?nav=pocket_php][pocket_php]]: Blazing fast MVC implementation for PHP7+
+#+Author: AlexHG @ [[https://zen3x.com/projects/?nav=pocket_php][ZEN3X.COM]]
 
 
 [[http://www.gnu.org/licenses/gpl-3.0.html][http://img.shields.io/:license-mit-blue.svg]]
@@ -129,4 +129,4 @@
 
   See the "user guide" section for a more thorough explanation.
  
-  For more information visit the official project site at [[https://neohex.xyz/projects/?nav=pocket_php][NEOHEX.XYZ]]
+  For more information visit the official project site at [[https://zen3x.com/projects/?nav=pocket_php][ZEN3X.COM]]

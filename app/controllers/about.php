@@ -1,13 +1,7 @@
 <?php
-// ███╗   ██╗███████╗ ██████╗ ██╗  ██╗███████╗██╗  ██╗   ██╗  ██╗██╗   ██╗███████╗
-// ████╗  ██║██╔════╝██╔═══██╗██║  ██║██╔════╝╚██╗██╔╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
-// ██╔██╗ ██║█████╗  ██║   ██║███████║█████╗   ╚███╔╝     ╚███╔╝  ╚████╔╝   ███╔╝
-// ██║╚██╗██║██╔══╝  ██║   ██║██╔══██║██╔══╝   ██╔██╗     ██╔██╗   ╚██╔╝   ███╔╝
-// ██║ ╚████║███████╗╚██████╔╝██║  ██║███████╗██╔╝ ██╗██╗██╔╝ ██╗   ██║   ███████╗
-// ╚═╝  ╚═══╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
-// Author:  AlexHG @ NEOHEX.XYZ
+// Author:  AlexHG @ ZEN3X.COM
 // License: MIT License
-// Website: https://neohex.xyz
+// Website: https://ZEN3X.COM
 
 
 require_once(__DIR__."/../configure.php");
@@ -46,9 +40,11 @@ function about($requestData = NULL)
     $engine->renderHeader($header);
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $page_contents = array("user_guide_link" => "project/?nav=user_guide",
-                           "home_link" => "home",
-                           "git_link" => "https://github.com/NE0HEX/pocket_php",
-                           "author_link" => "https://neohex.xyz/about");
+                           "home_link"       => "home",
+                           "git_link"        => "https://github.com/zenex/pocket_php",
+                           "btc_link"        => "bc1qe62yenljh8hjlapnp8pw32ex625pxz25cpdsyp",
+                           "monero_link"     => "45pFh79LjM9VNT2S3TA28VFG3DqXLYSbvJ7DQ98YZG9VPB5ZPiaj6SsRQggpUUzQdV9JUV4mf",
+                           "author_link"     => "https://zen3x.com/about");
     $engine->renderPage("about/about.html", $page_contents);
     $engine->renderFooter();
 }
