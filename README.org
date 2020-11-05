@@ -54,7 +54,7 @@
   2. Clone the pcoket_php repository and set the server permissions
      Note that both the webserver and the php-fpm daemon must have read & write permissions on the project folder.
   #+BEGIN_SRC 
-  $ git clone https://gitlab.com/AlexHG/pocket_php
+  $ git clone [[https://github.com/zenex/pocket_php][https://github.com/zenex/pocket_php]]
   $ mv -r pocket_php /var/www/html/
   $ sudo chown -R username:group /var/www/html/pocket_php
   $ sudo chmod -R 755 /var/www/html/pocket_php
