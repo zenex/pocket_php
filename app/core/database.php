@@ -14,7 +14,7 @@ require_once(__DIR__."/../configure.php");
 // EXTREMELY SIMPLE SQLITE3 WRAPPER
 class SQLiteConnection
 {
-    public $db = NULL;
+    protected static $db = NULL;
 
     // OPEN UP THE SQLITE DATABASE FILE
     // BOTH THE DATABSE FILE ADN THE FOLDER IT RESIDES IN MUST
@@ -24,10 +24,10 @@ class SQLiteConnection
     {
         try
         {
-            if($this->db == null)
+            if(self::$db == null)
             {
-                $this->db = new PDO('sqlite:'.$dbFile,"","",array(PDO::ATTR_PERSISTENT => true));
-                $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                self::$db = new PDO('sqlite:'.$dbFile,"","",array(PDO::ATTR_PERSISTENT => true));
+                self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
         }
         catch(PDOException $e)
@@ -35,4 +35,29 @@ class SQLiteConnection
             echo $e->getMessage();
         }
     }
+
+    private function __clone() {}
+    private function __wakeup() {}
+
+
+    public static function getDB() { return self::$db; }
+}
+
+class PostgreSQLConnection
+{
+
+    protected static $db = NULL;
+
+    public function __construct()
+    {
+        $str = sprintf("pgsql:host=%s;port=%d;dbname=%s;user=%s;password=%s",
+                       POSTGRESQL_HOST,
+                       POSTGRESQL_PORT,
+                       POSTGRESQL_DB,
+                       POSTGRESQL_USER,
+                       POSTGRESQL_PWD);
+
+
+    }
+
 }

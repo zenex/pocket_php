@@ -15,8 +15,8 @@ require_once(CORE."database.php");
 
 function getDevlogEntries()
 {
-    $db = new SQLiteConnection();
-    $db = $db->db;
+    $conn = new SQLiteConnection();
+    $db = $conn->getDB();
     if ($db != NULL)
     {
         $query = $db->prepare("SELECT * FROM devlog ORDER BY id DESC");

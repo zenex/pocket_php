@@ -112,6 +112,12 @@ function configure() : void
     // Location of the internal database
     define("CORE_SQLITE_FILE", "../tools/pocket_php.db");
 
+    // PostgreSQL TESTING
+    define("POSTGRESQL_HOST", "localhost");
+    define("POSTGRESQL_PORT", "9001");
+    define("POSTGRESQL_DB", "pocket_php");
+    define("POSTGRESQL_USER", "admin");
+    define("POSTGRESQL_PWD", "");
 
 
     // ------- PHP CONFIGURATION  -------

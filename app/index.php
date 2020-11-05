@@ -177,7 +177,7 @@ function validateLoginAttempt($requestData) : ?HTTPRequest
 function validateLoginData($requestData) : ?HTTPRequest
 {
     $sqlite = new SQLiteConnection();
-    $sqlite = $sqlite->db;
+    $sqlite = $sqlite->getDB();
     if ($sqlite != NULL)
     {
         $result = $sqlite->prepare("SELECT * FROM accounts WHERE password=:vpassword AND email=:vemail LIMIT 1");
@@ -215,7 +215,7 @@ function validateLoginData($requestData) : ?HTTPRequest
 function saveRequest($requestData) : void
 {
     $sqlite = new SQLiteConnection();
-    $sqlite = $sqlite->db;
+    $sqlite = $sqlite->getDB();
     if ($sqlite != NULL)
     {
         if ($requestData->arguments != NULL && is_array($requestData->arguments))
@@ -241,7 +241,7 @@ function saveRequest($requestData) : void
 function updateAccountLogin($requestData) : void
 {
     $sqlite = new SQLiteConnection();
-    $sqlite = $sqlite->db;
+    $sqlite = $sqlite->getDB();
     if ($sqlite != NULL)
     {
         $result = $sqlite->prepare("UPDATE accounts SET last_login=:last_login, last_login_ip=:last_login_ip WHERE email=:email");
@@ -258,7 +258,7 @@ function updateAccountLogin($requestData) : void
 function checkForBan($ip) : bool
 {
     $sqlite = new SQLiteConnection();
-    $sqlite = $sqlite->db;
+    $sqlite = $sqlite->getDB();
     if ($sqlite != NULL)
     {
         $query = $sqlite->prepare("SELECT * from banned WHERE ip=:ip LIMIT 1");
