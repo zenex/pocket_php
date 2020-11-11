@@ -1,5 +1,5 @@
-#+Title: [[https://neohex.xyz/projects/?nav=pocket_php][pocket_php]]: CHANGELOG
-#+Author: AlexHG @ [[https://zen3x.com/projects/?nav=pocket_php][ZEN3X.COM]]
+#+Title: [[https://xenobyte.xyz/projects/?nav=pocket_php][pocket_php]]: CHANGELOG
+#+Author: AlexHG @ [[https://xenobyte.xyz/projects/?nav=pocket_php][XENOBYTE.XYZ]]
 
 * ver 1.33 <2020-11-05 Thu 14:51>
   - Updated the included nginx.conf

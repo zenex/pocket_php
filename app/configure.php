@@ -1,7 +1,8 @@
 <?php
-// Author:  AlexHG @ ZEN3X.COM
+// Author:  AlexHG @ XENOBYTE.XYZ
 // License: MIT License
-// Website: https://ZEN3X.COM
+// Website: https://XENOBYTE.XYZ
+
 
 // LOAD ALL RELEVANT CONFIGURATION TO THE CURRENT PHP CONTEXT
 // R: void
@@ -142,6 +143,7 @@ function configure() : void
     define("ICONS_FOLDER", "/static/images/icons/");
     define("WEBMASTER_PROTONMAIL", "neohex.xyz@protonmail.com");
     define("WEBMASTER_GMAIL", "");
+    define("PROJECT_GIT", "https://github.com/zenex/pocket_php");
     // define("PHPMAILER_FOLDER", "/core/phpmailer/");
 
 }
@@ -182,9 +184,9 @@ function configureHeaderStaticContent() : ?array
 function configureFooterStaticContent() : ?array
 {
     $data                 = array();
-    $data["neohex_link"]  = "https://neohex.xyz";
-    $data["git_link"]     = "https://gitlab.com/AlexHG/pocket_php";
-    $data["author_link"]  = "https://neohex.xyz/about";
+    $data["site_link"]  = "https://xenobyte.xyz";
+    $data["git_link"]     = PROJECT_GIT;
+    $data["author_link"]  = "https://xenobyte.xyz/about";
     $data["license_link"] = PROJECT_URL."project/?nav=license";
 
     return $data;
@@ -193,6 +195,7 @@ function configureFooterStaticContent() : ?array
 function configureNavbarStaticContent() : ?array
 {
     $data                     = array();
+    $data["author_link"]  = "https://xenobyte.xyz";
     $data["home_link"]       = PROJECT_URL."home";
     $data["user_guide_link"] = PROJECT_URL."project?nav=user_guide";
     $data["about_link"]      = PROJECT_URL."about";

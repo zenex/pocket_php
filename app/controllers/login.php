@@ -1,7 +1,7 @@
 <?php
-// Author:  AlexHG @ ZEN3X.COM
+// Author:  AlexHG @ XENOBYTE.XYZ
 // License: MIT License
-// Website: https://ZEN3X.COM
+// Website: https://XENOBYTE.XYZ
 
 require_once(CONFIG);
 require_once(CORE."HTTPRequest.php");

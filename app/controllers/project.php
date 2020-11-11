@@ -1,7 +1,7 @@
 <?php
-// Author:  AlexHG @ ZEN3X.COM
+// Author:  AlexHG @ XENOBYTE.XYZ
 // License: MIT License
-// Website: https://ZEN3X.COM
+// Website: https://XENOBYTE.XYZ
 
 require_once(__DIR__."/../configure.php");
 require_once(CORE."HTTPRequest.php");
@@ -58,7 +58,6 @@ function user_guide($requestData = NULL)
     $page_contents = array("nginx_conf" => "/static/text_files/nginx_config",
                            "nginx_vbs_file" => PROJECT_URL."static/text_files/pocket_php_nginx_vbs",
                            "git_link" => "https://github.com/zenex/pocket_php",
-                           "neohex_link" => "https://zen3x.com/projects/?nav=pocket_php",
                            "devlog_entries" => getDevlogEntries());
 
     $engine->renderPage("project/user_guide.html", $page_contents);

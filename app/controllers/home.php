@@ -1,7 +1,7 @@
 <?php
-// Author:  AlexHG @ ZEN3X.COM
+// Author:  AlexHG @ XENOBYTE.XYZ
 // License: MIT License
-// Website: https://ZEN3X.COM
+// Website: https://XENOBYTE.XYZ
 
 require_once(__DIR__."/../configure.php");
 require_once(CORE."HTTPRequest.php");
@@ -41,9 +41,9 @@ function homepage($requestData = NULL)
     $page_contents = array("about_link" => "about/",
                            "license_link" => "project/?nav=license",
                            "user_guide_link" => "project/?nav=user_guide",
-                           "git_link" => "https://github.com/NE0HEX/pocket_php",
-                           "zen3x_link" => "https://zen3x.com/projects/?nav=pocket_php",
-                           "author_link" => "https://zen3x.com/about");
+                           "git_link" => PROJECT_GIT,
+                           "zen3x_link" => "https://xenobyte.xyz/projects/?nav=pocket_php",
+                           "author_link" => "https://xenobyte.xyz/about");
     $engine->renderPage("home/home.html", $page_contents);
     $engine->renderFooter(configureFooterStaticContent());
 }

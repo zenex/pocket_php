@@ -1,5 +1,5 @@
-#+Title: [[https://zen3x.com/projects/?nav=pocket_php][pocket_php]]: Blazing fast MVC implementation for PHP7+
-#+Author: AlexHG @ [[https://zen3x.com/projects/?nav=pocket_php][ZEN3X.COM]]
+#+Title: [[https://xenobyte.xyz/projects/?nav=pocket_php][pocket_php]]: Blazing fast MVC implementation for PHP7+
+#+Author: AlexHG @ [[https://xenobyte.xyz/projects/?nav=pocket_php][XENOBYTE.XYZ]]
 
 
 [[http://www.gnu.org/licenses/gpl-3.0.html][http://img.shields.io/:license-mit-blue.svg]]
@@ -129,4 +129,4 @@
 
   See the "user guide" section for a more thorough explanation.
  
-  For more information visit the official project site at [[https://zen3x.com/projects/?nav=pocket_php][ZEN3X.COM]]
+  For more information visit the official project site at [[https://xenobyte.xyz/projects/?nav=pocket_php][XENOBYTE.XYZ]]
