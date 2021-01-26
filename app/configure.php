@@ -1,7 +1,16 @@
 <?php
-// Author:  AlexHG @ XENOBYTE.XYZ
+// ██████╗  ██████╗  ██████╗██╗  ██╗███████╗████████╗     ██████╗ ██╗  ██╗██████╗
+// ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝     ██╔══██╗██║  ██║██╔══██╗
+// ██████╔╝██║   ██║██║     █████╔╝ █████╗     ██║        ██████╔╝███████║██████╔╝
+// ██╔═══╝ ██║   ██║██║     ██╔═██╗ ██╔══╝     ██║        ██╔═══╝ ██╔══██║██╔═══╝
+// ██║     ╚██████╔╝╚██████╗██║  ██╗███████╗   ██║███████╗██║     ██║  ██║██║
+// ╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝
+// ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐
+// ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘
+// ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘
+// Author:  SENEX @ XENOBYTE.XYZ
 // License: MIT License
-// Website: https://XENOBYTE.XYZ
+// Website: https://xenobyte.xyz/projects/?nav=pocket_php
 
 
 // LOAD ALL RELEVANT CONFIGURATION TO THE CURRENT PHP CONTEXT
@@ -15,9 +24,9 @@ function configure() : void
     // ------- VERSION CONTROL -------
 
     // POCKET_PHP's version
-    define("POCKET_PHP_VERSION", "1.3");
+    define("POCKET_PHP_VERSION", "1.4");
     // The rpoject's version
-    define("PROJECT_VERSION", "0.1");
+    define("PROJECT_VERSION", "1.4");
 
     // ------- POCKET_PHP SETTINGS -------
 
@@ -140,6 +149,9 @@ function configure() : void
     // Put all project related constants in here.
 
     // CUSTOM CONSTANTS
+    define("AUTHOR", "SENEX @ XENOBYTE.XYZ");
+    define("BTC_ADDRESS", "19LCuwFDAFam19TPKoH3LgMSJR2jWUGxmx");
+    define("MONERO_ADDRESS", "42u5eF96XKvJG2JDyWQhHD8Gjoxf218u6RbMhAzEzyGQdxkAu7stCj3dburBhrnU3aDaJHoH1HveAAdUfArA9MAuFCbnncc");
     define("ICONS_FOLDER", "/static/images/icons/");
     define("WEBMASTER_PROTONMAIL", "neohex.xyz@protonmail.com");
     define("WEBMASTER_GMAIL", "");

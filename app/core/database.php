@@ -1,7 +1,16 @@
 <?php
-// Author:  AlexHG @ XENOBYTE.XYZ
+// ██████╗  ██████╗  ██████╗██╗  ██╗███████╗████████╗     ██████╗ ██╗  ██╗██████╗
+// ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝     ██╔══██╗██║  ██║██╔══██╗
+// ██████╔╝██║   ██║██║     █████╔╝ █████╗     ██║        ██████╔╝███████║██████╔╝
+// ██╔═══╝ ██║   ██║██║     ██╔═██╗ ██╔══╝     ██║        ██╔═══╝ ██╔══██║██╔═══╝
+// ██║     ╚██████╔╝╚██████╗██║  ██╗███████╗   ██║███████╗██║     ██║  ██║██║
+// ╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝
+// ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐
+// ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘
+// ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘
+// Author:  SENEX @ XENOBYTE.XYZ
 // License: MIT License
-// Website: https://XENOBYTE.XYZ
+// Website: https://xenobyte.xyz/projects/?nav=pocket_php
 
 require_once(__DIR__."/../configure.php");
 
@@ -37,6 +46,7 @@ class SQLiteConnection
     public static function getDB() { return self::$db; }
 }
 
+// soon....
 class PostgreSQLConnection
 {
 

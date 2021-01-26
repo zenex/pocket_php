@@ -1,9 +1,12 @@
 #+Title: [[https://xenobyte.xyz/projects/?nav=pocket_php][pocket_php]]: CHANGELOG
-#+Author: AlexHG @ [[https://xenobyte.xyz/projects/?nav=pocket_php][XENOBYTE.XYZ]]
+#+Author: SENEX @ [[https://xenobyte.xyz/projects/?nav=pocket_php][XENOBYTE.XYZ]]
+
+* ver 1.4 <2021-01-26 Tue 14:07>
+  - Updated README, purged deprecated files
 
 * ver 1.33 <2020-11-05 Thu 14:51>
   - Updated the included nginx.conf
-  - Changed comments to point to ZEN3X.COM
+  - Changed comments
 
 * ver 1.3 <2020-07-27>
   - Added timeout and max session duration features to the session manager

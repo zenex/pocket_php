@@ -1,7 +1,16 @@
 <?php
-// Author:  AlexHG @ XENOBYTE.XYZ
+// ██████╗  ██████╗  ██████╗██╗  ██╗███████╗████████╗     ██████╗ ██╗  ██╗██████╗
+// ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝     ██╔══██╗██║  ██║██╔══██╗
+// ██████╔╝██║   ██║██║     █████╔╝ █████╗     ██║        ██████╔╝███████║██████╔╝
+// ██╔═══╝ ██║   ██║██║     ██╔═██╗ ██╔══╝     ██║        ██╔═══╝ ██╔══██║██╔═══╝
+// ██║     ╚██████╔╝╚██████╗██║  ██╗███████╗   ██║███████╗██║     ██║  ██║██║
+// ╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝
+// ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐
+// ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘
+// ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘
+// Author:  SENEX @ XENOBYTE.XYZ
 // License: MIT License
-// Website: https://XENOBYTE.XYZ
+// Website: https://xenobyte.xyz/projects/?nav=pocket_php
 
 
 require_once(__DIR__."/../configure.php");
@@ -41,10 +50,11 @@ function about($requestData = NULL)
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $page_contents = array("user_guide_link" => "project/?nav=user_guide",
                            "home_link"       => "home",
-                           "git_link"        => "https://github.com/zenex/pocket_php",
-                           "btc_link"        => "19LCuwFDAFam19TPKoH3LgMSJR2jWUGxmx",
-                           "monero_link"     => "42u5eF96XKvJG2JDyWQhHD8Gjoxf218u6RbMhAzEzyGQdxkAu7stCj3dburBhrnU3aDaJHoH1HveAAdUfArA9MAuFCbnncc",
-                           "author_link"     => "https://xenobyte.xyz/about");
+                           "git_link"        => PROJECT_GIT,
+                           "btc_link"        => BTC_ADDRESS,
+                           "monero_link"     => MONERO_ADDRESS,
+                           "author_link"     => "https://xenobyte.xyz/about",
+                           "author"          => AUTHOR);
     $engine->renderPage("about/about.html", $page_contents);
     $engine->renderFooter();
 }

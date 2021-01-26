@@ -1,7 +1,16 @@
 <?php
-// Author:  AlexHG @ XENOBYTE.XYZ
+// ██████╗  ██████╗  ██████╗██╗  ██╗███████╗████████╗     ██████╗ ██╗  ██╗██████╗
+// ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝     ██╔══██╗██║  ██║██╔══██╗
+// ██████╔╝██║   ██║██║     █████╔╝ █████╗     ██║        ██████╔╝███████║██████╔╝
+// ██╔═══╝ ██║   ██║██║     ██╔═██╗ ██╔══╝     ██║        ██╔═══╝ ██╔══██║██╔═══╝
+// ██║     ╚██████╔╝╚██████╗██║  ██╗███████╗   ██║███████╗██║     ██║  ██║██║
+// ╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝
+// ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐
+// ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘
+// ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘
+// Author:  SENEX @ XENOBYTE.XYZ
 // License: MIT License
-// Website: https://XENOBYTE.XYZ
+// Website: https://xenobyte.xyz/projects/?nav=pocket_php
 
 require_once(__DIR__."/../configure.php");
 require_once(CORE."HTTPRequest.php");
@@ -42,7 +51,6 @@ function homepage($requestData = NULL)
                            "license_link" => "project/?nav=license",
                            "user_guide_link" => "project/?nav=user_guide",
                            "git_link" => PROJECT_GIT,
-                           "zen3x_link" => "https://xenobyte.xyz/projects/?nav=pocket_php",
                            "author_link" => "https://xenobyte.xyz/about");
     $engine->renderPage("home/home.html", $page_contents);
     $engine->renderFooter(configureFooterStaticContent());

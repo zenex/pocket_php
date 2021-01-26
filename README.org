@@ -1,5 +1,5 @@
 #+Title: [[https://xenobyte.xyz/projects/?nav=pocket_php][pocket_php]]: Blazing fast MVC implementation for PHP7+
-#+Author: AlexHG @ [[https://xenobyte.xyz/projects/?nav=pocket_php][XENOBYTE.XYZ]]
+#+Author: SENEX @ [[https://xenobyte.xyz/projects/?nav=pocket_php][XENOBYTE.XYZ]]
 
 
 [[http://www.gnu.org/licenses/gpl-3.0.html][http://img.shields.io/:license-mit-blue.svg]]
@@ -53,8 +53,8 @@
 
   2. Clone the pcoket_php repository and set the server permissions
      Note that both the webserver and the php-fpm daemon must have read & write permissions on the project folder.
+     Download the latest version from the official project page [[http://xenobyte.xyz.localhost/projects/?nav=pocket_php][here]];
   #+BEGIN_SRC 
-  $ git clone [[https://github.com/zenex/pocket_php][https://github.com/zenex/pocket_php]]
   $ mv -r pocket_php /var/www/html/
   $ sudo chown -R username:group /var/www/html/pocket_php
   $ sudo chmod -R 755 /var/www/html/pocket_php
