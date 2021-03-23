@@ -1,6 +1,9 @@
 #+Title: [[https://xenobyte.xyz/projects/?nav=pocket_php][pocket_php]]: CHANGELOG
 #+Author: SENEX @ [[https://xenobyte.xyz/projects/?nav=pocket_php][XENOBYTE.XYZ]]
 
+* ver 1.44 <2021-03-22 Mon 21:39>
+  - Fixed a warning by changing the wakeup member function to public in core/databse.php
+
 * ver 1.4 <2021-01-26 Tue 14:07>
   - Updated README, purged deprecated files
 
