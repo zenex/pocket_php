@@ -61,6 +61,7 @@ function loginHomepage($requestData= NULL)
     $pageContents["email"] = $requestData->accountEmail;
     $pageContents["login_time"] = $requestData->accountSessionTime;
     $pageContents["ip"] = $requestData->accountLoginIP;
+    $pageContents["captcha"] = $_SESSION["solved_captcha"];
 
     $engine->renderPage("login/login_homepage.html", $pageContents);
     $engine->renderFooter();

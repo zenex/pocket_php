@@ -24,9 +24,9 @@ function configure() : void
     // ------- VERSION CONTROL -------
 
     // POCKET_PHP's version
-    define("POCKET_PHP_VERSION", "1.4");
+    define("POCKET_PHP_VERSION", "1.5");
     // The rpoject's version
-    define("PROJECT_VERSION", "1.4");
+    define("PROJECT_VERSION", "1.5");
 
     // ------- POCKET_PHP SETTINGS -------
 
@@ -157,7 +157,11 @@ function configure() : void
     define("WEBMASTER_GMAIL", "");
     define("PROJECT_GIT", "https://github.com/zenex/pocket_php");
     // define("PHPMAILER_FOLDER", "/core/phpmailer/");
-
+    define("ENFORCE_LOGIN_CAPTCHA", true);
+    define("CAPTCHA_FONT_1", "static/fonts/ro.ttf");
+    define("CAPTCHA_FONT_2", "static/fonts/heading.woff");
+    define("CAPTCHA_FONT_3", "static/fonts/libsans.ttf");
+    define("CAPTCHA_FONT_4", "static/fonts/cantarell.otf");
 }
 
 // ------- TEMPLATE ENGINE SETTINGS -------

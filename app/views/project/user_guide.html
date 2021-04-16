@@ -4,44 +4,52 @@
 <div class="title"> INSTALLATION </div>
 <div class="content-text">
     <span class="green">1. Install PHP7 and NGINX, I recommend installing both through your package manager.</span> <br>
-    For Debian / Ubuntu :
-    <br>
-    <div class="mainframe_output">
-        sudo apt-get update<br>
-        sudo apt-get install php7.2 php7.2-fpm php7.2-sqlite php7.2-curl nginx sqlitebrowser sqlite
-    </div>
-    <br>
     For Arch / Manjaro :
     <br>
     <div class="mainframe_output">
-        sudo pacman -S nginx php php-fpm php-fpm php-sqlite sqlitebrowser sqlite <br>
+        $ sudo pacman -S nginx php php-fpm php-fpm php-sqlite php-gd sqlitebrowser sqlite <br>
     </div>
     <br>
     <span class="green">2. Clone the POCKET_PHP repository and set the server permissions.</span>
     <br>
     <div class="mainframe_output">
-        git clone <a href="{{git_link}}">{{git_link}}</a> <br>
-        mv -r pocket_php /var/www/html/ <br>
-        sudo chown -R username:www-data /var/www/html/pocket_php <br>
-        sudo chmod -R 755 /var/www/html/pocket_php <br>
+        $ git clone <a href="{{git_link}}" class="black">{{git_link}}</a> <br>
+        $ sudo mkdir /var/web_server <br>
+        $ sudo chown -R username:group /var/web_server_php <br>
+        $ sudo chmod -R 755 /var/web_server <br>
+
+        $ mv -r pocket_php /var/web_server/ <br>
+        $ sudo chown -R username:group /var/web_server/pocket_php <br>
+        $ sudo chmod -R 755 /var/web_server/pocket_php <br>
     </div>
     <br>
     <span class="green">3. Configure NGINX.</span>
     <br>
     Remember to modify the provided nginx virtual server <a href="{{nginx_conf}}">configuration file</a> to match your desired settings!<br>
     <div class="mainframe_output">
-        sudo mv /var/www/html/pocket_php/static/text_files/nginx_config /etc/nginx/sites-available/default<br>
-        sudo systemctl restart php7.x-fpm.service<br>
-        sudo systemctl restart nginx.service
+        $ sudo mv /var/web_server/pocket_php/static/text_files/nginx_config /etc/nginx/nginx.conf<br>
+        $ sudo mv /var/web_server/pocket_php/static/text_files/nginx_pocket_php_vsb /etc/nginx/sites-available/default<br>
+        $ sudo systemctl restart php-fpm.service<br>
+        $ sudo systemctl restart nginx.service
     </div>
     <br>
+    Uncomment the SSL Settings block and modify the following lines in the included nginx.conf with your own
+    <br>
+    <div class="mainframe_output">
+        ssl_certificate     /etc/nginx/ssl/cert.crt
+        ssl_certificate_key /etc/ngins/ssl/key.key
+    </div>
+    <br>
+    Then, uncomment the HTTPS ENABLED (and comment out the HTTPS DISABLED) block in sites-available/default
+    <br><br>
+
     <span class="green">4. Configure PHP.</span>
     <br>
     The only relevant changes are to the www.conf and php.ini files.
     <br>
     /etc/php/php.ini
     <div class="mainframe_output">
-        1. Uncomment the extension=pdo_sqlite <br>
+        1. Uncomment the extension=pdo_sqlite and extension=gd <br>
         2. Change the default session.name (for security reasons) <br>
         3. Modify the upload.limit to fit your needs <br>
         4. Set the desired time zone in "date.timezone" (NOTE: this setting can and usually is overwritten)
@@ -84,7 +92,7 @@
 <div class="title"> F.A.Q. / TROUBLESHOOTING </div>
 <div class="content-text">
     <p>
-    <div class="green">POCKET_PHP isn't honoring the changes made to the php-fpm.ini file</div>
+        <div class="green">POCKET_PHP isn't honoring the changes made to the php-fpm.ini file</div>
         One of PHP's more annoying limitations is how the php.ini configuration file is global to its
         respective php-fpm process. To work around this issue and support multiple different php configurations
         on the same server please refer to the configure.php file which overrides all internal pocket_php settings
@@ -92,12 +100,12 @@
     </p>
 
     <p>
-    <div class="green">The sqlite database can't be opened.</div>
+        <div class="green">The sqlite database can't be opened.</div>
         NGINX requries read and write permissions for both the database and the folder it resides in.
     </p>
 
     <p>
-    <div class="green">Can I change the database?</div>
+        <div class="green">Can I change the database?</div>
         Simply add the connection parameters to configuration.php and the desired interface to /core/database.php.
     </p>
 
@@ -108,7 +116,7 @@
     </p>
 
     <p>
-    <div class="green">What was the motivation behind pocket_php?</div>
+        <div class="green">What was the motivation behind pocket_php?</div>
         Current trends in web frameworks are to take the idea of having an initial basis for a project to the extreme
         by trying to provide far more than it is required of them. Some of the more criminal examples out there (they know who they are)
         even outright ignore the ever increasing size of their already unnecessarily massive code base. Probably because the vast majority
@@ -118,7 +126,7 @@
     </p>
 
     <p>
-    <div class="green">What is the project's license? Do I have to pay or credit you in any way?</div>
+        <div class="green">What is the project's license? Do I have to pay or credit you in any way?</div>
         The project is <a href="https://opensource.org/licenses/MIT">MIT</a> licensed and free. You don't have to credit it me at all.
     </p>
 </div>

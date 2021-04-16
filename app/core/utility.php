@@ -39,4 +39,3 @@ function replaceVariables($file, $data) : ?string
         $template = str_replace('{{'.$key.'}}', $value, $template);
     return $template;
 }
-

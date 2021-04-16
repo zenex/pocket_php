@@ -8,9 +8,25 @@
         </div>
         <div class="login-error">{{error}}</div>
         <div class="login-form">
+            <img src="/getCaptcha" alt="CAPTCHA" class="captcha-img">
+            <br><br>
+            <button class="refresh-captcha">refresh</button>
+        </div>
+        <div class="login-form">
+            <input type="text" id="captcha" name="login_captcha" placeholder="captcha" pattern="[a-zA-Z0-9]{6}">
             <input type="text" class="login-input" name="email" placeholder="Email" autofocus>
             <input type="password" class="login-input" name="password" placeholder="Password">
             <input type="submit" value="Enter" class="login-button">
         </div>
     </form>
 </div><br>
+
+
+<script>
+
+ var refreshBtn = document.querySelector(".refresh-captcha");
+ refreshBtn,onclick = function() {
+     document.querySelector(".captcha-img").src = "/getCaptcha";
+ }
+
+</script>

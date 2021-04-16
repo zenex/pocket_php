@@ -66,7 +66,7 @@ function user_guide($requestData = NULL)
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $page_contents = array("nginx_conf" => "/static/text_files/nginx_config",
                            "nginx_vbs_file" => PROJECT_URL."static/text_files/pocket_php_nginx_vbs",
-                           "git_link" => "https://github.com/zenex/pocket_php",
+                           "git_link" => "https://git.xenobyte.xyz/XENOBYTE/pocket_php/",
                            "devlog_entries" => getDevlogEntries());
 
     $engine->renderPage("project/user_guide.html", $page_contents);

@@ -58,6 +58,17 @@ function processRequest() : void
         // No valid session for this client
         else if ($request->sessionStatus == SESSION_STATUS::NO_SESSION)
         {
+            if (ENFORCE_LOGIN_CAPTCHA)
+            {
+            // Check if the captcha is set / included, $_SESSION['captcha'] is set
+            // by calling PROJECT_URL/getCaptcha to prevent the user from skipping
+            // the login page using a script
+                if (empty($request->arguments["login_captcha"]) || !isset($_SESSION["login_captcha"]))
+                {
+                    $request->errorMsg = "Captcha must be solved.";
+                    dispatchRequest(LOGIN_CONTROLLER, CONTROLLER_ENTRY_FUNCTION, $request);
+                }
+            }
             if (!empty($request->arguments["email"]) && !empty($request->arguments["password"]))
             {
                 // Validate the provided login data
@@ -118,6 +129,29 @@ function validateLoginAttempt($requestData) : ?HTTPRequest
 {
     $email = $requestData->arguments["email"];
     $password = $requestData->arguments["password"];
+    $captcha = $requestData->arguments["login_captcha"];
+
+    // Only process the captcha if ENFORCE_LOGIN_CAPTCHA is set to true and the captcha isn't empty
+    if (ENFORCE_LOGIN_CAPTCHA)
+    {
+        if (!empty($captcha))
+        {
+            // Validate captcha
+            if ($_SESSION["login_captcha"] != $captcha)
+            {
+                $requestData->errorMsg = "Invalid captcha.";
+                dispatchRequest(LOGIN_CONTROLLER, CONTROLLER_ENTRY_FUNCTION, $requestData);
+                exit();
+            }
+        }
+        else
+        {
+            $requestData->errorMsg = "Captcha can't be empty.";
+            dispatchRequest(LOGIN_CONTROLLER, CONTROLLER_ENTRY_FUNCTION, $requestData);
+            exit();
+        }
+
+    }
 
     // No empty fields
     if (!empty($email) && !empty($password))
@@ -136,6 +170,7 @@ function validateLoginAttempt($requestData) : ?HTTPRequest
                 $_SESSION["login_ip"] = $verification->accountLoginIP;
                 $_SESSION["session_start_time"] = $verification->accountSessionTime;
                 $_SESSION["session_inactivity_time"] = $verification->accountInactivityTime;
+                $_SESSION["solved_captcha"] = (ENFORCE_LOGIN_CAPTCHA ? $captcha : "");
                 $verification->sessionStatus = SESSION_STATUS::VALID_SESSION;
 
                 return $verification;
