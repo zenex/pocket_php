@@ -21,6 +21,7 @@
   - Included NGINX configuration
   - Scalable and easily modified
   - Tiny code base providing the very essentials
+  - 100% independent & efficient CAPTCHA included
   - Lowest performance hit you've seen or your money back
   - It's fucking free
   - MIT Licensed
@@ -36,28 +37,25 @@
 
 * Installation
 
-  1. Install PHP7 and NGINX
-
-  I recommend installing both through your package manager, if your using a debian based distro simply:
-
-  #+BEGIN_SRC 
-  $ sudo apt-get update
-  $ sudo apt-get install php7.2 php7.2-fpm php7.2-sqlite php7.2-curl nginx
-  #+END_SRC
+  1. Install PHP7+ and NGINX
 
   For arch / manjaro: 
 
   #+BEGIN_SRC 
-  $ sudo pacman -S nginx php php-fpm php-fpm php-sqlite sqlitebrowser sqlite
+  $ sudo pacman -S nginx php php-fpm php-fpm php-sqlite php-gd sqlitebrowser sqlite 
   #+END_SRC 
 
   2. Clone the pcoket_php repository and set the server permissions
      Note that both the webserver and the php-fpm daemon must have read & write permissions on the project folder.
      Download the latest version from the official project page [[https://xenobyte.xyz/projects/?nav=pocket_php][here]];
   #+BEGIN_SRC
-  $ mv -r pocket_php /var/www/html/
-  $ sudo chown -R username:group /var/www/html/pocket_php
-  $ sudo chmod -R 755 /var/www/html/pocket_php
+  $ git clone https://git.xenobyte.xyz/XENOBYTE/pocket_php/
+  $ sudo mkdir /var/web_server
+  $ sudo chown -R username:group /var/web_server_php
+  $ sudo chmod -R 755 /var/web_server
+  $ mv -r pocket_php /var/web_server/
+  $ sudo chown -R username:group /var/web_server/pocket_php
+  $ sudo chmod -R 755 /var/web_server/pocket_php 
   #+END_SRC
 
   3. Configure NGINX
@@ -65,13 +63,13 @@
   Remember to modify the provided nginx virtual server configuration file to match your desired settings.
 
   #+BEGIN_SRC 
-  $ sudo mv /var/www/html/pocket_php/static/text_files/nginx_config /etc/nginx/nginx.conf
-  $ sudo mv /var/www/html/pocket_php/static/text_files/nginx_pocket_php_vsb /etc/nginx/sites-available/default
-  $ sudo systemctl restart php7.x-fpm.service
-  $ sudo systemctl restart nginx.service
+  $ sudo mv /var/web_server/pocket_php/static/text_files/nginx_config /etc/nginx/nginx.conf
+  $ sudo mv /var/web_server/pocket_php/static/text_files/nginx_pocket_php_vsb /etc/nginx/sites-available/default
+  $ sudo systemctl restart php-fpm.service
+  $ sudo systemctl restart nginx.service 
   #+END_SRC
 
-  Uncomment the SSL Settings block and modify the following lines in the included nginx.conf
+  Uncomment the SSL Settings block and modify the following lines in the included nginx.conf with your own
 
   #+BEGIN_SRC 
   ssl_certificate     /etc/nginx/ssl/cert.crt
@@ -85,10 +83,10 @@
      The only relevant changes are to the www.conf and php.ini files.
 
   #+BEGIN_SRC      
-     1. Uncomment the extension=pdo_sqlite
-     2. Change the default session.name (for security reasons)
-     3. Modify the upload.limit to fit your needs
-     4. Set the desired time zone in "date.timezone" (NOTE: this setting can and usually is overwritten)
+  1. Uncomment the extension=pdo_sqlite and extension=gd 
+  2. Change the default session.name (for security reasons)
+  3. Modify the upload.limit to fit your needs
+  4. Set the desired time zone in "date.timezone" (NOTE: this setting can and usually is overwritten)
   #+END_SRC 
                            
   /etc/php/php-fpm.d/www.conf
@@ -102,8 +100,8 @@
   All the relevant configuration lies in app/configure.php, note that the core directory holds the sqlite database file and thus both the file and folder must be writeable by the web server.
 
   #+BEGIN_SRC 
-  $ sudo chown -R username:group /var/www/html/pocket_php/core/<br>
-  $ sudo chmod -R 755 /var/www/html/pocket_php/tools/pocket_php.db<br>
+  $ sudo chown -R username:group /var/web_server/pocket_php/core/
+  $ sudo chmod -R 755 /var/web_server/pocket_php/tools/pocket_php.db
   #+END_SRC
 
   It's also worth mentioning that locale settings used by PHP are the same enabled in the host system and that the
