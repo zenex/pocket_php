@@ -27,7 +27,7 @@ function entry($requestData)
 {
     if (!ENFORCE_LOGIN_CAPTCHA)
         exit();
-    $img = imagecreatetruecolor(200, 50);
+    $img = imagecreatetruecolor(200, 50) or die('Cannot Initialize new GD image stream');;
     imageantialias($img, true);
     $colors = [];
     $red = rand(125, 175);
