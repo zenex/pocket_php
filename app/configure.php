@@ -158,6 +158,7 @@ function configure() : void
     define("PROJECT_GIT", "https://github.com/zenex/pocket_php");
     // define("PHPMAILER_FOLDER", "/core/phpmailer/");
     define("ENFORCE_LOGIN_CAPTCHA", true);
+    define("LOGIN_CAPTCHA_LENGTH", 6);
     define("CAPTCHA_FONT_1", "static/fonts/ro.ttf");
     define("CAPTCHA_FONT_2", "static/fonts/heading.woff");
     define("CAPTCHA_FONT_3", "static/fonts/libsans.ttf");
