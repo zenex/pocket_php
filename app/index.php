@@ -58,6 +58,12 @@ function processRequest() : void
         // No valid session for this client
         else if ($request->sessionStatus == SESSION_STATUS::NO_SESSION)
         {
+            // Login attempts must be sent by POST
+            if ($request->requestType != "POST") {
+                $request->errorMsg = "Login forms must be submitted as POST requests.";
+                dispatchRequest(LOGIN_CONTROLLER, CONTROLLER_ENTRY_FUNCTION, $request);
+            }
+
             if (ENFORCE_LOGIN_CAPTCHA)
             {
             // Check if the captcha is set / included, $_SESSION['captcha'] is set

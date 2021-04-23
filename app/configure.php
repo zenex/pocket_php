@@ -24,9 +24,9 @@ function configure() : void
     // ------- VERSION CONTROL -------
 
     // POCKET_PHP's version
-    define("POCKET_PHP_VERSION", "1.5");
+    define("POCKET_PHP_VERSION", "1.53");
     // The rpoject's version
-    define("PROJECT_VERSION", "1.5");
+    define("PROJECT_VERSION", "1.53");
 
     // ------- POCKET_PHP SETTINGS -------
 
@@ -103,6 +103,13 @@ function configure() : void
     // 0 = Full tolerance
     // 60*30 = half hour of inactivity tolerance
     define("SESSION_INACTIVITY_TOLERANCE", 60*15);
+    // Login captcha settings
+    define("ENFORCE_LOGIN_CAPTCHA", true);
+    define("LOGIN_CAPTCHA_LENGTH", 6);
+    define("CAPTCHA_FONT_1", "static/fonts/ro.ttf");
+    define("CAPTCHA_FONT_2", "static/fonts/heading.woff");
+    define("CAPTCHA_FONT_3", "static/fonts/libsans.ttf");
+    define("CAPTCHA_FONT_4", "static/fonts/cantarell.otf");
 
     // ------- ERRORS AND EXCEPTIONS  -------
 
@@ -153,16 +160,10 @@ function configure() : void
     define("BTC_ADDRESS", "19LCuwFDAFam19TPKoH3LgMSJR2jWUGxmx");
     define("MONERO_ADDRESS", "42u5eF96XKvJG2JDyWQhHD8Gjoxf218u6RbMhAzEzyGQdxkAu7stCj3dburBhrnU3aDaJHoH1HveAAdUfArA9MAuFCbnncc");
     define("ICONS_FOLDER", "/static/images/icons/");
-    define("WEBMASTER_PROTONMAIL", "neohex.xyz@protonmail.com");
+    define("WEBMASTER_PROTONMAIL", "xenobyte.xyz@protonmail.com");
     define("WEBMASTER_GMAIL", "");
-    define("PROJECT_GIT", "https://github.com/zenex/pocket_php");
+    define("PROJECT_GIT", "https://git.xenobyte.xyz/XENOBYTE/pocket_php");
     // define("PHPMAILER_FOLDER", "/core/phpmailer/");
-    define("ENFORCE_LOGIN_CAPTCHA", true);
-    define("LOGIN_CAPTCHA_LENGTH", 6);
-    define("CAPTCHA_FONT_1", "static/fonts/ro.ttf");
-    define("CAPTCHA_FONT_2", "static/fonts/heading.woff");
-    define("CAPTCHA_FONT_3", "static/fonts/libsans.ttf");
-    define("CAPTCHA_FONT_4", "static/fonts/cantarell.otf");
 }
 
 // ------- TEMPLATE ENGINE SETTINGS -------

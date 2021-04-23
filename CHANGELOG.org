@@ -1,7 +1,13 @@
 #+Title: [[https://xenobyte.xyz/projects/?nav=pocket_php][pocket_php]]: CHANGELOG
 #+Author: SENEX @ [[https://xenobyte.xyz/projects/?nav=pocket_php][XENOBYTE.XYZ]]
 
-* ver1.5 <2021-04-16 Fri 18:42>
+* ver 1.53 <2021-04-23 Fri 10:56>
+  - Forced the login form to be POST only
+
+* ver 1.52 <2021-04-21 Wed 14:03>
+  - Cleaned the captcha function and added more customization settings to configure.php
+
+* ver 1.5 <2021-04-16 Fri 18:42>
   - Added a captcha generator to secure forms
   - $_SESSION["login_captcha"] is reserved for the internal login service
   - Set ENFORCE_LOGIN_CAPTCHA to enable
