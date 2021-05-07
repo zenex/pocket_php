@@ -46,7 +46,7 @@ function processRequest() : void
     if (TRACK_REQUESTS)
         saveRequest($request);
     if (ENFORCE_BANS && checkForBan($request->ip))
-        throw new Exception ("You are banned.", 666);
+        throw new Exception ("You are banned.", 202);
 
     //  The request is a login attempt
     if ( $request->requestedFile == (LOGIN_CONTROLLER))
@@ -59,9 +59,17 @@ function processRequest() : void
         else if ($request->sessionStatus == SESSION_STATUS::NO_SESSION)
         {
             // Login attempts must be sent by POST
-            if ($request->requestType != "POST") {
+            if ($request->requestType != "POST")
+            {
+                // If the request is GET but empty it's most likely a request for the login page
+                // and not an error
+                if (empty($request->arguments["email"]) || empty($request->arguments["password"]))
+                    dispatchRequest(LOGIN_CONTROLLER, CONTROLLER_ENTRY_FUNCTION, $request);
+                // If it's a GET login form with actual data it's definately a script trying to
+                // fug with the server, throw an error and call the cyber police
                 $request->errorMsg = "Login forms must be submitted as POST requests.";
                 dispatchRequest(LOGIN_CONTROLLER, CONTROLLER_ENTRY_FUNCTION, $request);
+                // throw new Exception ("Login data must be sent as a POST request.", 404);
             }
 
             if (ENFORCE_LOGIN_CAPTCHA)

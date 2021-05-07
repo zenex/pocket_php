@@ -49,12 +49,6 @@ function loginHomepage($requestData= NULL)
 {
     $header["title"] = "POCKET_PHP -- Login homepage";
     $header["description"] = "Login succesful";
-    $engine = new TemplateEngine();
-    $engine->renderHeader($header);
-    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-
-    $pageContents = array();
-    // Login data
     $pageContents["ID"] = $requestData->accountID;
     $pageContents["accountType"] = $requestData->accountType;
     $pageContents["last_login"] = $requestData->accountLastLogin;
@@ -63,6 +57,9 @@ function loginHomepage($requestData= NULL)
     $pageContents["ip"] = $requestData->accountLoginIP;
     $pageContents["captcha"] = $_SESSION["solved_captcha"];
 
+    $engine = new TemplateEngine();
+    $engine->renderHeader($header);
+    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $engine->renderPage("login/login_homepage.html", $pageContents);
     $engine->renderFooter();
 }
@@ -71,19 +68,15 @@ function loginRequest($requestData)
 {
     $header["title"] = "POCKET_PHP -- Login";
     $header["description"] = "Login to proceed";
-    $engine = new TemplateEngine();
-    $engine->renderHeader($header);
-    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-
     $pageContents["proto_ver"] = "ver. ".PROJECT_VERSION;
     $pageContents["login_css"] = PROJECT_URL."static/css/login.css";
     $pageContents["login_img"] = PROJECT_URL."static/images/warning.png";
-    $engine = new TemplateEngine();
-    // $engine->renderHeader($header);
-    // $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-    // Load data
     $pageContents["error"] = $requestData->errorMsg;
     $pageContents["login_css"] = PROJECT_URL."static/css/login.css";
+
+    $engine = new TemplateEngine();
+    $engine->renderHeader($header);
+    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $engine->renderPage("login/login.html", $pageContents);
     $engine->renderFooter();
 }
@@ -92,17 +85,13 @@ function processError($requestData)
 {
     $header["title"] = "POCKET_PHP -- Login error";
     $header["description"] = "Login error";
-    $engine = new TemplateEngine();
-    $engine->renderHeader($header);
-    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-
     $pageContents["proto_ver"] = "ver. ".PROJECT_VERSION;
     $pageContents["login_css"] = PROJECT_URL."static/css/login.css";
     $pageContents["login_img"] = PROJECT_URL."static/images/warning.png";
+
     $engine = new TemplateEngine();
-    // $engine->renderHeader($header);
-    // $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-    // Load data
+    $engine->renderHeader($header);
+    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $pageContents["error"] = $requestData->errorMsg;
     $pageContents["login_css"] = PROJECT_URL."static/css/login.css";
     $engine->renderPage("login/login.html", $pageContents);
