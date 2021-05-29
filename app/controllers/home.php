@@ -1,10 +1,8 @@
 <?php
-// ██████╗  ██████╗  ██████╗██╗  ██╗███████╗████████╗     ██████╗ ██╗  ██╗██████╗
-// ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝     ██╔══██╗██║  ██║██╔══██╗
-// ██████╔╝██║   ██║██║     █████╔╝ █████╗     ██║        ██████╔╝███████║██████╔╝
-// ██╔═══╝ ██║   ██║██║     ██╔═██╗ ██╔══╝     ██║        ██╔═══╝ ██╔══██║██╔═══╝
-// ██║     ╚██████╔╝╚██████╗██║  ██╗███████╗   ██║███████╗██║     ██║  ██║██║
-// ╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝
+// ___  ____ ____ _  _ ____ ___     ___  _  _ ___
+// |__] |  | |    |_/  |___  |      |__] |__| |__]
+// |    |__| |___ | \_ |___  |  ___ |    |  | |
+// -----------------------------------------------
 // ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐
 // ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘
 // ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘
@@ -18,9 +16,9 @@ require_once(CORE."database.php");
 
 function entry ($requestData)
 {
-    if (isset($requestData->arguments["nav"]))
+    if (isset($requestData->GET["nav"]))
     {
-        switch ($requestData->arguments["nav"])
+        switch ($requestData->GET["nav"])
         {
         case "home":
         {
@@ -51,7 +49,7 @@ function homepage($requestData = NULL)
                            "license_link" => "project/?nav=license",
                            "user_guide_link" => "project/?nav=user_guide",
                            "git_link" => PROJECT_GIT,
-                           "author_link" => "https://xenobyte.xyz/about");
+                           "author_link" => AUTHOR_LINK);
     $engine->renderPage("home/home.html", $page_contents);
     $engine->renderFooter(configureFooterStaticContent());
 }

@@ -1,10 +1,8 @@
 <?php
-// ██████╗  ██████╗  ██████╗██╗  ██╗███████╗████████╗     ██████╗ ██╗  ██╗██████╗
-// ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝     ██╔══██╗██║  ██║██╔══██╗
-// ██████╔╝██║   ██║██║     █████╔╝ █████╗     ██║        ██████╔╝███████║██████╔╝
-// ██╔═══╝ ██║   ██║██║     ██╔═██╗ ██╔══╝     ██║        ██╔═══╝ ██╔══██║██╔═══╝
-// ██║     ╚██████╔╝╚██████╗██║  ██╗███████╗   ██║███████╗██║     ██║  ██║██║
-// ╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝
+// ___  ____ ____ _  _ ____ ___     ___  _  _ ___
+// |__] |  | |    |_/  |___  |      |__] |__| |__]
+// |    |__| |___ | \_ |___  |  ___ |    |  | |
+// -----------------------------------------------
 // ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐
 // ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘
 // ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘
@@ -30,7 +28,8 @@ class HTTPRequest
     public $userAgent = NULL;
     public $ipCountry = NULL;
     public $route = NULL;
-    public $arguments = NULL;
+    public $GET = NULL; // Will always contain the $_GET arguments
+    public $POST = NULL;
     public $cookies = NULL;
     public $requestType = NULL;
     public $requestedFile = NULL;
@@ -60,41 +59,6 @@ class HTTPRequest
         if ($url == "/")
             $this->route = HOMEPAGE; // defined in configure.php
 
-        // Both robots.txt and favicon.ico should just be placed in the app/ directory to be served as a
-        // static request by the webserver directly
-        // if (strpos($url, "robots.txt")) // Request is for robots.txt (probably a webbot)
-        // {
-        //     // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
-        //     header("Location: ". PROJECT_URL.ROBOTS_TXT);
-        //     exit();
-        // }
-        // if (strpos($url, "favicon.ico")) // Request is for favicon.ico (not a standard but w/e)
-        // {
-        //     // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
-        //     header("Location: ". PROJECT_URL.FAVICON_ICO);
-        //     exit();
-        // }
-
-
-        // NOTE ABOUT MANUAL SSL CERTIFICATE AUTHENTICATION
-        // Manually authenticating SSL certificates usually means returning a (provided) string from a very specific
-        // server URL. Some sites (like ZeroSSL) will attempt to verify these strings through http://www.yourserver.com plus the ".well-known/acme-chellenge/"
-        // specifier. THIS CAN FAIL IF YOUR SERVER ONLY HAS A VER 6 IP OR HAVEN'T CONFIGURED YOUR DNS REDIRECTS. /etc/nginx/sites-available/ must also be configured!
-        // If you only have an IPv6 make sure to delete the AAAA records to allow for IPv4 HTTP + www extension to work.
-        // else if (strpos($url, ".well-known/acme-challenge/cR-7K-MrtkMjYJoknircDb-jugs8FfAxmRUXm5YsJWw")) // Request is for SSL certificate validation
-        // {
-        //     // Redirect to the actual location of the robots.txt file so the webserver can serve it directly
-        //     //header("Location: ". PROJECT_URL.SSL_VER_1_TXT);
-        //     echo (SSL_VER_1_TXT);
-        //     exit();
-        // }
-        // else if (strpos($url, ".well-known/acme-challenge/lvN5xeu63t-CxVEtDbUCuXNOT9kQIHud7ZPoFGFvImo")) // Request is for SSL certificate validation
-        // {
-        //     // Redirect to the actual location of the robots.txt file so the webserver can serve it directl
-        //     // header("Location: ". PROJECT_URL.SSL_VER_2_TXT);
-        //     echo (SSL_VER_2_TXT);
-        //     exit();
-        // }
 
         else // Not empty
         {
@@ -162,12 +126,13 @@ class HTTPRequest
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
             $this->requestType = 'GET';
-            $this->arguments = $_GET;
+            $this->GET = $_GET;
         }
         if ($_SERVER['REQUEST_METHOD'] == 'POST')
         {
             $this->requestType = 'POST';
-            $this->arguments = $_POST;
+            $this->GET = $_GET;
+            $this->POST = $_POST;
         }
 
         // Check the requests protocol

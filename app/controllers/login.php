@@ -1,10 +1,8 @@
 <?php
-// ██████╗  ██████╗  ██████╗██╗  ██╗███████╗████████╗     ██████╗ ██╗  ██╗██████╗
-// ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝     ██╔══██╗██║  ██║██╔══██╗
-// ██████╔╝██║   ██║██║     █████╔╝ █████╗     ██║        ██████╔╝███████║██████╔╝
-// ██╔═══╝ ██║   ██║██║     ██╔═██╗ ██╔══╝     ██║        ██╔═══╝ ██╔══██║██╔═══╝
-// ██║     ╚██████╔╝╚██████╗██║  ██╗███████╗   ██║███████╗██║     ██║  ██║██║
-// ╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝
+// ___  ____ ____ _  _ ____ ___     ___  _  _ ___
+// |__] |  | |    |_/  |___  |      |__] |__| |__]
+// |    |__| |___ | \_ |___  |  ___ |    |  | |
+// -----------------------------------------------
 // ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐
 // ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘
 // ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘
@@ -35,8 +33,8 @@ function entry ($requestData)
         exit();
     }
     // Empty or incomplete form
-    else if (!isset($requestData->arguments["email"]) || !isset($requestData->arguments["password"]) ||
-             empty($requestData->arguments["email"]) || empty($requestData->arguments["password"]))
+    else if (!isset($requestData->POST["email"]) || !isset($requestData->POST["password"]) ||
+             empty($requestData->POST["email"]) || empty($requestData->POST["password"]))
     {
         loginRequest($requestData);
         exit();

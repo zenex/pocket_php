@@ -1,10 +1,8 @@
 <?php
-// ██████╗  ██████╗  ██████╗██╗  ██╗███████╗████████╗     ██████╗ ██╗  ██╗██████╗
-// ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝     ██╔══██╗██║  ██║██╔══██╗
-// ██████╔╝██║   ██║██║     █████╔╝ █████╗     ██║        ██████╔╝███████║██████╔╝
-// ██╔═══╝ ██║   ██║██║     ██╔═██╗ ██╔══╝     ██║        ██╔═══╝ ██╔══██║██╔═══╝
-// ██║     ╚██████╔╝╚██████╗██║  ██╗███████╗   ██║███████╗██║     ██║  ██║██║
-// ╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝
+// ___  ____ ____ _  _ ____ ___     ___  _  _ ___
+// |__] |  | |    |_/  |___  |      |__] |__| |__]
+// |    |__| |___ | \_ |___  |  ___ |    |  | |
+// -----------------------------------------------
 // ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐
 // ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘
 // ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘
@@ -19,9 +17,9 @@ require_once(CORE."database.php");
 
 function entry ($requestData)
 {
-    if (isset($requestData->arguments["nav"]))
+    if (isset($requestData->GET["nav"]))
     {
-        switch ($requestData->arguments["nav"])
+        switch ($requestData->GET["nav"])
         {
         case "about":
         {
@@ -53,7 +51,7 @@ function about($requestData = NULL)
                            "git_link"        => PROJECT_GIT,
                            "btc_link"        => BTC_ADDRESS,
                            "monero_link"     => MONERO_ADDRESS,
-                           "author_link"     => "https://xenobyte.xyz/about",
+                           "author_link"     => AUTHOR_LINK,
                            "author"          => AUTHOR);
     $engine->renderPage("about/about.html", $page_contents);
     $engine->renderFooter();

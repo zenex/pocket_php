@@ -1,10 +1,8 @@
 <?php
-// ██████╗  ██████╗  ██████╗██╗  ██╗███████╗████████╗     ██████╗ ██╗  ██╗██████╗
-// ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝     ██╔══██╗██║  ██║██╔══██╗
-// ██████╔╝██║   ██║██║     █████╔╝ █████╗     ██║        ██████╔╝███████║██████╔╝
-// ██╔═══╝ ██║   ██║██║     ██╔═██╗ ██╔══╝     ██║        ██╔═══╝ ██╔══██║██╔═══╝
-// ██║     ╚██████╔╝╚██████╗██║  ██╗███████╗   ██║███████╗██║     ██║  ██║██║
-// ╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝
+// ___  ____ ____ _  _ ____ ___     ___  _  _ ___
+// |__] |  | |    |_/  |___  |      |__] |__| |__]
+// |    |__| |___ | \_ |___  |  ___ |    |  | |
+// -----------------------------------------------
 // ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐
 // ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘
 // ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘
@@ -63,7 +61,7 @@ function processRequest() : void
             {
                 // If the request is GET but empty it's most likely a request for the login page
                 // and not an error
-                if (empty($request->arguments["email"]) || empty($request->arguments["password"]))
+                if (empty($request->GET["email"]) || empty($request->GET["password"]))
                     dispatchRequest(LOGIN_CONTROLLER, CONTROLLER_ENTRY_FUNCTION, $request);
                 // If it's a GET login form with actual data it's definately a script trying to
                 // fug with the server, throw an error and call the cyber police
@@ -77,13 +75,13 @@ function processRequest() : void
             // Check if the captcha is set / included, $_SESSION['captcha'] is set
             // by calling PROJECT_URL/getCaptcha to prevent the user from skipping
             // the login page using a script
-                if (empty($request->arguments["login_captcha"]) || !isset($_SESSION["login_captcha"]))
+                if (empty($request->POST["login_captcha"]) || !isset($_SESSION["login_captcha"]))
                 {
                     $request->errorMsg = "Captcha must be solved.";
                     dispatchRequest(LOGIN_CONTROLLER, CONTROLLER_ENTRY_FUNCTION, $request);
                 }
             }
-            if (!empty($request->arguments["email"]) && !empty($request->arguments["password"]))
+            if (!empty($request->POST["email"]) && !empty($request->POST["password"]))
             {
                 // Validate the provided login data
                 $loginRequest = validateLogInAttempt($request);
@@ -141,9 +139,9 @@ function dispatchRequest($file, $function, $parameters) : void
 // R: void
 function validateLoginAttempt($requestData) : ?HTTPRequest
 {
-    $email = $requestData->arguments["email"];
-    $password = $requestData->arguments["password"];
-    $captcha = $requestData->arguments["login_captcha"];
+    $email = $requestData->POST["email"];
+    $password = $requestData->POST["password"];
+    $captcha = $requestData->POST["login_captcha"];
 
     // Only process the captcha if ENFORCE_LOGIN_CAPTCHA is set to true and the captcha isn't empty
     if (ENFORCE_LOGIN_CAPTCHA)
@@ -221,8 +219,8 @@ function validateLoginData($requestData) : ?HTTPRequest
     if ($sqlite != NULL)
     {
         $result = $sqlite->prepare("SELECT * FROM accounts WHERE password=:vpassword AND email=:vemail LIMIT 1");
-        $result->bindparam(":vemail", $requestData->arguments["email"]);
-        $result->bindparam(":vpassword", $requestData->arguments["password"]);
+        $result->bindparam(":vemail", $requestData->POST["email"]);
+        $result->bindparam(":vpassword", $requestData->POST["password"]);
         $result->execute();
         $resultData = $result->fetchAll();
         if (!empty($resultData))
@@ -258,7 +256,7 @@ function saveRequest($requestData) : void
     $sqlite = $sqlite->getDB();
     if ($sqlite != NULL)
     {
-        if ($requestData->arguments != NULL && is_array($requestData->arguments))
+        if ($requestData->GET != NULL && is_array($requestData->GET))
         {
             $argumentsStr = "";
             foreach ($requestData->arguments as $key => $value)

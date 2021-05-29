@@ -1,15 +1,13 @@
- /* ██████╗  ██████╗  ██████╗██╗  ██╗███████╗████████╗     ██████╗ ██╗  ██╗██████╗ */
- /* ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝     ██╔══██╗██║  ██║██╔══██╗ */
- /* ██████╔╝██║   ██║██║     █████╔╝ █████╗     ██║        ██████╔╝███████║██████╔╝ */
- /* ██╔═══╝ ██║   ██║██║     ██╔═██╗ ██╔══╝     ██║        ██╔═══╝ ██╔══██║██╔═══╝ */
- /* ██║     ╚██████╔╝╚██████╗██║  ██╗███████╗   ██║███████╗██║     ██║  ██║██║ */
- /* ╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝ */
- /* ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐ */
- /* ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘ */
- /* ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘ */
- /* Author:  SENEX @ XENOBYTE.XYZ */
- /* License: MIT License */
- /* Website: https:xenobyte.xyz/projects/?nav=pocket_php */
+/* ___  ____ ____ _  _ ____ ___     ___  _  _ ___ */
+/* |__] |  | |    |_/  |___  |      |__] |__| |__] */
+/* |    |__| |___ | \_ |___  |  ___ |    |  | | */
+/* ----------------------------------------------- */
+/* ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐ */
+/* ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘ */
+/* ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘ */
+/* Author:  SENEX @ XENOBYTE.XYZ */
+/* License: MIT License */
+/* Website: https://xenobyte.xyz/projects/?nav=pocket_php */
 
 
 @font-face {
@@ -40,12 +38,11 @@ html, body, main
 
 body
 {
-    margin: 0;
     /* background-color: #222;
        color; #eeeded; */
     background-color: #eeffff;
-    display:block;
-    min-width: 960px;
+    /* display:block; */
+    /* min-width: 960px; */
     overflow-x: auto;
 
     background: url("../images/background_tubes.png");
@@ -67,6 +64,12 @@ a
     color: #FF875F;
 }
 
+.flex-center
+{
+    display:flex;
+    justify-content: center;
+}
+
 a:hover
 {
     /* text-decoration: underline; */
@@ -83,13 +86,18 @@ a:hover
 {
     border: 2px solid #fff;
     text-align: center;
-    margin-top: 15% !important;
-    margin: 0 auto;
+    margin-top: 10% !important;
     background-color: #111;
     max-width: 70%;
     color: #fef;
     padding: 8px;
     border: 2px soild red;
+
+    min-height: 100%;
+    max-width: 100%;
+    opacity: 1;
+    color: #949494;
+    overflow: hidden;
 }
 
 .title
@@ -181,19 +189,18 @@ a:hover
     padding: 8px;
 }
 
-.neohex
+.brand
 {
     font-family: Content;
     font-size: 12px;
     margin: 6px;
     color: #FF875F;
-    margin-right: 60%;
     line-height: 14px;
     text-align:left;
     text-decoration: none;
 }
 
-.neohex a
+.brand a
 {
     font-family: Content;
     font-size: 12px;

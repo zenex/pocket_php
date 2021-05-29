@@ -1,10 +1,8 @@
 <?php
-// ██████╗  ██████╗  ██████╗██╗  ██╗███████╗████████╗     ██████╗ ██╗  ██╗██████╗
-// ██╔══██╗██╔═══██╗██╔════╝██║ ██╔╝██╔════╝╚══██╔══╝     ██╔══██╗██║  ██║██╔══██╗
-// ██████╔╝██║   ██║██║     █████╔╝ █████╗     ██║        ██████╔╝███████║██████╔╝
-// ██╔═══╝ ██║   ██║██║     ██╔═██╗ ██╔══╝     ██║        ██╔═══╝ ██╔══██║██╔═══╝
-// ██║     ╚██████╔╝╚██████╗██║  ██╗███████╗   ██║███████╗██║     ██║  ██║██║
-// ╚═╝      ╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝
+// ___  ____ ____ _  _ ____ ___     ___  _  _ ___
+// |__] |  | |    |_/  |___  |      |__] |__| |__]
+// |    |__| |___ | \_ |___  |  ___ |    |  | |
+// -----------------------------------------------
 // ─┐ ┬┌─┐┌┐┌┌─┐┌┐ ┬ ┬┌┬┐┌─┐ ─┐ ┬┬ ┬┌─┐
 // ┌┴┬┘├┤ ││││ │├┴┐└┬┘ │ ├┤  ┌┴┬┘└┬┘┌─┘
 // ┴ └─└─┘┘└┘└─┘└─┘ ┴  ┴ └─┘o┴ └─ ┴ └─┘
@@ -157,6 +155,7 @@ function configure() : void
 
     // CUSTOM CONSTANTS
     define("AUTHOR", "SENEX @ XENOBYTE.XYZ");
+    define("AUTHOR_LINK", "https://xenobyte.xyz/about");
     define("BTC_ADDRESS", "19LCuwFDAFam19TPKoH3LgMSJR2jWUGxmx");
     define("MONERO_ADDRESS", "42u5eF96XKvJG2JDyWQhHD8Gjoxf218u6RbMhAzEzyGQdxkAu7stCj3dburBhrnU3aDaJHoH1HveAAdUfArA9MAuFCbnncc");
     define("ICONS_FOLDER", "/static/images/icons/");
@@ -185,7 +184,7 @@ function configureHeaderStaticContent() : ?array
     $data["style_css"]                  = PROJECT_URL."static/css/style.css";
     $data["scanlines_css"]              = PROJECT_URL."static/css/scanlines.css";
     $data["normalize"]                  = PROJECT_URL."static/css/normalize.css";
-    $data["author"]                     = "ZEN3X.COM";
+    $data["author"]                     = AUTHOR;
     $data["apple_mobile_web_app_title"] = "pocket_php";
     $data["application_name"]           = "pocket_php";
     $data["robots_inline"]              = "all";
