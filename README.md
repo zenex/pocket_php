@@ -16,289 +16,110 @@ It is primarily built for the NGINX server to take full advantage of its scalabi
 
 Pocket_php is particularly well suited for hidden services running on budget hardware!
 
-* **ES modules** and **tree-shaking** support.
-* Add Size Limit to **Travis CI**, **Circle CI**, **GitHub Actions**
-  or another CI system to know if a pull request adds a massive dependency.
-* **Modular** to fit different use cases: big JS applications
-  that use their own bundler or small npm libraries with many files.
-* Can calculate **the time** it would take a browser
-  to download and **execute** your JS. Time is a much more accurate
-  and understandable metric compared to the size in bytes.
-* Calculations include **all dependencies and polyfills**
-  used in your JS.
-
-<p align="center">
-  <img src="./img/example.png" alt="Size Limit CLI" width="738">
-</p>
-
-With **[GitHub action]** Size Limit will post bundle size changes as a comment
-in pull request discussion.
-
-<p align="center">
-<img src="https://raw.githubusercontent.com/andresz1/size-limit-action/master/assets/pr.png"
-  alt="Size Limit comment in pull request about bundle size changes"
-  width="686" height="289">
-</p>
-
-With `--why`, Size Limit can tell you *why* your library is of this size
-and show the real cost of all your internal dependencies.
-
-<p align="center">
-  <img src="./img/why.png" alt="Bundle Analyzer example" width="650">
-</p>
-
-<p align="center">
-  <a href="https://evilmartians.com/?utm_source=size-limit">
-    <img src="https://evilmartians.com/badges/sponsored-by-evil-martians.svg"
-         alt="Sponsored by Evil Martians" width="236" height="54">
-  </a>
-</p>
-
-[GitHub action]: https://github.com/andresz1/size-limit-action
-[cult-img]:      http://cultofmartians.com/assets/badges/badge.svg
-[cult]:          http://cultofmartians.com/tasks/size-limit-config.html
-
-## Who Uses Size Limit
-
-* [MobX](https://github.com/mobxjs/mobx)
-* [Material-UI](https://github.com/callemall/material-ui)
-* [Autoprefixer](https://github.com/postcss/autoprefixer)
-* [PostCSS](https://github.com/postcss/postcss) reduced
-  [25% of the size](https://github.com/postcss/postcss/commit/150edaa42f6d7ede73d8c72be9909f0a0f87a70f).
-* [Browserslist](https://github.com/ai/browserslist) reduced
-  [25% of the size](https://github.com/ai/browserslist/commit/640b62fa83a20897cae75298a9f2715642531623).
-* [EmojiMart](https://github.com/missive/emoji-mart) reduced
-  [20% of the size](https://github.com/missive/emoji-mart/pull/111)
-* [nanoid](https://github.com/ai/nanoid) reduced
-  [33% of the size](https://github.com/ai/nanoid/commit/036612e7d6cc5760313a8850a2751a5e95184eab).
-* [React Focus Lock](https://github.com/theKashey/react-focus-lock) reduced
-  [32% of the size](https://github.com/theKashey/react-focus-lock/pull/48).
-* [Logux](https://github.com/logux) reduced
-  [90% of the size](https://github.com/logux/logux-client/commit/62b258e20e1818b23ae39b9c4cd49e2495781e91).
+## Features
 
 
-## How It Works
+* MVC implentation automatically limits client access to controller files
+* HTML template engine for full frantend & backend separation
+* Fully featured session manager with php.ini independent timeout and expiration controls
+* User input sensitization
+* Internal IP tracking & banning
+* Cross*platform, runs on anything that can host a web server
+* Included NGINX configuration
+* Scalable and easily modified
+* Tiny code base providing the very essentials
+* 100% independent & efficient CAPTCHA included
+* Lowest performance hit you've seen or your money back
+* It's fucking free
+* MIT Licensed
 
-1. Size Limit contains a CLI tool, 3 plugins (`file`, `webpack`, `time`)
-   and 3 plugin presets for popular use cases (`app`, `big-lib`, `small-lib`).
-   A CLI tool finds plugins in `package.json` and loads the config.
-2. If you use the `webpack` plugin, Size Limit will bundle your JS files into
-   a single file. It is important to track dependencies and webpack polyfills.
-   It is also useful for small libraries with many small files and without
-   a bundler.
-3. The `webpack` plugin creates an empty webpack project, adds your library
-   and looks for the bundle size difference.
-4. The `time` plugin compares the current machine performance with that of
-   a low-priced Android devices to calculate the CPU throttling rate.
-5. Then the `time` plugin runs headless Chrome (or desktop Chrome if it’s
-   available) to track the time a browser takes to compile and execute your JS.
-   Note that these measurements depend on available resources and might
-   be unstable. [See here](https://github.com/mbalabash/estimo/issues/5)
-   for more details.
+## Dependencies
+*[PHP7+](https://php.net)
+*[SQLite](https://sqlite.org) 
+*[NGINX](https://nginx.com) 
 
-
-## Usage
-
-### JS Applications
-
-Suitable for applications that have their own bundler and send the JS bundle
-directly to a client (without publishing it to npm). Think of a user-facing app
-or website, like an email client, a CRM, a landing page or a blog with
-interactive elements, using React/Vue/Svelte lib or vanilla JS.
-
+## Installation
 <details><summary><b>Show instructions</b></summary>
 
-1. Install the preset:
+1. Install PHP7+ and NGINX
+   For arch / manjaro: 
 
     ```sh
-    $ npm install --save-dev size-limit @size-limit/file
+    $ sudo pacman -S nginx php php-fpm php-fpm php-sqlite php-gd sqlitebrowser sqlite
     ```
 
-2. Add the `size-limit` section and the `size` script to your `package.json`:
-
-    ```diff
-    + "size-limit": [
-    +   {
-    +     "path": "dist/app-*.js"
-    +   }
-    + ],
-      "scripts": {
-        "build": "webpack ./webpack.config.js",
-    +   "size": "npm run build && size-limit",
-        "test": "jest && eslint ."
-      }
-    ```
-
-3. Here’s how you can get the size for your current project:
+2. Clone the pcoket_php repository and set the server permissions
+   Note that both the webserver and the php-fpm daemon must have read & write permissions on the project folder.
 
     ```sh
-    $ npm run size
-
-      Package size: 30.08 kB with all dependencies, minified and gzipped
+    $ git clone https://git.xenobyte.xyz/XENOBYTE/pocket_php/
+    $ sudo mkdir /var/web_server
+    $ sudo chown -R username:group /var/web_server_php
+    $ sudo chmod -R 755 /var/web_server
+    $ mv -r pocket_php /var/web_server/
+    $ sudo chown -R username:group /var/web_server/pocket_php
+    $ sudo chmod -R 755 /var/web_server/pocket_php 
     ```
 
-4. Now, let’s set the limit. Add 25% to the current total time and use that as
-   the limit in your `package.json`:
+3. Configure NGINX
+   Remember to modify the provided nginx virtual server configuration file to match your desired settings.
 
-    ```diff
-      "size-limit": [
-        {
-    +     "limit": "35 kB",
-          "path": "dist/app-*.js"
-        }
-      ],
+    ```sh
+    $ sudo mv /var/web_server/pocket_php/static/text_files/nginx_config /etc/nginx/nginx.conf
+    $ sudo mv /var/web_server/pocket_php/static/text_files/nginx_pocket_php_vsb /etc/nginx/sites-available/default
+    $ sudo systemctl restart php-fpm.service
+    $ sudo systemctl restart nginx.service 
     ```
-
-5. Add the `size` script to your test suite:
-
-    ```diff
-      "scripts": {
-        "build": "webpack ./webpack.config.js",
-        "size": "npm run build && size-limit",
-    -   "test": "jest && eslint ."
-    +   "test": "jest && eslint . && npm run size"
-      }
+    Uncomment the SSL Settings block and modify the following lines in the included nginx.conf with your own
+    
+    ```sh
+    ssl_certificate     /etc/nginx/ssl/cert.crt
+    ssl_certificate_key /etc/ngins/ssl/key.key
     ```
+   
+4. Configure PHP
+   The only relevant changes are to the www.conf and php.ini files.
+ 
 
-6. If you don’t have a continuous integration service running, don’t forget
-   to add one — start with [Travis CI].
+    ```sh
+    1. Uncomment the extension=pdo_sqlite and extension=gd 
+    2. Change the default session.name (for security reasons)
+    3. Modify the upload.limit to fit your needs
+    4. Set the desired time zone in "date.timezone" (NOTE: this setting can and usually is overwritten)
+    ```
+    
+  `/etc/php/php-fpm.d/www.conf`
+  
+  ```sh
+  1. Change user and group to ones NGINX can access
+  ```
+
+5. Configure Pocket_PHP
+   All the relevant configuration lies in app/configure.php, note that the core directory holds the sqlite database file and thus both the file and folder must be writeable by the web server.
+
+    ```sh
+    $ sudo chown -R username:group /var/web_server/pocket_php/core/
+    $ sudo chmod -R 755 /var/web_server/pocket_php/tools/pocket_php.db
+    ```
+    It's also worth mentioning that locale settings used by PHP are the same enabled in the host system and that the
+    default timezone can be set in the php.ini file and overwritten in the configure.php source. Just an FYI.
 
 </details>
 
 
-### JS Application and Time-based Limit
+## Webserver configuration
+  As long as your webserver of choice respects the simple rules below, pocket_php will work with it.
+  ```sh
+  1. Serve static files directly
+  2. Redirect everything else to /app/index.php
+  ```
+  The provided virtual server file for NGINX also adds a few security filters to keep some static files (such as the internal DB) private. As a side note, there have been some issues with the way php-fpm handles sqlite databases that share the same name but are from independent projects, a very common case when running multiple websites from a single server, simply rename the database file and update the location constant in configure.php. 
 
-File size limit (in kB) is not the best way to describe your JS application
-cost for developers. Developers will compare the size of the JS bundle
-with the size of images. But browsers need much more time to parse 100 kB
-of JS than 100 kB of an image since JS compilers are very complex.
+## Included Example website and documentation
+Pocket_PHP comes with an example site and user guide that serves as its main documentation.
 
-This is why Size Limit support time-based limit. It runs headless Chrome
-to track the time a browser takes to compile and execute your JS.
+<p align="center"><img src="https://i.imgur.com/NjnKWy4.jpg" /></p>
 
-<details><summary><b>Show instructions</b></summary>
-
-1. Install the preset:
-
-    ```sh
-    $ npm install --save-dev size-limit @size-limit/preset-app
-    ```
-
-2. Add the `size-limit` section and the `size` script to your `package.json`:
-
-    ```diff
-    + "size-limit": [
-    +   {
-    +     "path": "dist/app-*.js"
-    +   }
-    + ],
-      "scripts": {
-        "build": "webpack ./webpack.config.js",
-    +   "size": "npm run build && size-limit",
-        "test": "jest && eslint ."
-      }
-    ```
-
-3. Here’s how you can get the size for your current project:
-
-    ```sh
-    $ npm run size
-
-      Package size: 30.08 kB with all dependencies, minified and gzipped
-      Loading time: 602 ms   on slow 3G
-      Running time: 214 ms   on Snapdragon 410
-      Total time:   815 ms
-    ```
-
-4. Now, let’s set the limit. Add 25% to the current total time and use that as
-   the limit in your `package.json`:
-
-    ```diff
-      "size-limit": [
-        {
-    +     "limit": "1 s",
-          "path": "dist/app-*.js"
-        }
-      ],
-    ```
-
-5. Add the `size` script to your test suite:
-
-    ```diff
-      "scripts": {
-        "build": "webpack ./webpack.config.js",
-        "size": "npm run build && size-limit",
-    -   "test": "jest && eslint ."
-    +   "test": "jest && eslint . && npm run size"
-      }
-    ```
-
-6. If you don’t have a continuous integration service running, don’t forget
-   to add one — start with [Travis CI].
-
-</details>
-Each section in the config can have these options:
-
-* **path**: relative paths to files. The only mandatory option.
-  It could be a path `"index.js"`, a [pattern] `"dist/app-*.js"`
-  or an array `["index.js", "dist/app-*.js", "!dist/app-exclude.js"]`.
-* **import**: partial import to test tree-shaking. It could be `"{ lib }"`
-  to test `import { lib } from 'lib'` or `{ "a.js": "{ a }", "b.js": "{ b }" }`
-  to test multiple files.
-* **limit**: size or time limit for files from the `path` option. It should be
-  a string with a number and unit, separated by a space.
-  Format: `100 B`, `10 kB`, `500 ms`, `1 s`.
-* **name**: the name of the current section. It will only be useful
-  if you have multiple sections.
-* **entry**: when using a custom webpack config, a webpack entry could be given.
-  It could be a string or an array of strings.
-  By default, the total size of all entry points will be checked.
-* **webpack**: with `false` it will disable webpack.
-* **running**: with `false` it will disable calculating running time.
-* **gzip**: with `false` it will disable gzip compression.
-* **brotli**: with `true` it will use brotli compression and disable gzip compression.
-* **config**: a path to a custom webpack config.
-* **ignore**: an array of files and dependencies to exclude from
-  the project size calculation.
-* **modifyWebpackConfig**: (.size-limit.js only) function that can be used to 
-  do last-minute changes to the webpack config, like adding a plugin.
-
-If you use Size Limit to track the size of CSS files, make sure to set
-`webpack: false`. Otherwise, you will get wrong numbers, because webpack
-inserts `style-loader` runtime (≈2 kB) into the bundle.
-
-[pattern]: https://github.com/sindresorhus/globby#globbing-patterns
-
-
-## Plugins and Presets
-
-Plugins:
-
-* `@size-limit/file` checks the size of files with Gzip, Brotli
-  or without compression.
-* `@size-limit/webpack` adds your library to empty webpack project
-  and prepares bundle file for `file` plugin.
-* `@size-limit/time` uses headless Chrome to track time to execute JS.
-* `@size-limit/dual-publish` compiles files to ES modules with [`dual-publish`]
-  to check size after tree-shaking.
-
-Plugin presets:
-
-* `@size-limit/preset-app` contains `file` and `time` plugins.
-* `@size-limit/preset-big-lib` contains `webpack`, `file`, and `time` plugins.
-* `@size-limit/preset-small-lib` contains `webpack` and `file` plugins.
-
-[`dual-publish`]: https://github.com/ai/dual-publish
-
-
-## JS API
-
-```js
-const sizeLimit = require('size-limit')
-const filePlugin = require('@size-limit/file')
-const webpackPlugin = require('@size-limit/webpack')
-
-sizeLimit([filePlugin, webpackPlugin], [filePath]).then(result => {
-  result //=> { size: 12480 }
-})
-```
+See the "user guide" section for a more thorough explanation.
+ 
+For more information visit the official project site at [XENOBYTE.XYZ](https://xenobyte.xyz/projects/?nav=pocket_php)
