@@ -10,6 +10,8 @@
 
   
   By abstracting away many of PHP7's shortcomings and implementing an MVC design pattern, the framework provides a safer development and production environment with virtually no performance costs, the entire source code can be read in twenty minutes and was designed with extensibility and mutability in mind to fit any given project that would otherwise require deep modifications of unnecessarily large "solutions" or for the programmer to write generic code that could be prone to security flaws.
+
+  
   It is primarily built for the NGINX server to take full advantage of its scalabilty and performance allowing fully featured web projects to be run on budget hardware. A largely unexploited benefit of modern VPS providers that goes ignored due to the bloated minimal requirements of the modern backend libraries we've (erroneously) learned to depend on.
 
   
