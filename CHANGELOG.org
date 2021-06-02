@@ -1,6 +1,13 @@
 #+Title: [[https://xenobyte.xyz/projects/?nav=pocket_php][pocket_php]]: CHANGELOG
 #+Author: SENEX @ [[https://xenobyte.xyz/projects/?nav=pocket_php][XENOBYTE.XYZ]]
 
+* ver 2.0 <2021-06-01 Tue 21:00>
+  - Restructured HTTPRequest->arguments into HTTPRequest->GET & HTTPRequest->POST
+  - GET is always filled with the url arguments, POST is only filled if the request is a POST one
+  - Added responsiveness to the site's style
+  - Updated the sites_available config with input file size cap
+  - Updated user guide 
+
 * ver 1.53 <2021-04-23 Fri 10:56>
   - Forced the login form to be POST only
 
