@@ -3,7 +3,7 @@
     <img src="https://aimeos.org/fileadmin/template/icons/logo.png" alt="Aimeos logo" title="Aimeos" align="right" height="60" />
 </a>
 
-# [[https://xenobyte.xyz/projects/?nav=pocket_php][pocket_php]]
+# [Pocket_PHP](https://xenobyte.xyz/projects/?nav=pocket_php)
 ​
 
 Pocket_php is an MVC framework for PHP7+ that emphasizes performance and simplicity.
