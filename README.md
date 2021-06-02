@@ -34,9 +34,9 @@ Pocket_php is particularly well suited for hidden services running on budget har
 * MIT Licensed
 
 ## Dependencies
-*[PHP7+](https://php.net)
-*[SQLite](https://sqlite.org) 
-*[NGINX](https://nginx.com) 
+* [PHP7+](https://php.net)
+* [SQLite](https://sqlite.org) 
+* [NGINX](https://nginx.com) 
 
 ## Installation
 <details><summary><b>Show instructions</b></summary>
