@@ -38,13 +38,17 @@ class HTTPRequest
     public $https = false;
 
     // These variables are populated by the validateLoginAttempt function
+    // THEY REQUIRE SESSIONS_ENABLED TO WORK
     public $accountLastLogin = NULL;
     public $accountType = NULL;
     public $accountID = NULL;
     public $accountEmail = NULL;
     public $accountSessionTime = NULL; // Session starting time, used by SESSION_DURATION to limit client session time
+    public $accountSessionID = NULL;
     public $accountInactivityTime = NULL; // Updated with every client activity, will close the session if more than SESSION_INACTIVITY_TOLERANCE has passed
     public $accountLoginIP = NULL;
+    public $accountLoggedIn = NULL;
+    public $accountLogoutType = NULL;
 
     // EXTRACT AND PROCESS THE REQUESTS CONTENTS, ENSURE THE CONTROLLER FILE EXISTS
     // AND THE REQUEST'S VALIDITY
@@ -141,8 +145,30 @@ class HTTPRequest
             $this->https = true;
         }
         // Check the session status
-        if (isset($_SESSION["ID"]))
+        if (SESSIONS_ENABLED && isset($_SESSION["ID"]))
         {
+            // Check the account login status, if there was a succesful login attempt while the account was already in use by
+            // a different system the account will be flagged as offline despite being currently in use, if this is the case
+            // then original session should be forcefully expired to reflect the fact that the account is now logged off
+            $db = (new SQLiteConnection())->getDB();
+            if ($db != NULL)
+            {
+                $result = $db->prepare("SELECT logged_in FROM accounts WHERE email=:email LIMIT 1");
+                $result->bindParam(":email", $_SESSION["email"]);
+                $result->execute();
+                $data = $result->fetchAll();
+                if ($data && $data[0][0] == 1)
+                    print("<br> VALID SESSION");
+                else
+                {
+                    session_destroy();
+                    header("Location: ".PROJECT_URL."login");
+                    exit();
+
+                }
+            }
+
+
             $this->sessionStatus = SESSION_STATUS::VALID_SESSION;
             $this->accountID = $_SESSION["ID"];
             $this->accountEmail = $_SESSION["email"];
@@ -150,6 +176,8 @@ class HTTPRequest
             $this->accountType = $_SESSION["account_type"];
             $this->accountSessionTime = $_SESSION["session_start_time"];
             $this->accountLoginIP = $_SESSION["login_ip"];
+            $this->accountSessionID = session_id();
+
             // Check if the session is still valid
             if (isset($_SESSION["session_start_time"]) && null != SESSION_MAX_DURATION)
             {
@@ -157,6 +185,15 @@ class HTTPRequest
                 if ( (SESSION_MAX_DURATION > 0) && ((time() - (int)$_SESSION['session_inactivity_time']) > SESSION_MAX_DURATION) )
                 {
                     // The client's session has expired, redirect to the login page
+
+                    $db = (new SQLiteConnection())->getDB();
+                    if ($db != NULL)
+                    {
+                        $result = $db->prepare("UPDATE accounts SET logged_in=0, logout_type='SESSION_MAX_DURATION' WHERE email=:email");
+                        $result->bindParam(":email", $this->accountEmail);
+                        $result->execute();
+                    }
+
                     session_destroy();
                     header("Location: ".PROJECT_URL."login");
                     exit();
@@ -170,6 +207,14 @@ class HTTPRequest
                 if ( (SESSION_INACTIVITY_TOLERANCE > 0) && (time() - (int)$_SESSION['session_inactivity_time']) > SESSION_INACTIVITY_TOLERANCE)
                 {
                     // The client's session has expired, redirect to the login page
+                    $db = (new SQLiteConnection())->getDB();
+                    if ($db != NULL)
+                    {
+                        $result = $db->prepare("UPDATE accounts SET logged_in=0, logout_type='SESSION_INACTIVITY' WHERE email=:email");
+                        $result->bindParam(":email", $this->accountEmail);
+                        $result->execute();
+                    }
+
                     session_destroy();
                     header("Location: ".PROJECT_URL."login");
                     exit();

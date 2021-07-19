@@ -82,6 +82,11 @@ a:hover
     color: #85C600;
 }
 
+h3
+{
+    font-size: 18px;
+    color: #fff;
+}
 .row-container
 {
     border: 2px solid #fff;
@@ -94,7 +99,7 @@ a:hover
     border: 2px soild red;
 
     min-height: 100%;
-    max-width: 100%;
+    max-width: 640px;
     opacity: 1;
     color: #949494;
     overflow: hidden;
@@ -243,6 +248,23 @@ a:hover
     font-family: Content;
     font-size: 14px;
     color: #4fff;
+}
+
+.bg-yellow
+{
+    padding:4px;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    overflow: hidden;
+    max-width: 100%;
+
+    background-color: #FFA600;
+    color: #0c0c0c;
+}
+
+.white
+{
+    color: #fff !important;
 }
 
 .red

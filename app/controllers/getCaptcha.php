@@ -23,6 +23,10 @@ require_once(CORE."HTTPRequest.php");
 // service, to generate a captcha image for other forms simply store it in a different $_SERVER variable
 function entry($requestData)
 {
+    // No point in generating the captcha if sessions are disabled
+    if (!SESSIONS_ENABLED)
+        exit();
+
     $img = imagecreatetruecolor(150, 50) or die('Cannot Initialize new GD image stream');
     imageantialias($img, true);
     $colors = [];

@@ -54,6 +54,9 @@ function loginHomepage($requestData= NULL)
     $pageContents["login_time"] = $requestData->accountSessionTime;
     $pageContents["ip"] = $requestData->accountLoginIP;
     $pageContents["captcha"] = $_SESSION["solved_captcha"];
+    $pageContents["sid"] = session_id();
+    $pageContents["account_session_id"] = $requestData->accountSessionID;
+    $pageContents["cookie_session_id"] = $_COOKIE["SID"];
 
     $engine = new TemplateEngine();
     $engine->renderHeader($header);

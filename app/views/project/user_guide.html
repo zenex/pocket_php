@@ -1,138 +1,123 @@
-
-
-
-<div class="title"> INSTALLATION </div>
+s
+<div class="title">INSTALLATION</div>
 <div class="content-text">
-    <span class="green">1. Install PHP7 and NGINX, I recommend installing both through your package manager.</span> <br>
-    For Arch / Manjaro :
-    <br>
-    <div class="mainframe_output">
-        $ sudo pacman -S nginx php php-fpm php-fpm php-sqlite php-gd sqlitebrowser sqlite <br>
-    </div>
-    <br>
-    <span class="green">2. Clone the POCKET_PHP repository and set the server permissions.</span>
-    <br>
-    <div class="mainframe_output">
-        $ git clone <a href="{{git_link}}" class="black">{{git_link}}</a> <br>
+    <h3 class="green" style="text-align:center;">1. Install PHP8 and <a href="https://nginx.com" class="green">NGINX</a>, I recommend installing both through your package manager.</h3>
+    <p> For Arch / Manjaro : </p>
+
+
+    <p class="mainframe_output">
+        $ sudo pacman -S nginx php php-fpm php-fpm php-sqlite php-gd sqlitebrowser sqlite
+    </p>
+
+    <h3 class="green" style="text-align:center;">2. Clone the POCKET_PHP repository and set the server permissions.</h3>
+    <p> Note that both the webserver and the php-fpm daemon must have read & write permissions on the project folder. </p>
+
+    <p class="mainframe_output">
+        $ git clone <a href="{{pocket_php_git_link}}" class="yellow">{{pocket_php_git_link}}</a> <br>
         $ sudo mkdir /var/web_server <br>
         $ sudo chown -R username:group /var/web_server_php <br>
         $ sudo chmod -R 755 /var/web_server <br>
-
         $ mv -r pocket_php /var/web_server/ <br>
         $ sudo chown -R username:group /var/web_server/pocket_php <br>
         $ sudo chmod -R 755 /var/web_server/pocket_php <br>
-    </div>
-    <br>
-    <span class="green">3. Configure NGINX.</span>
-    <br>
-    Remember to modify the provided nginx virtual server <a href="{{nginx_conf}}">configuration file</a> to match your desired settings!<br>
-    <div class="mainframe_output">
-        $ sudo mv /var/web_server/pocket_php/static/text_files/nginx_config /etc/nginx/nginx.conf<br>
-        $ sudo mv /var/web_server/pocket_php/static/text_files/nginx_pocket_php_vsb /etc/nginx/sites-available/default<br>
-        $ sudo systemctl restart php-fpm.service<br>
-        $ sudo systemctl restart nginx.service
-    </div>
-    <br>
-    Uncomment the SSL Settings block and modify the following lines in the included nginx.conf with your own
-    <br>
-    <div class="mainframe_output">
-        ssl_certificate     /etc/nginx/ssl/cert.crt
-        ssl_certificate_key /etc/ngins/ssl/key.key
-    </div>
-    <br>
-    Then, uncomment the HTTPS ENABLED (and comment out the HTTPS DISABLED) block in sites-available/default
-    <br><br>
+    </p>
 
-    <span class="green">4. Configure PHP.</span>
-    <br>
-    The only relevant changes are to the www.conf and php.ini files.
-    <br>
-    /etc/php/php.ini
-    <div class="mainframe_output">
+
+    <h3 class="green" style="text-align:center;">3. Configure <a href="https://nginx.com" class="green">NGINX</a>.</h3>
+
+    <div class="bg-yellow">
+        <h2 class="red" style="text-align:center;">! WARNING !</h2>
+
+            Web server configuration is a broad topic, the following setup is intended to be customized for it's intended purpose as an exmaple and
+            is only a basic gestalt of what POCKET_PHP requires to work. For development environments extra precautions should be taken
+            like using a dedicated user and group combo to isolate <a href="https://nginx.com" class="white">NGINX</a> and PHP to their respective working folders only.
+
+            This is specially true for (securely) serving through TOR!
+    </div>
+
+    <p class=""> As long as your webserver of choice respects the simple rules below, pocket_php will work with it.</p>
+
+
+    <p class="mainframe_output">
+        1. Serve static files directly <br>
+        2. Redirect everything else to /app/index.php
+    </p>
+
+    <p>
+        The provided <a href="{{nginx_vbs_file}}">virtual server file</a> for <a href="https://nginx.com" class="green">NGINX</a> also adds a few security filters to keep some static files (such as the internal DB) private.
+        As a side note, there have been some issues with the way php-fpm handles sqlite databases that share the same name but are from independent projects, a very common case when
+        running multiple websites from a single server, simply rename the database file and update the location constant in configure.php.
+    </p>
+
+    <p>
+        Though the default <a href="https://nginx.com" class="green">NGINX</a> configuration has moved away from the sites-available / sites-enabled directories, they work well enough and will be
+        implementing the <a href="https://nginx.com" class="green">NGINX</a> config using this scheme, feel free to change the paths to ones of your liking. Do note that the PHP-FPM user and group
+        must match the ones set for <a href="https://nginx.com" class="green">NGINX</a>.
+    </p>
+
+    <p> Create the <a href="https://nginx.com" class="green">NGINX</a> configuration folder structure, change the permissions and move the included config files.</p>
+
+
+    <p class="mainframe_output">
+        $ sudo chown -R user:group /etc/nginx/ <Br>
+        $ sudo chown -R 755 /etc/nginx <br>
+        $ mkdir /etc/nginx/ssl <br>
+        $ mkdir /etc/nginx/sites-enabled <br>
+        $ mkdir /etc/nginx/sites-available <br>
+        $ mv /var/web_server/pocket_php/static/text_files/nginx_config /etc/nginx/nginx.conf <br>
+        $ mv /var/web_server/pocket_php/static/text_files/nginx_pocket_php_vsb /etc/nginx/sites-available/default <br>
+        $ sudo ln -s /etc/nginx/sites-available /etc/nginx/sites-enabled <br>
+        $ sudo systemctl restart nginx.service <br>
+    </p>
+
+    <p> Uncomment the SSL Settings block and modify the following lines in the included nginx.conf with your own. </p>
+
+
+    <p class="mainframe_output">
+        ssl_certificate     /etc/nginx/ssl/cert.crt <br>
+        ssl_certificate_key /etc/ngins/ssl/key.key <br>
+    </p>
+
+    <p> Then, uncomment the HTTPS ENABLED (and comment out the HTTPS DISABLED) block in sites-available/default. </p>
+
+
+    <h3 class="green" style="text-align:center;">4. Configure PHP.</h3>
+
+    <p> The only relevant changes are to the www.conf and php.ini files. </p>
+    <p class="">In /etc/php/php.ini </p>
+
+
+    <p class="mainframe_output">
         1. Uncomment the extension=pdo_sqlite and extension=gd <br>
         2. Change the default session.name (for security reasons) <br>
         3. Modify the upload.limit to fit your needs <br>
-        4. Set the desired time zone in "date.timezone" (NOTE: this setting can and usually is overwritten)
-    </div>
-    <br>
-    /etc/php/php-fpm.d/www.conf
-    <div class="mainframe_output">
-        1. Change user and group to ones NGINX can access
-    </div>
-
-    <br>
-    <span class="green">5. Configure POCKET_PHP.</span>
-    <br>
-    All the relevant configuration lies in app/configure.php, note that the pocket_php/tools/ directory holds the sqlite
-    database file and both the file and folder must be writeable by the web server.
-    <div class="mainframe_output">
-        sudo chown -R username:group /var/wweb_server/pocket_php/core/<br>
-        sudo chmod -R 755 /var/web_server/pocket_php/app/core/pocket_php.db<br>
-    </div>
-    <br>
-    It's also worth mentioning that locale settings used by PHP are the same enabled in the host system and that the
-    default timezone can be set in the php.ini file and overwritten in the configure.php source. Just an FYI.
-</div>
-<br>
-
-<div class="title"> WEBSERVER CONFIGURATION </div>
-<div class="content-text">
-    As long as your webserver of choice respects the simple rules below, pocket_php will work with it.
-    <div class="mainframe_output">
-        1. Serve static files directly <br>
-        2. Redirect everything else to /app/index.php <br>
-    </div>
-    <br>
-    The provided <a href="{{nginx_vbs_file}}">virtual server file</a> for NGINX also adds a few security filters to keep some static files (such as the internal DB) private.
-    As a side note, there have been some issues with the way php-fpm handles sqlite databases that share the same name but are from independent projects, a very common case when
-    running multiple websites from a single server, simply rename the database file and update the location constant in configure.php.
-</div>
-<br>
-
-<div class="title"> F.A.Q. / TROUBLESHOOTING </div>
-<div class="content-text">
-    <p>
-        <div class="green">POCKET_PHP isn't honoring the changes made to the php-fpm.ini file</div>
-        One of PHP's more annoying limitations is how the php.ini configuration file is global to its
-        respective php-fpm process. To work around this issue and support multiple different php configurations
-        on the same server please refer to the configure.php file which overrides all internal pocket_php settings
-        in the php.ini file.
+        4. Set the desired time zone in "date.timezone" (NOTE: this setting can and usually is overwritten) <br>
+        5. You might want to move the sessions folder from the default (/tmp) <br>
     </p>
 
-    <p>
-        <div class="green">The sqlite database can't be opened.</div>
-        NGINX requries read and write permissions for both the database and the folder it resides in.
+    <p class="red">Do note that the selected session.name will be referenced in POCKET_PHP!</p>
+
+
+    <p> In /etc/php/php-fpm.d/www.conf </p>
+
+
+    <p class="mainframe_output">
+        1. Change user and group to match those specified in the <a href="https://nginx.com" class="green">NGINX</a> configuration
     </p>
 
-    <p>
-        <div class="green">Can I change the database?</div>
-        Simply add the connection parameters to configuration.php and the desired interface to /core/database.php.
+    <h3 class="green" style="text-align:center;">5. Configure POCKET_PHP.</h3>
+
+
+    <p>All the relevant configuration lies in app/configure.php, note that the pocket_php/tools/ directory holds the sqlite
+        database file, the sqlite file itself and the sessions management folder must be writeable by the web server.</p>
+
+
+    <p class="mainframe_output">
+        $ mkdir /var/web_server/pocket_php/tools/sessions/ <br>
+        $ sudo chown -R username:group /var/web_server/pocket_php/tools/ <br>
+        $ sudo chmod -R 755 /var/web_server/pocket_php/tools/pocket_php.db <br>
     </p>
 
-    <p>
-        <div class="green">The specified timezone / locale isn't working. </div>
-        Both timezone and locale settings in PHP are dependent on the those installed in the host system. <br>
-        Use the "locale -a" command to get the available locales and their correct names, to install new ones uncomment them in your local /etc/locale.gen and run locale-gen to enable them.
-    </p>
-
-    <p>
-        <div class="green">What was the motivation behind pocket_php?</div>
-        Current trends in web frameworks are to take the idea of having an initial basis for a project to the extreme
-        by trying to provide far more than it is required of them. Some of the more criminal examples out there (they know who they are)
-        even outright ignore the ever increasing size of their already unnecessarily massive code base. Probably because the vast majority
-        of the userbase don't even read the code they run.
-        <br>
-        I believe that PHP would greatly benefit from a proper MVC implementation, so here it is.
-    </p>
-
-    <p>
-        <div class="green">What is the project's license? Do I have to pay or credit you in any way?</div>
-        The project is <a href="https://opensource.org/licenses/MIT">MIT</a> licensed and free. You don't have to credit it me at all.
-    </p>
-</div>
-<br>
-
-<div class="title"> DEVLOG </div>
-<div class="content-text">
-    {{devlog_entries}}
+    <p> Finally, the configure.php file overrides the php.ini settings that POCKET_PHP depends on, this prevents clashing between virtual servers with
+        different settings and the main php.ini defaults. It's strongly suggested to modify the included configure file instead.</p>
 </div>

@@ -25,7 +25,7 @@
 <script>
 
  var refreshBtn = document.querySelector(".refresh-captcha");
- refreshBtn,onclick = function() {
+ refreshBtn.onclick = function() {
      document.querySelector(".captcha-img").src = "/getCaptcha";
  }
 

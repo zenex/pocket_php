@@ -22,9 +22,9 @@ function configure() : void
     // ------- VERSION CONTROL -------
 
     // POCKET_PHP's version
-    define("POCKET_PHP_VERSION", "1.53");
+    define("POCKET_PHP_VERSION", "2.1");
     // The rpoject's version
-    define("PROJECT_VERSION", "1.53");
+    define("PROJECT_VERSION", "2.1");
 
     // ------- POCKET_PHP SETTINGS -------
 
@@ -57,7 +57,6 @@ function configure() : void
     // HTTPS must be configured a priori and PROJECT_URL must be set
     // to the desired HTTPS enabled URL
     define("FORCE_HTTPS", true);
-
     define("ROOT"        , __DIR__);
     define("CONFIG"      , ROOT . "/configure.php"); // Main configuration file (BEWARE OF COMMITING USERNAMES AND PASSWORDS)
     define("CORE"        , ROOT . "/core/");         // POCKET_PHP core files
@@ -80,34 +79,7 @@ function configure() : void
     // Many browsers request the favicon.ico by appending it immediately after the URL
     define("FAVICON_ICO", "static/images/internal/icons/favicon.ico");
 
-    // SSL verification strings
-    // These are used to validate SSL certificates, however, more configuration may be required for this to work.
-    // Check out /core/HTTPRequests.php_check_syntax($filename) for more info
 
-    // define("SSL_VER_1_TXT", "cR-7K-MrtkMjYJoknircDb-jugs8FfAxmRUXm5YsJWw.LfHgiDq45HRfQQDyruI6ucCKRG2Iqef1jBPgniAZ7As");
-    // define("SSL_VER_2_TXT", "lvN5xeu63t-CxVEtDbUCuXNOT9kQIHud7ZPoFGFvImo.LfHgiDq45HRfQQDyruI6ucCKRG2Iqef1jBPgniAZ7As");
-
-    // ------- SESSION SETTINGS  -------
-
-    // This is the requested file that valid login attempts must call to be processed
-    define("LOGIN_CONTROLLER", "login.php");
-    // This is the requested file that clients target to cleanly log out
-    define("LOGOUT_CONTROLLER", "logout.php");
-    // How long a session will last (in seconds) before asking the client to log in again.
-    // 0 = Won't expire
-    // 60*30 = half hour
-    define("SESSION_MAX_DURATION", 60*30);
-    // Tolerance time span for client inactivity
-    // 0 = Full tolerance
-    // 60*30 = half hour of inactivity tolerance
-    define("SESSION_INACTIVITY_TOLERANCE", 60*15);
-    // Login captcha settings
-    define("ENFORCE_LOGIN_CAPTCHA", true);
-    define("LOGIN_CAPTCHA_LENGTH", 6);
-    define("CAPTCHA_FONT_1", "static/fonts/ro.ttf");
-    define("CAPTCHA_FONT_2", "static/fonts/heading.woff");
-    define("CAPTCHA_FONT_3", "static/fonts/libsans.ttf");
-    define("CAPTCHA_FONT_4", "static/fonts/cantarell.otf");
 
     // ------- ERRORS AND EXCEPTIONS  -------
 
@@ -117,17 +89,45 @@ function configure() : void
     // Page to be shown when a banned IP requests anything
     define("BANNED_IP_PAGE", "error/banned.html");
 
+
+
     // ------- DATABASE AND DATA LOGGING  -------
+
     // Location of the internal database
     define("CORE_SQLITE_FILE", "../tools/pocket_php.db");
 
-    // PostgreSQL TESTING
-    define("POSTGRESQL_HOST", "localhost");
-    define("POSTGRESQL_PORT", "9001");
-    define("POSTGRESQL_DB", "pocket_php");
-    define("POSTGRESQL_USER", "admin");
-    define("POSTGRESQL_PWD", "");
 
+    // ------- SESSION SETTINGS  -------
+
+    // Toggles sessions, note that the HTTPRequest object
+    define("SESSIONS_ENABLED", true);
+    // This prevents session file clashing when running multiple sites on the same server (defaults to /tmp)
+    define("SESSIONS_SAVE_PATH", "../tools/sessions");
+    // This is the requested file that valid login attempts must call to be processed
+    define("LOGIN_CONTROLLER", "login.php");
+    // This is the requested file that clients target to cleanly log out
+    define("LOGOUT_CONTROLLER", "logout.php");
+
+    // How long a session will last (in seconds) before asking the client to log in again.
+    // 0 = Won't expire
+    // 60*30 = half hour
+    // define("SESSION_MAX_DURATION", 60*30);
+    define("SESSION_MAX_DURATION", 60*5);
+    // Tolerance time span for client inactivity
+    // 0 = Full tolerance
+    // 60*30 = half hour of inactivity tolerance
+    // define("SESSION_INACTIVITY_TOLERANCE", 60*15);
+    define("SESSION_INACTIVITY_TOLERANCE", 60*2);
+    // How long will the user SID cookie be valid for
+    // NOTE: If the cookie expires before the SESSION_MAX_DURATION
+    define("SESSION_COOKIE_DURATION", 60*10);
+    // Login captcha settings
+    define("ENFORCE_LOGIN_CAPTCHA", true);
+    define("LOGIN_CAPTCHA_LENGTH", 6);
+    define("CAPTCHA_FONT_1", "static/fonts/ro.ttf");
+    define("CAPTCHA_FONT_2", "static/fonts/heading.woff");
+    define("CAPTCHA_FONT_3", "static/fonts/libsans.ttf");
+    define("CAPTCHA_FONT_4", "static/fonts/cantarell.otf");
 
     // ------- PHP CONFIGURATION  -------
     // Note that the PHP locales are the same as the ones enabled on the host system.
@@ -150,7 +150,23 @@ function configure() : void
     // exit in case of errors
     set_exception_handler("handleException");
 
-    // CUSTOM CONSTANTS
+    // Session file path, must be writeable by the PHP-FPM daemon
+    ini_set("session.save_path", SESSIONS_SAVE_PATH);
+    ini_set("session.save_handler", "files");
+    ini_set('session.gc_probability', 1);
+    ini_set('session.gc_divisor', 50);
+    // Set session duration (maxlifetime) to 1 hour - 60 x 60 x 1
+    ini_set('session.gc_maxlifetime', SESSION_MAX_DURATION);
+     // Set the session cookie to expire at the same time as the server side session id file
+    session_set_cookie_params(SESSION_COOKIE_DURATION, "/");
+
+    // File Uploads
+    // MUST BE MANUALLY SET IN PHP.INI
+    //ini_set("file_uploads", 1);
+    //ini_set("max_file_uploads", 20);
+    //ini_set("upload_max_filesize", "2M");
+
+    // ------- CUSTOM CONSTANTS  -------
     // Put all project related constants in here.
 
     // CUSTOM CONSTANTS
@@ -163,6 +179,13 @@ function configure() : void
     define("WEBMASTER_GMAIL", "");
     define("PROJECT_GIT", "https://git.xenobyte.xyz/XENOBYTE/pocket_php");
     // define("PHPMAILER_FOLDER", "/core/phpmailer/");
+
+    // Set the session status
+    if (SESSIONS_ENABLED)
+    {
+        if (session_id() == "")
+            session_start();
+    }
 }
 
 // ------- TEMPLATE ENGINE SETTINGS -------

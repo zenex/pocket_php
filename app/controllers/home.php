@@ -16,6 +16,7 @@ require_once(CORE."database.php");
 
 function entry ($requestData)
 {
+
     if (isset($requestData->GET["nav"]))
     {
         switch ($requestData->GET["nav"])
@@ -42,6 +43,8 @@ function homepage($requestData = NULL)
 {
     $header["title"] = "POCKET_PHP -- Home";
     $header["description"] = "POCKET_PHP: Blazing fast MVC implementation for PHP7+ ";
+
+
     $engine = new TemplateEngine();
     $engine->renderHeader($header);
     $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
