@@ -199,7 +199,7 @@ h3
     font-family: Content;
     font-size: 12px;
     margin: 6px;
-    color: #FF875F;
+    color: #FFA600;
     line-height: 14px;
     text-align:left;
     text-decoration: none;
@@ -271,7 +271,10 @@ h3
 {
     color: #C72D36;
 }
-
+.yellow
+{
+    color: #FFA600 !important;
+}
 .error-container
 {
     background-color: #C72D36;

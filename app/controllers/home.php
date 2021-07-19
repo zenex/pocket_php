@@ -10,9 +10,9 @@
 // License: MIT License
 // Website: https://xenobyte.xyz/projects/?nav=pocket_php
 
-require_once(__DIR__."/../configure.php");
-require_once(CORE."HTTPRequest.php");
-require_once(CORE."database.php");
+require_once(CONFIGURATION_FILE);
+require_once(CORE_DIR."HTTPRequest.php");
+require_once(CORE_DIR."database.php");
 
 function entry ($requestData)
 {

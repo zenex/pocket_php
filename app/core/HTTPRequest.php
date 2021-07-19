@@ -10,7 +10,7 @@
 // License: MIT License
 // Website: https://xenobyte.xyz/projects/?nav=pocket_php
 
-require_once(__DIR__."/../configure.php");
+require_once(CONFIGURATION_FILE);
 
 abstract class SESSION_STATUS
 {
@@ -94,7 +94,7 @@ class HTTPRequest
             // the site's root (website.com_favicon.ico), simple map the request to the appropriate location for
             // static content
             // if ($this->route == "favicon.ico")
-            if (file_exists(CONTROLLERS.$this->route.".php"))
+            if (file_exists(CONTROLLERS_DIR.$this->route.".php"))
                 $this->requestedFile = $this->route.".php";
             else
                 throw new Exception("File: ". $this->route.".php" ." does not exist.", 404);
@@ -106,12 +106,12 @@ class HTTPRequest
             if (count($this->route) > 2)
                 throw new Exception("URL nesting can't go deeper than 1 directory.", 0);
 
-            if (file_exists(CONTROLLERS.$this->route[0])) // Check if the subfolder exists
+            if (file_exists(CONTROLLERS_DIR.$this->route[0])) // Check if the subfolder exists
             {
                 if ($this->route[1] != "" && $this->route[1] != "/") // Check for empty or wrongly formatted string
                 {
                     // Check if the file requested exists
-                    if (file_exists(CONTROLLERS.$this->route[0]."/".$this->route[1].".php"))
+                    if (file_exists(CONTROLLERS_DIR.$this->route[0]."/".$this->route[1].".php"))
                         $this->requestedFile = $this->route[0]."/".$this->route[1].".php";
                     else
                         throw new Exception("Nested file: ". $this->route[1].".php" ." does not exist.", 404);

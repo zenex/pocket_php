@@ -21,9 +21,9 @@ declare(strict_types=1);
 require_once("configure.php"); // <-------------
 // ---------------------------------------------
 
-include(CORE."HTTPRequest.php");
-include(CORE."templateEngine.php");
-include(CORE."database.php");
+include(CORE_DIR."HTTPRequest.php");
+include(CORE_DIR."templateEngine.php");
+include(CORE_DIR."database.php");
 
 
 // MAKE SURE TO CONFIGURE YOUR WEB SERVER TO SERVE REQUESTS ASKING FOR
@@ -153,7 +153,7 @@ function processRequest() : void
 // R: void
 function dispatchRequest($file, $function, $parameters) : void
 {
-    include(CONTROLLERS.$file);
+    include(CONTROLLERS_DIR.$file);
     if (empty($function))
         call_user_func($file, $parameters);
     else
@@ -334,11 +334,13 @@ function saveRequest($requestData) : void
             }
         }
 
-        $result = $sqlite->prepare("INSERT INTO requests (ip, route, arguments, country) VALUES (:ip, :route, :arguments, :country)");
+        $result = $sqlite->prepare("INSERT INTO requests (ip, route, arguments, country, session_id) VALUES (:ip, :route, :arguments, :country, :session_id)");
         $result->bindparam(":ip", $requestData->ip);
         $result->bindparam(":route", $requestData->route);
         $result->bindparam(":arguments", $argumentsStr);
         $result->bindparam(":country", $requestData->ipCountry);
+        $sid = session_id();
+        $result->bindparam(":session_id", $sid);
         $result->execute();
     }
 }

@@ -34,12 +34,16 @@ function configure() : void
     define("DEBUG", true);
 
     // Saves the client's data in the internal database
-    define("TRACK_REQUESTS", false);
+    define("TRACK_REQUESTS", 0);
 
     // When ENFORCE_BANS is set to true all request with an IP in the
     // internal database ('banned' table) will always be redirected to
     // the banned page (specified below)
-    define("ENFORCE_BANS", false);
+    define("ENFORCE_BANS", 0);
+
+    // Toggles sessions, note that the HTTPRequest object
+    define("SESSIONS_ENABLED", true);
+
 
 
     // ------- INTERNAL FOLDER STRUCTURE -------
@@ -57,13 +61,13 @@ function configure() : void
     // HTTPS must be configured a priori and PROJECT_URL must be set
     // to the desired HTTPS enabled URL
     define("FORCE_HTTPS", true);
-    define("ROOT"        , __DIR__);
-    define("CONFIG"      , ROOT . "/configure.php"); // Main configuration file (BEWARE OF COMMITING USERNAMES AND PASSWORDS)
-    define("CORE"        , ROOT . "/core/");         // POCKET_PHP core files
-    define("VIEWS"       , ROOT . "/views/");        // HTML files (to be served)
-    define("STATIC"      , ROOT . "/static/");       // Files directly served by the web server (see the provided NGINX configuration file)
-    define("CONTROLLERS" , ROOT . "/controllers/");  // Content logic
-    define("MODELS"      , ROOT . "/models/");       // Database interface files
+    define("ROOT_DIR"        , __DIR__);
+    define("CONFIGURATION_FILE"      , ROOT_DIR . "/configure.php"); // Main configuration file (BEWARE OF COMMITING USERNAMES AND PASSWORDS)
+    define("CORE_DIR"        , ROOT_DIR . "/core/");         // POCKET_PHP core files
+    define("VIEWS_DIR"       , ROOT_DIR . "/views/");        // HTML files (to be served)
+    define("STATIC_DIR"      , ROOT_DIR . "/static/");       // Files directly served by the web server (see the provided NGINX configuration file)
+    define("CONTROLLERS_DIR" , ROOT_DIR . "/controllers/");  // Content logic
+    define("MODELS_DIR"      , ROOT_DIR . "/models/");       // Database interface files
 
     // ------- URL ROUTING  -------
 
@@ -90,7 +94,6 @@ function configure() : void
     define("BANNED_IP_PAGE", "error/banned.html");
 
 
-
     // ------- DATABASE AND DATA LOGGING  -------
 
     // Location of the internal database
@@ -99,8 +102,6 @@ function configure() : void
 
     // ------- SESSION SETTINGS  -------
 
-    // Toggles sessions, note that the HTTPRequest object
-    define("SESSIONS_ENABLED", true);
     // This prevents session file clashing when running multiple sites on the same server (defaults to /tmp)
     define("SESSIONS_SAVE_PATH", "../tools/sessions");
     // This is the requested file that valid login attempts must call to be processed
@@ -121,13 +122,19 @@ function configure() : void
     // How long will the user SID cookie be valid for
     // NOTE: If the cookie expires before the SESSION_MAX_DURATION
     define("SESSION_COOKIE_DURATION", 60*10);
-    // Login captcha settings
+    // PHP garbage collector trigger probability
+    define("SESSION_GC_PROBABILITY", 1);
+    define("SESSION_GC_DIVISOR", 100);;
+
+    // ------- LOGIN CAPTCHA SETTINGS  -------
+
     define("ENFORCE_LOGIN_CAPTCHA", true);
     define("LOGIN_CAPTCHA_LENGTH", 6);
     define("CAPTCHA_FONT_1", "static/fonts/ro.ttf");
     define("CAPTCHA_FONT_2", "static/fonts/heading.woff");
     define("CAPTCHA_FONT_3", "static/fonts/libsans.ttf");
     define("CAPTCHA_FONT_4", "static/fonts/cantarell.otf");
+
 
     // ------- PHP CONFIGURATION  -------
     // Note that the PHP locales are the same as the ones enabled on the host system.
@@ -153,15 +160,14 @@ function configure() : void
     // Session file path, must be writeable by the PHP-FPM daemon
     ini_set("session.save_path", SESSIONS_SAVE_PATH);
     ini_set("session.save_handler", "files");
-    ini_set('session.gc_probability', 1);
-    ini_set('session.gc_divisor', 50);
+    ini_set('session.gc_probability', SESSION_GC_PROBABILITY);
+    ini_set('session.gc_divisor', SESSION_GC_DIVISOR);
     // Set session duration (maxlifetime) to 1 hour - 60 x 60 x 1
     ini_set('session.gc_maxlifetime', SESSION_MAX_DURATION);
      // Set the session cookie to expire at the same time as the server side session id file
     session_set_cookie_params(SESSION_COOKIE_DURATION, "/");
 
-    // File Uploads
-    // MUST BE MANUALLY SET IN PHP.INI
+    // File uploads settings that MUST BE MANUALLY SET IN PHP.INI
     //ini_set("file_uploads", 1);
     //ini_set("max_file_uploads", 20);
     //ini_set("upload_max_filesize", "2M");
@@ -225,9 +231,13 @@ function configureFooterStaticContent() : ?array
 {
     $data                 = array();
     $data["site_link"]  = "https://xenobyte.xyz";
+    $data["project_home_link"]  = "https://xenobyte.xyz/projects/?nav=pocket_php";
     $data["git_link"]     = PROJECT_GIT;
     $data["author_link"]  = "https://xenobyte.xyz/about";
+    $data["author"]  = AUTHOR;
     $data["license_link"] = PROJECT_URL."project/?nav=license";
+    $data["btc_link"]  = BTC_ADDRESS;
+    $data["monero_link"] = MONERO_ADDRESS;
 
     return $data;
 }
@@ -236,9 +246,9 @@ function configureNavbarStaticContent() : ?array
 {
     $data                     = array();
     $data["author_link"]  = "https://xenobyte.xyz";
+    $data["project_home_link"]  = "https://xenobyte.xyz/projects/?nav=pocket_php";
     $data["home_link"]       = PROJECT_URL."home";
-    $data["user_guide_link"] = PROJECT_URL."project?nav=user_guide";
-    $data["about_link"]      = PROJECT_URL."about";
+    $data["settings_link"]      = PROJECT_URL."settings";
     $data["login_link"]      = PROJECT_URL."login";
     $data["logout_link"]     = PROJECT_URL."logout";
 

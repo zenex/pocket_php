@@ -10,8 +10,8 @@
 // License: MIT License
 // Website: https://xenobyte.xyz/projects/?nav=pocket_php
 
-require_once(CONFIG);
-require_once(CORE."HTTPRequest.php");
+require_once(CONFIGURATION_FILE);
+require_once(CORE_DIR."HTTPRequest.php");
 
 // AS SPECIFIED IN THE CONFIGURATION.PHP FILE, ALL CONTROLLER
 // FILES. IN ADDITION TO BEING NAMED AFTER THE DESIRED FILE TO

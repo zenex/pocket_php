@@ -10,10 +10,8 @@
 // License: MIT License
 // Website: https://xenobyte.xyz/projects/?nav=pocket_php
 
-require_once(__DIR__."/../configure.php");
-require_once(CORE."HTTPRequest.php");
-require_once(CORE."database.php");
-require_once(__DIR__."/../models/devlog_model.php");
+require_once(CONFIGURATION_FILE);
+require_once(CORE_DIR."HTTPRequest.php");
 
 function entry ($requestData)
 {
@@ -21,54 +19,19 @@ function entry ($requestData)
     {
         switch ($requestData->GET["nav"])
         {
-        case "home":
-        {
-            user_guide($requestData);
-            break;
-        }
-        case "user_guide":
-        {
-            user_guide($requestData);
-            break;
-        }
         case "license":
         {
             license($requestData);
             break;
         }
-        case "changelog":
-        {
-            changelog($requestData);
-            break;
-        }
-        default:
-        {
-            user_guide($requestData);
-            break;
-        }
         }
     }
     else
-        user_guide($requestData);
+        license($requestData);
 
     exit();
 }
 
-
-function user_guide($requestData = NULL)
-{
-    $header["title"] = "POCKET_PHP -- User Guide";
-    $header["description"] = "Pocket_PHP documentation, installation and development log";
-    $engine = new TemplateEngine();
-    $engine->renderHeader($header);
-    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-    $page_contents = array("nginx_conf" => "/static/text_files/nginx_config",
-                           "nginx_vbs_file" => PROJECT_URL."static/text_files/pocket_php_nginx_vbs",
-                           "pocket_php_git_link" => "https://git.xenobyte.xyz/XENOBYTE/pocket_php/");
-
-    $engine->renderPage("project/user_guide.html", $page_contents);
-    $engine->renderFooter();
-}
 
 function license($requestData = NULL)
 {

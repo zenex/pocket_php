@@ -43,7 +43,7 @@ Pocket_php is particularly well suited for hidden services running on budget har
     $ sudo pacman -S nginx php php-fpm php-fpm php-sqlite php-gd sqlitebrowser sqlite
     ```
 
-2. Clone the pcoket_php repository and set the server permissions
+2. Clone the pocket_php repository and set the server permissions
    Note that both the webserver and the php-fpm daemon must have read & write permissions on the project folder.
 
     ```sh
@@ -57,30 +57,59 @@ Pocket_php is particularly well suited for hidden services running on budget har
     ```
 
 3. Configure NGINX
-   Remember to modify the provided nginx virtual server configuration file to match your desired settings.
+   
+   ---- NOTE ----
+   Web server configuration is a broad topic, the following setup is intended to be customized for it's intended purpose as an exmaple and
+   is only a basic gestalt of what POCKET_PHP requires to work. For development environments extra precautions should be taken
+   like using a dedicated user and group combo to isolate <a href="https://nginx.com" class="white">NGINX</a> and PHP to their respective working folders only.
+   This is specially true for (securely) serving through TOR!
 
+   As long as your webserver of choice respects the simple rules below, pocket_php will work with it.
+   
+   ```sh
+   1. Serve static files directly
+   2. Redirect everything else to /app/index.php
+   ```
+   
+   The provided <a href="{{nginx_vbs}}">virtual server file</a> for <a href="https://nginx.com" class="greentext">NGINX</a> also adds a few security filters to keep some static files (such as the internal DB) private.
+   As a side note, there have been some issues with the way php-fpm handles sqlite databases that share the same name but are from independent projects, a very common case when
+   running multiple websites from a single server, simply rename the database file and update the location constant in configure.php.
+   
+   Create the NGINX configuration folder structure, change the permissions and move the included config files.
+   
     ```sh
-    $ sudo mv /var/web_server/pocket_php/static/text_files/nginx_config /etc/nginx/nginx.conf
-    $ sudo mv /var/web_server/pocket_php/static/text_files/nginx_pocket_php_vsb /etc/nginx/sites-available/default
-    $ sudo systemctl restart php-fpm.service
+    $ sudo chown -R user:group /etc/nginx/
+    $ sudo chown -R 755 /etc/nginx
+    $ mkdir /etc/nginx/ssl
+    $ mkdir /etc/nginx/sites-enabled
+    $ mkdir /etc/nginx/sites-available
+    $ mv /var/web_server/pocket_php/static/text_files/nginx_config /etc/nginx/nginx.conf
+    $ mv /var/web_server/pocket_php/static/text_files/nginx_pocket_php_vsb /etc/nginx/sites-available/default
+    $ sudo ln -s /etc/nginx/sites-available /etc/nginx/sites-enabled
     $ sudo systemctl restart nginx.service 
     ```
+    
     Uncomment the SSL Settings block and modify the following lines in the included nginx.conf with your own
+   
     
     ```sh
     ssl_certificate     /etc/nginx/ssl/cert.crt
     ssl_certificate_key /etc/ngins/ssl/key.key
     ```
-   
+
+    Then, uncomment the HTTPS ENABLED (and comment out the HTTPS DISABLED) block in sites-available/default. 
+
 4. Configure PHP
-   The only relevant changes are to the www.conf and php.ini files.
+
+    The only relevant changes are to the www.conf and php.ini files. However, POCKET_PHP internally modifies some of the php.ini settings, others must be manually set in php.ini.
+ 
+    In /etc/php/php.ini 
  
 
     ```sh
-    1. Uncomment the extension=pdo_sqlite and extension=gd 
-    2. Change the default session.name (for security reasons)
-    3. Modify the upload.limit to fit your needs
-    4. Set the desired time zone in "date.timezone" (NOTE: this setting can and usually is overwritten)
+    - Uncomment the extension=pdo_sqlite and extension=gd
+    - Change the default session.name (for security reasons)
+    - Modify the the file upload settings to match your application's needs (the settings required are specified in app/configure.php)
     ```
     
   `/etc/php/php-fpm.d/www.conf`
@@ -90,31 +119,21 @@ Pocket_php is particularly well suited for hidden services running on budget har
   ```
 
 5. Configure Pocket_PHP
-   All the relevant configuration lies in app/configure.php, note that the core directory holds the sqlite database file and thus both the file and folder must be writeable by the web server.
 
+    All the relevant configuration lies in app/configure.php, note that the pocket_php/tools/ directory holds the sqlite database file, the sqlite file itself and the sessions management folder must be writeable by the web server.
+
+    In /etc/php/php.ini 
     ```sh
-    $ sudo chown -R username:group /var/web_server/pocket_php/core/
+    $ mkdir /var/web_server/pocket_php/tools/sessions/
+    $ sudo chown -R username:group /var/web_server/pocket_php/tools/
     $ sudo chmod -R 755 /var/web_server/pocket_php/tools/pocket_php.db
     ```
-    It's also worth mentioning that locale settings used by PHP are the same enabled in the host system and that the
-    default timezone can be set in the php.ini file and overwritten in the configure.php source. Just an FYI.
+    Finally, the configure.php file overrides the php.ini settings that POCKET_PHP depends on, this prevents clashing between virtual servers with different settings and the main php.ini defaults. It's strongly suggested to modify the included configure file instead.
 
 </details>
 
 
-## Webserver configuration
-  As long as your webserver of choice respects the simple rules below, pocket_php will work with it.
-  ```sh
-  1. Serve static files directly
-  2. Redirect everything else to /app/index.php
-  ```
-  The provided virtual server file for NGINX also adds a few security filters to keep some static files (such as the internal DB) private. As a side note, there have been some issues with the way php-fpm handles sqlite databases that share the same name but are from independent projects, a very common case when running multiple websites from a single server, simply rename the database file and update the location constant in configure.php. 
-
 ## Included Example website and documentation
-Pocket_PHP comes with an example site and user guide that serves as its main documentation.
+Pocket_PHP comes with an example landing site that serves as its main documentation.
 
-<p align="center"><img src="https://i.imgur.com/NjnKWy4.jpg" /></p>
-
-See the "user guide" section for a more thorough explanation.
- 
 For more information visit the official project site at [XENOBYTE.XYZ](https://xenobyte.xyz/projects/?nav=pocket_php)

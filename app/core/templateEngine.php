@@ -10,7 +10,7 @@
 // License: MIT License
 // Website: https://xenobyte.xyz/projects/?nav=pocket_php
 
-require_once(__DIR__."/../configure.php");
+require_once(CONFIGURATION_FILE);
 require_once("utility.php");
 
 
@@ -27,9 +27,9 @@ class TemplateEngine
     function __construct ()
     {
         // Main header file
-        $this->headerFile = VIEWS."templates/header.html";
+        $this->headerFile = VIEWS_DIR."templates/header.html";
         // Main footer file
-        $this->footerFile = VIEWS."templates/footer.html";
+        $this->footerFile = VIEWS_DIR."templates/footer.html";
     }
 
 
@@ -65,7 +65,7 @@ class TemplateEngine
     // RENDER A CUSTOM PAGE
     public function renderPage($file, $pageData = NULL) : void
     {
-        $file = VIEWS . $file;
+        $file = VIEWS_DIR . $file;
         echo(replaceVariables($file, $pageData));
     }
 }
