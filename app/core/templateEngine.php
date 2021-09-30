@@ -13,7 +13,6 @@
 require_once(CONFIGURATION_FILE);
 require_once("utility.php");
 
-
 // PRINTS AN HTML COMPLIANT RESPONSE
 // TO REPLACE STRINGS WITH CUSTOM CONTENT WRAP THE KEY
 // IN DOUBLE BRACKETS, LIKE THIS:
@@ -21,51 +20,51 @@ require_once("utility.php");
 // REPLACED BY:  array("title" => "PROTO PHP");
 class TemplateEngine
 {
-    private $viewsDir, $staticDir, $templatesDir;
-    private $headerFile, $footerFile;
+    private $contentStack;
+    private $stackCounter;
 
     function __construct ()
     {
-        // Main header file
-        $this->headerFile = VIEWS_DIR."templates/header.html";
-        // Main footer file
-        $this->footerFile = VIEWS_DIR."templates/footer.html";
+        $this->contentStack = array();
+        $this->stackCounter = 0;
     }
 
+    public function addFile($filename, $data = NULL)
+    {
+        $fileContents = file_get_contents(VIEWS_DIR . $filename);
+        if (empty($fileContents))
+            return;
 
-    // RENDER THE TOPMOST SECTION OF THE HTML DOCUMENT, WILL APPEND
-    // THE HEADER DATA SPECIFIED IN CONFIGURE.PHP -> configureHeaderStaticContent()
-    public function renderHeader($headerData = NULL) : void
+        if ($data != NULL && is_array($data) || !empty($data))
+            $this->contentStack[$this->stackCounter] = replaceValues($fileContents, '{{', '}}', $data);
+        else
+            $this->contentStack[$this->stackCounter] = $fileContents;
+
+        $this->stackCounter++;
+    }
+
+    public function addString($string, $data = NULL)
+    {
+        if (empty($string))
+            return;
+
+        if ($data != NULL && is_array($data) || !$empty($data))
+            $this->contentStack[$this->stackCounter] = replaceValues($string, '{{', '}}', $data);
+        else
+            $this->contentStack[$this->stackCounter] = $string;
+
+        $this->stackCounter++;
+    }
+
+    public function render()
     {
         if (!ob_get_status()) // IF ob hasn't been started
             ob_start();
 
-        // If the argument is valid and not empty, append both default
-        // static array and the provided arguments to a single data
-        // library
-        $data = configureHeaderStaticContent();
-        if (isset($headerData) && is_array($headerData) && !empty($headerData))
-            $data = array_merge($headerData, $data);
-
-        echo(replaceVariables($this->headerFile, $data));
-
-    }
-
-    // RENDER THE CLOSING HTML TAG
-    public function renderFooter($footerData = NULL) : void
-    {
-        $data = configureFooterStaticContent();
-        if (isset($footerData) && is_array($footerData) && !empty($footerData))
-            $data = array_merge($footerData, $data);
-
-        echo (replaceVariables($this->footerFile, $data));
+        foreach($this->contentStack as $section)
+        {
+            echo($section);
+        }
         ob_flush();
-    }
-
-    // RENDER A CUSTOM PAGE
-    public function renderPage($file, $pageData = NULL) : void
-    {
-        $file = VIEWS_DIR . $file;
-        echo(replaceVariables($file, $pageData));
     }
 }

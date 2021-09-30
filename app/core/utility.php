@@ -26,14 +26,59 @@ function generate_googleQR($content, $size, $error = NULL) : void
 }
 
 
-// REPLACE ALL ITERATIONS OF A STRING IN A FILE
-// R: string
-function replaceVariables($file, $data) : ?string
+function replaceValues($string, $prefix, $postfix, $values)
 {
-    $template = file_get_contents($file);
-    if (empty($data))
-        return $template;
-    foreach ($data as $key => $value)
-        $template = str_replace('{{'.$key.'}}', $value, $template);
-    return $template;
+    if (empty($string) || empty($values))
+        return $string;
+
+    if (is_array($values))
+    {
+        foreach ($values as $key => $data)
+            $string = str_replace($prefix . $key . $postfix, $data, $string);
+    }
+
+    return $string;
+}
+
+// Recursively deletes a directory and all its contents, including subdirectories
+// NOTE: This can take an unacceptable amount of time based on the contents of the dir
+// it could be better to just format the path and do something like shell_exec("rm -rf " . $dir);
+function delDir($path)
+{
+    //print("<br>Deleting ".$path);
+    if (!is_dir($path))
+        return;
+
+    // The last character in the path string should be a separator '/'
+    if (substr($path, strlen($path) - 1, 1) != '/')
+        $path .= '/';
+
+    $dirContents = glob($path.'*');
+    if (!empty($dirContents))
+    {
+        foreach ($dirContents as $file)
+        {
+            // If the item is a folder, recursively call this function to delete its contents before proceeding
+            if (is_dir($file))
+            {
+                //print("<br><br>Deleting subdir ".$file);
+                delDir($file);
+            }
+            else
+            {
+                //print("<br><br>Deleting file ".$file);
+                unlink($file);
+            }
+        }
+    }
+    rmdir($path);
+}
+
+function newDir($path, $permissions = 0777)
+{
+    if (!file_exists($path))
+        if (mkdir($path, $permissions, true))
+            return true;
+
+    return false;
 }

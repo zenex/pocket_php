@@ -35,13 +35,17 @@ function entry ($requestData)
 
 function license($requestData = NULL)
 {
+    $header = configureHeaderStaticContent();
     $header["title"] = "POCKET_PHP -- License";
     $header["description"] = "tldr: It's MIT Licensed";
-    $engine = new TemplateEngine();
-    $engine->renderHeader($header);
-    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $contents["author_link"] = "https://xenobyte.xyz/about";
     $contents["author"] = AUTHOR;
-    $engine->renderPage("project/license.html", $contents);
-    $engine->renderFooter();
+
+    $engine = new TemplateEngine();
+    $engine->addFile("templates/header.html", $header);
+    $engine->addFile("templates/navbar.html", configureNavbarStaticContent());
+    $engine->addFile("project/license.html", $contents);
+    $engine->addFile("templates/footer.html", configureFooterStaticContent());
+    $engine->render();
+
 }

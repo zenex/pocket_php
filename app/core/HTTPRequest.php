@@ -24,9 +24,11 @@ abstract class SESSION_STATUS
 // REQUESTED BY THE CLIENT, WILL THROW AN EXCEPTION IF THE REQUEST IS INVALID
 class HTTPRequest
 {
+    // DEPRECATED IN 2.2
+    // public $ipCountry = NULL;
+
     public $ip = NULL;
     public $userAgent = NULL;
-    public $ipCountry = NULL;
     public $route = NULL;
     public $GET = NULL; // Will always contain the $_GET arguments
     public $POST = NULL;
@@ -43,6 +45,7 @@ class HTTPRequest
     public $accountType = NULL;
     public $accountID = NULL;
     public $accountEmail = NULL;
+    public $accountUsername = NULL;
     public $accountSessionTime = NULL; // Session starting time, used by SESSION_DURATION to limit client session time
     public $accountSessionID = NULL;
     public $accountInactivityTime = NULL; // Updated with every client activity, will close the session if more than SESSION_INACTIVITY_TOLERANCE has passed
@@ -56,7 +59,9 @@ class HTTPRequest
     {
         // Validate and track the client's IP
         $this->ip = $this->getRequestIP();
-        $this->ipCountry = $this->traceIP();
+
+        // The geoip service reaches its limit very fast, premium required
+        //$this->ipCountry = $this->traceIP();
 
         // Process the requested URL
         // If the request is empty (servername.com/)
@@ -158,7 +163,9 @@ class HTTPRequest
                 $result->execute();
                 $data = $result->fetchAll();
                 if ($data && $data[0][0] == 1)
-                    print("<br> VALID SESSION");
+                {
+                    //print("<br> VALID SESSION");
+                }
                 else
                 {
                     session_destroy();
@@ -177,6 +184,7 @@ class HTTPRequest
             $this->accountSessionTime = $_SESSION["session_start_time"];
             $this->accountLoginIP = $_SESSION["login_ip"];
             $this->accountSessionID = session_id();
+            $this->accountUsername = $_SESSION["username"];
 
             // Check if the session is still valid
             if (isset($_SESSION["session_start_time"]) && null != SESSION_MAX_DURATION)
@@ -266,28 +274,32 @@ class HTTPRequest
         return $_SERVER['REMOTE_ADDR'];
     }
 
+    // NOTE 28/09/21
+    // The geoip service reached it's limit and now throws undefined value warnings
+    // either buy premium or find a way to get geolocation data from elsewhere
+
     // GET THE REQUEST'S LOCATION, REQUIRES CURL AND USES THE GEOPLUGIN WEB API
     // R: void
-    private function traceIP() : void
-    {
-        // localhost request
-        if ($this->ip == "127.0.0.1" || $this->ip == "::1")
-            return;
-        // Geoplugin Returns NULL if its requested to process localhost (127.0.0.1)
-        $url = "http://www.geoplugin.net/json.gp?ip=".$this->ip;
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 2); //timeout in seconds
-        $data = curl_exec($ch);
-        curl_close($ch);
-        // var_dump($data);
+    // private function traceIP() : void
+    // {
+    //     // localhost request
+    //     if ($this->ip == "127.0.0.1" || $this->ip == "::1")
+    //         return;
+    //     // Geoplugin Returns NULL if its requested to process localhost (127.0.0.1)
+    //     $url = "http://www.geoplugin.net/json.gp?ip=".$this->ip;
+    //     $ch = curl_init($url);
+    //     curl_setopt($ch, CURLOPT_HEADER, 0);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    //     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+    //     curl_setopt($ch, CURLOPT_TIMEOUT, 2); //timeout in seconds
+    //     $data = curl_exec($ch);
+    //     curl_close($ch);
+    //     // var_dump($data);
 
-        $locationData = json_decode($data, true);
-        if ($locationData && $locationData['geoplugin_countryName'] != null)
-            $this->ipCountry = $locationData['geoplugin_countryName'];
-    }
+    //     $locationData = json_decode($data, true);
+    //     if ($locationData && defined($locationData['geoplugin_countryName']) && !empty($locationData['geoplugin_countryName']))
+    //         $this->ipCountry = $locationData['geoplugin_countryName'];
+    // }
 
     // CHECKS FOR INVALID IP RANGES
     // R: bool

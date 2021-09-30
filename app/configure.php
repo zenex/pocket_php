@@ -22,9 +22,9 @@ function configure() : void
     // ------- VERSION CONTROL -------
 
     // POCKET_PHP's version
-    define("POCKET_PHP_VERSION", "2.1");
+    define("POCKET_PHP_VERSION", "2.2");
     // The rpoject's version
-    define("PROJECT_VERSION", "2.1");
+    define("PROJECT_VERSION", "2.2");
 
     // ------- POCKET_PHP SETTINGS -------
 
@@ -44,6 +44,10 @@ function configure() : void
     // Toggles sessions, note that the HTTPRequest object
     define("SESSIONS_ENABLED", true);
 
+    // Forces all non HTTPS requests to the HTTPS version of the site
+    // HTTPS must be configured a priori and PROJECT_URL must be set
+    // to the desired HTTPS enabled URL
+    define("FORCE_HTTPS", true);
 
 
     // ------- INTERNAL FOLDER STRUCTURE -------
@@ -57,10 +61,6 @@ function configure() : void
     else
         define("PROJECT_URL", "http://pocket_php.localhost/");
 
-    // Forces all non HTTPS requests to the HTTPS version of the site
-    // HTTPS must be configured a priori and PROJECT_URL must be set
-    // to the desired HTTPS enabled URL
-    define("FORCE_HTTPS", true);
     define("ROOT_DIR"        , __DIR__);
     define("CONFIGURATION_FILE"      , ROOT_DIR . "/configure.php"); // Main configuration file (BEWARE OF COMMITING USERNAMES AND PASSWORDS)
     define("CORE_DIR"        , ROOT_DIR . "/core/");         // POCKET_PHP core files
@@ -275,43 +275,41 @@ function handleException ($e) : void // Throwable $e (PHP 7+)
     }
 
 
-
     // HTML HEADERS
+    $header = configureHeaderStaticContent();
     $header["title"] = "POCKET_PHP | 404 - NOT FOUND";
     $header["description"] = "404 - Content not found.";
     $engine = new TemplateEngine();
-    $engine->renderHeader($header);
-
-    // SITE NAVIGATION
-    $navbarData = configureNavbarStaticContent();
-    $engine->renderPage("templates/navbar.html", $navbarData);
 
     // Load data
     $page_contents["error_gif"] = PROJECT_URL."static/images/error.gif";
     $page_contents["back_link"] = PROJECT_URL."home";
 
+    $engine->addFile("templates/header.html", $header);
+    $engine->addFile("templates/navbar.html", configureNavbarStaticContent());
     // var_dump(debug_backtrace());
     switch ($e->getCode())
     {
     case 404: // Not found
     {
-        $engine->renderPage(HTTP_ERROR_PAGE, $page_contents);
+        $engine->addFile(HTTP_ERROR_PAGE, $page_contents);
         break;
     }
     case 666: // Banned error code
     {
         $page_contents["error"] = $e->getMessage();
-        $engine->renderPage("error/banned.html", $page_contents);
+        $engine->addFile("error/banned.html", $page_contents);
         break;
     }
     default:
     {
-        $engine->renderPage(HTTP_ERROR_PAGE, $page_contents);
+        $engine->addFile(HTTP_ERROR_PAGE, $page_contents);
         break;
     }
     }
     // FOOTER
-    $engine->renderFooter(configureFooterStaticContent());
+    $engine->addFile("templates/footer.html", configureFooterStaticContent());
+    $engine->render();
 
     exit();
 }

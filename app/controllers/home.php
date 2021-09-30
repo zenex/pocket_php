@@ -41,18 +41,20 @@ function entry ($requestData)
 
 function homepage($requestData = NULL)
 {
+    $header = configureHeaderStaticContent();
     $header["title"] = "POCKET_PHP -- Home";
     $header["description"] = "POCKET_PHP: Blazing fast MVC implementation for PHP7+ ";
 
-
-    $engine = new TemplateEngine();
-    $engine->renderHeader($header);
-    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $page_contents = array("about_link" => "about/",
                            "license_link" => "project/?nav=license",
                            "user_guide_link" => "project/?nav=user_guide",
                            "git_link" => PROJECT_GIT,
                            "author_link" => AUTHOR_LINK);
-    $engine->renderPage("home/home.html", $page_contents);
-    $engine->renderFooter(configureFooterStaticContent());
+
+    $engine = new TemplateEngine();
+    $engine->addFile("templates/header.html", $header);
+    $engine->addFile("templates/navbar.html", configureNavbarStaticContent());
+    $engine->addFile("home/home.html", $page_contents);
+    $engine->addFile("templates/footer.html", configureFooterStaticContent());
+    $engine->render();
 }

@@ -41,6 +41,7 @@ function entry ($requestData)
 
 function settings($requestData = NULL)
 {
+    $header = configureHeaderStaticContent();
     $header["title"] = "POCKET_PHP -- Settings the project";
     $header["description"] = "More information settings the pocket_php project";
 
@@ -89,8 +90,10 @@ function settings($requestData = NULL)
     $data["logout_page"] = LOGOUT_CONTROLLER;
 
     $engine = new TemplateEngine();
-    $engine->renderHeader($header);
-    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-    $engine->renderPage("settings/settings.html", $data);
-    $engine->renderFooter();
+    $engine->addFile("templates/header.html", $header);
+    $engine->addFile("templates/navbar.html", configureNavbarStaticContent());
+    $engine->addFile("home/home.html", $data);
+    $engine->addFile("templates/footer.html", configureFooterStaticContent());
+    $engine->render();
+
 }

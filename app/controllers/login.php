@@ -45,6 +45,7 @@ function entry ($requestData)
 
 function loginHomepage($requestData= NULL)
 {
+    $header = configureHeaderStaticContent();
     $header["title"] = "POCKET_PHP -- Login homepage";
     $header["description"] = "Login succesful";
     $pageContents["ID"] = $requestData->accountID;
@@ -59,14 +60,16 @@ function loginHomepage($requestData= NULL)
     $pageContents["cookie_session_id"] = $_COOKIE["SID"];
 
     $engine = new TemplateEngine();
-    $engine->renderHeader($header);
-    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-    $engine->renderPage("login/login_homepage.html", $pageContents);
-    $engine->renderFooter();
+    $engine->addFile("templates/header.html", $header);
+    $engine->addFile("templates/navbar.html", configureNavbarStaticContent());
+    $engine->addFile("login/login_homepage.html", $pageContents);
+    $engine->addFile("templates/footer.html", configureFooterStaticContent());
+    $engine->render();
 }
 
 function loginRequest($requestData)
 {
+    $header = configureHeaderStaticContent();
     $header["title"] = "POCKET_PHP -- Login";
     $header["description"] = "Login to proceed";
     $pageContents["proto_ver"] = "ver. ".PROJECT_VERSION;
@@ -76,25 +79,29 @@ function loginRequest($requestData)
     $pageContents["login_css"] = PROJECT_URL."static/css/login.css";
 
     $engine = new TemplateEngine();
-    $engine->renderHeader($header);
-    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
-    $engine->renderPage("login/login.html", $pageContents);
-    $engine->renderFooter();
+    $engine->addFile("templates/header.html", $header);
+    $engine->addFile("templates/navbar.html", configureNavbarStaticContent());
+    $engine->addFile("login/login.html", $pageContents);
+    $engine->addFile("templates/footer.html", configureFooterStaticContent());
+    $engine->render();
 }
 
 function processError($requestData)
 {
+    $header = configureHeaderStaticContent();
     $header["title"] = "POCKET_PHP -- Login error";
     $header["description"] = "Login error";
     $pageContents["proto_ver"] = "ver. ".PROJECT_VERSION;
     $pageContents["login_css"] = PROJECT_URL."static/css/login.css";
     $pageContents["login_img"] = PROJECT_URL."static/images/warning.png";
-
-    $engine = new TemplateEngine();
-    $engine->renderHeader($header);
-    $engine->renderPage("templates/navbar.html", configureNavbarStaticContent());
     $pageContents["error"] = $requestData->errorMsg;
     $pageContents["login_css"] = PROJECT_URL."static/css/login.css";
-    $engine->renderPage("login/login.html", $pageContents);
-    $engine->renderFooter();
+
+    $engine = new TemplateEngine();
+    $engine->addFile("templates/header.html", $header);
+    $engine->addFile("templates/navbar.html", configureNavbarStaticContent());
+    $engine->addFile("login/login.html", $pageContents);
+    $engine->addFile("templates/footer.html", configureFooterStaticContent());
+    $engine->render();
+
 }
