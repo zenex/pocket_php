@@ -34,13 +34,8 @@ class TemplateEngine
         $fileContents = file_get_contents(VIEWS_DIR . $filename);
         if (empty($fileContents))
             return;
-
-        if ($data != NULL && is_array($data) || !empty($data))
-            $this->contentStack[$this->stackCounter] = replaceValues($fileContents, '{{', '}}', $data);
         else
-            $this->contentStack[$this->stackCounter] = $fileContents;
-
-        $this->stackCounter++;
+            $this->addString($fileContents, $data);
     }
 
     public function addString($string, $data = NULL)
@@ -62,9 +57,8 @@ class TemplateEngine
             ob_start();
 
         foreach($this->contentStack as $section)
-        {
             echo($section);
-        }
+
         ob_flush();
     }
 }

@@ -1,6 +1,23 @@
 #+Title: [[https://xenobyte.xyz/projects/?nav=pocket_php][pocket_php]]: CHANGELOG
 #+Author: SENEX @ [[https://xenobyte.xyz/projects/?nav=pocket_php][XENOBYTE.XYZ]]
 
+* ver 2.2 <2021-10-02 Sat 20:25>
+  - Reworked the TemplateEngine to keep track of the content stack and send it in a single, uninterrupted call to render()
+  - The stack is filled using addFile() & addString()
+  - replaceVariables() from core/utility.php reworked to replaceValues()
+  - Added directory creation and deletion helper functions
+  - Commented out geoIP tracking by default
+
+* ver 2.1 <2021-06-19 Sat 22:14>
+  - Sessions can now be toggled in app/configure.php
+  - Added many php.ini overrides to app/configure.php
+  - The account table in the included database was expanded to encapsulate more session meta-data
+  - Sessions can now be safely hijacked without logging out
+  - Account data now stores the last way in which the user logged out
+  - Session files are now stored in tools/sessions to prevent clashing with other virtual servers
+  - Session files can now be deleted by POCKET_PHP's session manager
+  - New settings to customize session behavior in app/configure.php 
+
 * ver 2.0 <2021-06-01 Tue 21:00>
   - Restructured HTTPRequest->arguments into HTTPRequest->GET & HTTPRequest->POST
   - GET is always filled with the url arguments, POST is only filled if the request is a POST one
